@@ -13,7 +13,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 272372497786.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=272372497786.dkr.ecr.us-east-1.amazonaws.com/degencast-server/degencast-frames
+      - REPOSITORY_URI=272372497786.dkr.ecr.us-east-1.amazonaws.com/degencast-frames
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
       - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::272372497786:role/CodeBuildEKSRole --role-session-name codebuild-kubectl --duration-seconds 900)
