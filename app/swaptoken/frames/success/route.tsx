@@ -2,7 +2,11 @@
 
 import { Button } from "frames.js/next";
 import { frames } from "../frames";
-import { DEGENCAST_API, FRAMES_BASE_URL } from "@/lib/env";
+import {
+  DEGENCAST_API,
+  FRAMES_BASE_URL,
+  SWAPTOKEN_LEADERBOARD,
+} from "@/lib/env";
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
@@ -43,7 +47,7 @@ const handleRequest = frames(async (ctx) => {
       >
         View Tx
       </Button>,
-      <Button action="link" target={"https://dev.degencast.xyz"}>
+      <Button action="link" target={SWAPTOKEN_LEADERBOARD!}>
         Leaderboard
       </Button>,
       <Button
