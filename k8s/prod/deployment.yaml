@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: degencast-namespace-prod
+  name: degencast-frames-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: degencast-frames
+  template:
+    metadata:
+      labels:
+        app: degencast-frames
+    spec:
+      containers:
+        - name: degencast-frames
+          image: 272372497786.dkr.ecr.us-east-1.amazonaws.com/degencast-server/degencast-frames:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          

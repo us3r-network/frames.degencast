@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: degencast-namespace-prod
+  name: degencast-frames-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:272372497786:certificate/bf0ea256-731b-4957-a50e-d4b56bec90e5
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: degencast-frames-service
+              port:
+                number: 80
