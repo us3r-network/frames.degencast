@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: degencast-namespace-test
+  name: degencast-frames-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: degencast-frames
+  template:
+    metadata:
+      labels:
+        app: degencast-frames
+    spec:
+      containers:
+        - name: degencast-frames
+          image: 272372497786.dkr.ecr.us-east-1.amazonaws.com/degencast-server/degencast-frames:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: ORIGIN
+              value: "https://beta.frames.degencast.xyz"
+            - name: FEE_RECIPIENT_WALLET_ADDRESS
+              value: "0x4630CF0Fa55F83E11e43286fF04fc6930e1eB095"
+            - name: API_KEY_0X_API_KEY
+              value: "e3ad2f6e-1865-4094-ae7f-60e243ac8b80"
+            - name: BUY_TOKEN_PERCENTAGE_FEE
+              value: "0.0"
+            - name: HAI_DI_LAO_FRAME
+              value: "https://beta.frames.degencast.xyz/haidilao"
+            - name: ALCHEMY_API_KEY
+              value: "rUJz4tMZhMnfSOUU2-v7q18FiH3RpgfU"
+            - name: ALLOWANCE_FRAME
+              value: "https://beta.frames.degencast.xyz/allowance"
+            - name: ALLOWANCE_FRAME_API
+              value: "https://api-dev.u3.xyz"
+            - name: ALLOWANCE_MORE_SHARES_HOST
+              value: "https://dev.degencast.xyz"
