@@ -13,7 +13,8 @@
     "frames.js": "^0.15.3",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "viem": "^2.11.1"
   },
   "devDependencies": {
     "@frames.js/debugger": "^0.2.8",
