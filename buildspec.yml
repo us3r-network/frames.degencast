@@ -22,7 +22,6 @@ phases:
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - aws eks update-kubeconfig --region us-east-1 --name degencast
-      # - kubectl get pods -namespace degencast-namespace-test
   build:
     commands:
       - echo Build started on `date`
@@ -35,6 +34,7 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - kubectl config set-context --current --namespace=degencast-namespace-test
 artifacts:
   files:
     - imageDetail.json
