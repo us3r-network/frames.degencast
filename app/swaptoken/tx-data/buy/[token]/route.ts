@@ -62,17 +62,19 @@ export async function POST(
     );
   }
 
-  console.log({ amount });
   const baseUrl = `https://base.api.0x.org/swap/v1/quote?`;
   const eth = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
 
-  const querys = new URLSearchParams({
+  const searchParamsData = {
     buyToken: tokenAddress, // address
     sellToken: eth,
     buyAmount: parseEther(amount).toString(),
     feeRecipient: FEE_RECIPIENT_WALLET_ADDRESS!,
     buyTokenPercentageFee: BUY_TOKEN_PERCENTAGE_FEE!,
-  }).toString();
+  };
+  console.log(searchParamsData);
+
+  const querys = new URLSearchParams(searchParamsData).toString();
 
   const res = await fetch(baseUrl + querys, {
     headers: { "0x-api-key": API_KEY_0X_API_KEY! },
