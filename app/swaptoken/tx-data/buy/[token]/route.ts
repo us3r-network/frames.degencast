@@ -3,19 +3,11 @@ import {
   BUY_TOKEN_PERCENTAGE_FEE,
   FEE_RECIPIENT_WALLET_ADDRESS,
 } from "@/lib/env";
-import { error } from "console";
 import { TransactionTargetResponse } from "frames.js";
 import { getFrameMessage } from "frames.js/next/server";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  Abi,
-  createPublicClient,
-  encodeFunctionData,
-  getContract,
-  http,
-  parseEther,
-} from "viem";
-import { base, optimism } from "viem/chains";
+import { parseEther } from "viem";
+import { base } from "viem/chains";
 
 export async function POST(
   req: NextRequest,
@@ -77,7 +69,7 @@ export async function POST(
   const querys = new URLSearchParams({
     buyToken: tokenAddress, // address
     sellToken: eth,
-    sellAmount: parseEther(amount).toString(),
+    buyAmount: parseEther(amount).toString(),
     feeRecipient: FEE_RECIPIENT_WALLET_ADDRESS!,
     buyTokenPercentageFee: BUY_TOKEN_PERCENTAGE_FEE!,
   }).toString();
