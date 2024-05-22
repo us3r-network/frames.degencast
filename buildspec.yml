@@ -36,6 +36,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - kubectl config set-context --current --namespace=degencast-namespace-test
       - kubectl apply -f k8s/test/deployment.yaml
+      - kubectl rollout restart deployment/degencast-frames-deployment
 artifacts:
   files:
     - imageDetail.json
