@@ -8,7 +8,7 @@ const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
   const requesterFid = message?.requesterFid!;
   return {
-    image: `${FRAMES_BASE_URL}/images/success.png`,
+    image: `${FRAMES_BASE_URL}/images/share-more.png`,
     buttons: [
       <Button
         action="link"
