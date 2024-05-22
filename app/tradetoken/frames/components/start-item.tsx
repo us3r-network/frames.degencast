@@ -1,7 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
 
-export function StarItem({ title, value }: { title: string; value: number }) {
+import formatPrice from "@/lib/formatPrice";
+
+export function StarItem({
+  title,
+  imageURL,
+  value,
+  fdvUsd,
+  priceChange24,
+}: {
+  title: string;
+  imageURL: string;
+  value: number;
+  fdvUsd: number;
+  priceChange24: number;
+}) {
+  const fdvUsdString = formatPrice(fdvUsd);
   return (
     <div
       tw="flex flex-row"
@@ -12,19 +27,14 @@ export function StarItem({ title, value }: { title: string; value: number }) {
     >
       <div tw="flex flex-row items-center ">
         <img
-          src={`https://ipfs.decentralized-content.com/ipfs/bafkreieudzvadtjy36j7x2i73isqw2jmgbwtum3p3eaahn4mnztuzl7y7e`}
+          src={`${imageURL}`}
           alt=""
-          tw="w-24 h-24 rounded-full mr-6 mt-3"
+          tw="w-24 h-24  rounded-full mr-6 mt-3"
         />
 
         <div tw="flex flex-col">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            DEGEN
+          <div tw="flex flex-row uppercase" className="flex-row uppercase">
+            {title}
           </div>
           <div tw="flex flex-row">
             <div
@@ -33,7 +43,7 @@ export function StarItem({ title, value }: { title: string; value: number }) {
                 color: "#A36EFE",
               }}
             >
-              {"Market Cap".toUpperCase()}
+              {"FDV".toUpperCase()}
             </div>
 
             <div
@@ -42,7 +52,7 @@ export function StarItem({ title, value }: { title: string; value: number }) {
                 display: "flex",
               }}
             >
-              {"2229M"}
+              {fdvUsdString}
             </div>
           </div>
         </div>
@@ -50,14 +60,14 @@ export function StarItem({ title, value }: { title: string; value: number }) {
       <div style={{ display: "flex", flexGrow: 1 }}></div>
       <div
         style={{
-          color: "#F41F4C",
+          color: priceChange24 > 0 ? "#00D1A7" : "#F41F4C",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           fontSize: "28px",
         }}
       >
-        -32.32%
+        {`${priceChange24}%`}
       </div>
     </div>
   );
