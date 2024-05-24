@@ -201,7 +201,7 @@ const handleRequest = frames(async (ctx) => {
       <Button
         action="post"
         target={{
-          pathname: "/frames/share",
+          pathname: "/frames/share-more",
           query: { attnft, inviteFid },
         }}
       >
