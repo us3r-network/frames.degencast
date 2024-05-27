@@ -57,13 +57,21 @@ export async function POST(
   const res = await fetch(baseUrl + querys, {
     headers: { "0x-api-key": API_KEY_0X_API_KEY! },
   });
+  const priceRep = await fetch(
+    `https://base.api.0x.org/swap/v1/price?` + querys,
+    {
+      headers: { "0x-api-key": API_KEY_0X_API_KEY! },
+    }
+  );
 
   const order = await res.json();
+  const priceInfo = await priceRep.json();
+  console.log("order", order.to, priceInfo.allowanceTarget);
 
   const calldata = encodeFunctionData({
     abi: erc20Abi,
     functionName: "approve",
-    args: [order.to, parseEther(amount)],
+    args: [priceInfo.allowanceTarget, parseEther(amount)],
   });
 
   return NextResponse.json({
