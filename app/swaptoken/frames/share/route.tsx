@@ -15,7 +15,7 @@ const handleRequest = frames(async (ctx) => {
         action="link"
         target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
           `Use the frame to swap or sign up, we both get $CAST!`
-        )}&embeds[]=${FRAMES_BASE_URL}/swaptoken/frames/swap/${token}?inviteFid=${requesterFid}&timestamp=${Date.now()}`}
+        )}&embeds[]=${FRAMES_BASE_URL}/swaptoken/frames/swap/${token}?inviteFid=${requesterFid}&tm=${Date.now()}`}
       >
         Share Frame & Earn Points
       </Button>,

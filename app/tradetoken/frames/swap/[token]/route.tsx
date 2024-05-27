@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
-import { FRAMES_BASE_URL } from "@/lib/env";
+import { FRAMES_BASE_URL, TRADE_TOKEN_VIEWMORE } from "@/lib/env";
 import { frames, pixelFont } from "../../frames";
 import { Button } from "frames.js/next";
 import { NextRequest } from "next/server";
@@ -132,8 +132,21 @@ const handleRequest = async (
           Buy
         </Button>,
         <Button
+          action="tx"
+          target={{
+            pathname: `/tx-data/approve/${token}`,
+            query: { inviteFid, tokenAddress },
+          }}
+          post_url={{
+            pathname: `/frames/success/approve/${token}`,
+            query: { inviteFid, tokenAddress },
+          }}
+        >
+          Sell
+        </Button>,
+        <Button
           action="link"
-          target={`https://dev.degencast.xyz?inviteFid=${inviteFid}`}
+          target={`${TRADE_TOKEN_VIEWMORE}?inviteFid=${inviteFid}`}
         >
           View More
         </Button>,

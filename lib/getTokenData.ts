@@ -1,5 +1,7 @@
+import { DEGENCAST_API } from "./env";
+
 export async function getTokenData() {
-  const resp = await fetch(`https://api-dev.u3.xyz/topics/trade-infos`, {
+  const resp = await fetch(`${DEGENCAST_API}/topics/trade-infos`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -9,14 +11,12 @@ export async function getTokenData() {
 }
 
 export async function getTokenInfoData(tokenId: string) {
-  const resp = await fetch(
-    `https://api-dev.u3.xyz/topics/trade-infos?channelId=${tokenId}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const url = `${DEGENCAST_API}/topics/trade-infos?channelId=${tokenId}`;
+  const resp = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const tokenData = await resp.json();
   return tokenData.data[0] || {};
 }

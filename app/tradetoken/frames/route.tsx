@@ -3,12 +3,46 @@
 import { Button } from "frames.js/next";
 import { frames, pixelFont } from "./frames";
 import { StarItem } from "./components/start-item";
-import { FRAMES_BASE_URL } from "@/lib/env";
+import { FRAMES_BASE_URL, TRADE_TOKEN_LEADERBOARD } from "@/lib/env";
 import { getTokenData } from "@/lib/getTokenData";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
-  const tokenData = await getTokenData();
+  let tokenData;
+  try {
+    tokenData = await getTokenData();
+  } catch (e) {
+    return {
+      image: (
+        <div
+          tw="text-white w-full h-full flex flex-col"
+          style={{
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundImage: `url('${FRAMES_BASE_URL}/images/bg.png')`,
+          }}
+        >
+          {"Error"}
+        </div>
+      ),
+      imageOptions: {
+        fonts: [
+          {
+            data: pixelFont,
+            name: "upheaval",
+          },
+        ],
+      },
+      buttons: [
+        <Button
+          action="post"
+          target={{ pathname: "/frames", query: { inviteFid } }}
+        >
+          Retry
+        </Button>,
+      ],
+    };
+  }
   const top3 = tokenData.slice(0, 3);
   return {
     image: (
@@ -70,7 +104,10 @@ const handleRequest = frames(async (ctx) => {
       >
         Go Swap
       </Button>,
-      <Button action="link" target={"https://dev.degencast.xyz"}>
+      <Button
+        action="link"
+        target={`${TRADE_TOKEN_LEADERBOARD}?inviteFid=${inviteFid}`}
+      >
         Leaderboard
       </Button>,
       <Button

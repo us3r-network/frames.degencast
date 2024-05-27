@@ -3,6 +3,7 @@
 import { Button } from "frames.js/next";
 import { frames } from "../frames";
 import reportSwapSuccess from "@/lib/reportSwapSuccess";
+import { TRADE_TOKEN_VIEWMORE } from "@/lib/env";
 
 const FRAME_BASE_URL = process.env.FRAMES_BASE_URL;
 
@@ -33,9 +34,9 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`https://dev.degencast.xyz?inviteFid=${inviteFid}`}
+        target={`${TRADE_TOKEN_VIEWMORE}?inviteFid=${inviteFid}`}
       >
-        Leaderboard
+        View More
       </Button>,
       <Button
         action="post"

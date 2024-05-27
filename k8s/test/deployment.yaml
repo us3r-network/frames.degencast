@@ -36,3 +36,7 @@ spec:
               value: 976F5E1F-03AA-4BCC-81B2-CB80BB6F844A
             - name: FARCASTER_HUB_URL
               value: "https://hub-api.neynar.com"
+            - name: TRADE_TOKEN_VIEWMORE
+              value: "https://dev.degencast.xyz/channels/tokens"
+            - name: TRADE_TOKEN_LEADERBOARD
+              value: "https://dev.degencast.xyz/channels/tokens"

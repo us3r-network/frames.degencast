@@ -116,6 +116,19 @@ const handleRequest = async (
         >
           Buy
         </Button>,
+        <Button
+          action="tx"
+          target={{
+            pathname: `/tx-data/approve/${token}`,
+            query: { inviteFid, tokenAddress },
+          }}
+          post_url={{
+            pathname: `/frames/success/approve/${token}`,
+            query: { inviteFid, tokenAddress },
+          }}
+        >
+          Sell
+        </Button>,
       ],
     };
   })(req);

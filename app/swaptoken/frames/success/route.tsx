@@ -6,6 +6,7 @@ import {
   DEGENCAST_API,
   FRAMES_BASE_URL,
   SWAPTOKEN_LEADERBOARD,
+  TRADE_TOKEN_VIEWMORE,
 } from "@/lib/env";
 import reportSwapSuccess from "@/lib/reportSwapSuccess";
 
@@ -40,8 +41,11 @@ const handleRequest = frames(async (ctx) => {
       >
         View Tx
       </Button>,
-      <Button action="link" target={SWAPTOKEN_LEADERBOARD!}>
-        Leaderboard
+      <Button
+        action="link"
+        target={`${TRADE_TOKEN_VIEWMORE}?inviteFid=${inviteFid}`}
+      >
+        View More
       </Button>,
       <Button
         action="post"
