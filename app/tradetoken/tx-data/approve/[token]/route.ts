@@ -1,6 +1,13 @@
 import { API_KEY_0X_API_KEY } from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
-import { parseEther, erc20Abi, encodeFunctionData } from "viem";
+import {
+  parseEther,
+  erc20Abi,
+  Abi,
+  encodeFunctionData,
+  getAbiItem,
+  GetAbiItemParameters,
+} from "viem";
 import { base } from "viem/chains";
 import { transaction } from "frames.js/core";
 import { frames } from "../../../frames/frames";
@@ -54,11 +61,18 @@ export async function POST(
     });
     console.log("calldata", calldata);
 
+    const abiItem = getAbiItem({
+      abi: erc20Abi,
+      name: "approve",
+      args: [order.to, parseEther(amount)],
+    } as GetAbiItemParameters)!;
+
+    console.log("abiItem", abiItem);
     return transaction({
       chainId: `eip155:${base.id}`,
       method: "eth_sendTransaction",
       params: {
-        abi: erc20Abi,
+        abi: [abiItem],
         to: tokenAddress as `0x${string}`,
         data: calldata,
       },
