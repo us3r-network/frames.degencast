@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { parseEther, erc20Abi, encodeFunctionData } from "viem";
 import { base } from "viem/chains";
 
-const ZERO_EX_ADDRESS = "0xdef1c0ded9bec7f1a1670819833240f027b25eff";
-
 export async function POST(
   req: NextRequest,
   { params }: { params: { token: string } }
@@ -57,31 +55,23 @@ export async function POST(
   const res = await fetch(baseUrl + querys, {
     headers: { "0x-api-key": API_KEY_0X_API_KEY! },
   });
-  const priceRep = await fetch(
-    `https://base.api.0x.org/swap/v1/price?` + querys,
-    {
-      headers: { "0x-api-key": API_KEY_0X_API_KEY! },
-    }
-  );
 
   const order = await res.json();
-  const priceInfo = await priceRep.json();
-  console.log("order", order.to, priceInfo.allowanceTarget);
 
   const calldata = encodeFunctionData({
     abi: erc20Abi,
     functionName: "approve",
-    args: [priceInfo.allowanceTarget, parseEther(amount)],
+    args: [order.to, parseEther(amount)],
   });
+  console.log("calldata", calldata);
 
   return NextResponse.json({
-    chainId: `eip155:${base.id}`, // OP Mainnet 10
+    chainId: `eip155:${base.id}`,
     method: "eth_sendTransaction",
     params: {
       abi: erc20Abi,
       to: tokenAddress as `0x${string}`,
       data: calldata,
-      value: "0",
     },
   });
 }
