@@ -73,7 +73,7 @@ export async function POST(
       abi: erc20Abi,
       to: tokenAddress as `0x${string}`,
       data: calldata,
-      value: "0x0",
+      value: "0",
     },
   });
 }
