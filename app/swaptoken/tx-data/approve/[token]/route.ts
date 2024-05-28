@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { parseEther, erc20Abi, encodeFunctionData } from "viem";
 import { base } from "viem/chains";
 
-const ZERO_EX_ADDRESS = "0xdef1c0ded9bec7f1a1670819833240f027b25eff";
-
 export async function POST(
   req: NextRequest,
   { params }: { params: { token: string } }
@@ -69,11 +67,11 @@ export async function POST(
   return NextResponse.json({
     chainId: `eip155:${base.id}`, // OP Mainnet 10
     method: "eth_sendTransaction",
+    attribution: false,
     params: {
       abi: erc20Abi,
       to: tokenAddress as `0x${string}`,
       data: calldata,
-      value: "0",
     },
   });
 }
