@@ -12,10 +12,11 @@ const handleRequest = frames(async (ctx) => {
   try {
     tokenData = await getTokenData();
   } catch (e) {
+    console.error("fail to getTokenData", e);
     return {
       image: (
         <div
-          tw="text-white w-full h-full flex flex-col"
+          tw="text-white w-full h-full flex flex-col items-center justify-center"
           style={{
             backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat",
