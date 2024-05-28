@@ -2,21 +2,16 @@
 
 import { Button } from "frames.js/next";
 import { frames } from "../frames";
-import {
-  DEGENCAST_API,
-  FRAMES_BASE_URL,
-  SWAPTOKEN_LEADERBOARD,
-  TRADE_TOKEN_VIEWMORE,
-} from "@/lib/env";
 import reportSwapSuccess from "@/lib/reportSwapSuccess";
+import { TRADE_TOKEN_VIEWMORE } from "@/lib/env";
+
+const FRAME_BASE_URL = process.env.FRAMES_BASE_URL;
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
   const txId = message?.transactionId;
   const requesterFid = message?.requesterFid!;
   const inviteFid = ctx.searchParams?.inviteFid || "";
-  const token = ctx.searchParams?.token || "";
-
   if (txId) {
     const reportData = {
       buyerFid: `${requesterFid}`,
@@ -25,14 +20,10 @@ const handleRequest = frames(async (ctx) => {
     };
     reportSwapSuccess(reportData);
   }
-
   return {
-    image: `${FRAMES_BASE_URL}/images/success.png`,
+    image: `${FRAME_BASE_URL}/images/success.png`,
     buttons: [
-      <Button
-        action="post"
-        target={{ pathname: `/frames/swap/${token}`, query: { inviteFid } }}
-      >
+      <Button action="post" target={{ pathname: "/frames" }}>
         Go Swap
       </Button>,
       <Button
@@ -49,7 +40,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="post"
-        target={{ pathname: "/frames/share", query: { inviteFid, token } }}
+        target={{ pathname: "/frames/share", query: { inviteFid } }}
       >
         Share & Earn
       </Button>,

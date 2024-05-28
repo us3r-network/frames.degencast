@@ -8,3 +8,13 @@ export const API_KEY_0X_API_KEY = process.env.API_KEY_0X_API_KEY;
 
 export const SWAPTOKEN_LEADERBOARD =
   process.env.SWAPTOKEN_LEADERBOARD || "https://dev.degencast.xyz";
+
+export const FARCASTER_HUB_URL = process.env.FARCASTER_HUB_URL;
+export const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY || "";
+
+export const TRADE_TOKEN_VIEWMORE =
+  process.env.TRADE_TOKEN_VIEWMORE ||
+  "https://dev.degencast.xyz/channels/tokens";
+export const TRADE_TOKEN_LEADERBOARD =
+  process.env.TRADE_TOKEN_LEADERBOARD ||
+  "https://dev.degencast.xyz/channels/tokens";

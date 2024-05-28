@@ -1,12 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
-import { FRAMES_BASE_URL } from "@/lib/env";
+import { FRAMES_BASE_URL, TRADE_TOKEN_VIEWMORE } from "@/lib/env";
 import { frames, pixelFont } from "../../frames";
 import { Button } from "frames.js/next";
 import { NextRequest } from "next/server";
 import SelectDialogItem from "../../components/select-dialog-item";
 import Title from "../../components/title";
 import { error } from "frames.js/core";
+import { getAddressFromFid } from "@/lib/hub";
+import { erc20Abi, formatEther } from "viem";
+import { baseClient } from "@/lib/viem";
 import { getTokenInfoData } from "@/lib/getTokenData";
 
 const handleRequest = async (
@@ -19,9 +22,9 @@ const handleRequest = async (
 
   return await frames(async (ctx) => {
     const { message } = ctx;
+    const requesterFid = message?.requesterFid!;
     const page = ctx.searchParams.page;
     const inviteFid = ctx.searchParams.inviteFid || "";
-
     if (!tokenData) {
       return error("Token no support");
     }
@@ -37,6 +40,15 @@ const handleRequest = async (
     const base_token_price_quote_token =
       tokenData.stats.base_token_price_quote_token;
 
+    const { ethAddress } = await getAddressFromFid(requesterFid);
+    const balance = await baseClient.readContract({
+      abi: erc20Abi,
+      address: tokenAddress,
+      functionName: "balanceOf",
+      args: [ethAddress as `0x${string}`],
+    });
+    const balanceString = Number(formatEther(balance)).toFixed(2);
+
     return {
       image: (
         <div
@@ -47,7 +59,7 @@ const handleRequest = async (
             backgroundImage: `url('${FRAMES_BASE_URL}/images/bg.png')`,
           }}
         >
-          <Title text={`Swap ${tokenName}`.toUpperCase()} />
+          <Title text={`Swap ${token}`.toUpperCase()} />
 
           <div
             style={{
@@ -62,7 +74,7 @@ const handleRequest = async (
             <img
               src={`${tokenImage}`}
               alt=""
-              tw="w-40 h-40 rounded-full mr-6 mt-3"
+              tw="w-40 h-40  rounded-full mr-6 mt-3"
               className="w-40"
             />
             <div
@@ -87,7 +99,10 @@ const handleRequest = async (
                 title="1 ETH"
                 value={`${quote_token_price_base_token}`}
               />
-              <SelectDialogItem title="Your Balance" value={`0${tokenName}`} />
+              <SelectDialogItem
+                title="Your Balance"
+                value={`${balanceString} ${tokenName}`}
+              />
               <SelectDialogItem title="Transaction Fee" value={`0.3%`} />
             </div>
           </div>
@@ -103,16 +118,16 @@ const handleRequest = async (
       },
       textInput: `Input the token quantity here...`,
       buttons: [
+        <Button action="post" target={`/frames/select/${page}`}>
+          Back
+        </Button>,
         <Button
           action="tx"
           target={{
             pathname: `/tx-data/buy/${token}`,
             query: { inviteFid, tokenAddress },
           }}
-          post_url={{
-            pathname: "/frames/success",
-            query: { inviteFid, token },
-          }}
+          post_url={{ pathname: "/frames/success", query: { inviteFid } }}
         >
           Buy
         </Button>,
@@ -128,6 +143,12 @@ const handleRequest = async (
           }}
         >
           Sell
+        </Button>,
+        <Button
+          action="link"
+          target={`${TRADE_TOKEN_VIEWMORE}?inviteFid=${inviteFid}`}
+        >
+          View More
         </Button>,
       ],
     };
