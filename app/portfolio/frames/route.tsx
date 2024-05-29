@@ -81,14 +81,15 @@ const handleRequest = frames(async (ctx) => {
       >
         Check me
       </Button>,
-      fname && (
+      (fname && (
         <Button
           action="link"
           target={`${TRADE_TOKEN_LEADERBOARD}?inviteFid=${inviteFid}`}
         >
           {`View @${fname}`}
         </Button>
-      ),
+      )) ||
+        null,
       <Button
         action="link"
         target={`https://dev.degencast.xyz?inviteFid=${inviteFid}`}
