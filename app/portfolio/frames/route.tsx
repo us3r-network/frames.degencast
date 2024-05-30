@@ -3,7 +3,11 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "./frames";
-import { FRAMES_BASE_URL, TRADE_TOKEN_LEADERBOARD } from "@/lib/env";
+import {
+  DEGENCAST_WEB_URL,
+  FRAMES_BASE_URL,
+  TRADE_TOKEN_LEADERBOARD,
+} from "@/lib/env";
 import { getUserDataWithFid } from "@/lib/hub";
 import Item from "./components/Item";
 import ItemContainer from "./components/ItemContainer";
@@ -84,7 +88,7 @@ const handleRequest = frames(async (ctx) => {
       (fname && (
         <Button
           action="link"
-          target={`${TRADE_TOKEN_LEADERBOARD}?inviteFid=${inviteFid}`}
+          target={`${DEGENCAST_WEB_URL}/u/${fid}/tokens?inviteFid=${inviteFid}`}
         >
           {`View @${fname}`}
         </Button>

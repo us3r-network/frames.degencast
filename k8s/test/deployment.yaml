@@ -22,6 +22,8 @@ spec:
           env:
             - name: FRAMES_BASE_URL
               value: "https://frame.degencast.xyz"
+            - name: DEGENCAST_WEB_URL
+              value: "https://dev.degencast.xyz"
             - name: DEGENCAST_API
               value: "https://api-dev.u3.xyz"
             - name: FEE_RECIPIENT_WALLET_ADDRESS
