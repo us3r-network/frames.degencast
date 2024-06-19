@@ -21,7 +21,9 @@ spec:
             - containerPort: 3000
           env:
             - name: FRAMES_BASE_URL
-              value: "https://frame.degencast.xyz"
+              value: "https://frame.degencast.wtf"
+            - name: DEGENCAST_WEB_URL
+              value: "https://dev.degencast.wtf"
             - name: DEGENCAST_API
               value: "https://api-dev.u3.xyz"
             - name: FEE_RECIPIENT_WALLET_ADDRESS
@@ -31,7 +33,7 @@ spec:
             - name: BUY_TOKEN_PERCENTAGE_FEE
               value: "0.003"
             - name: SWAPTOKEN_LEADERBOARD
-              value: "https://dev.degencast.xyz"
+              value: "https://dev.degencast.wtf"
             - name: NEYNAR_API_KEY
               value: 976F5E1F-03AA-4BCC-81B2-CB80BB6F844A
             - name: FARCASTER_HUB_URL
