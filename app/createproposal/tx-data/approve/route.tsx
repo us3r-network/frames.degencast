@@ -1,7 +1,6 @@
 import { frames } from "../../frames/frames";
 import { NextRequest, NextResponse } from "next/server";
-import { Abi, encodeFunctionData } from "viem";
-import { PayToken } from "@/lib/contract/paytoken";
+import { Abi, encodeFunctionData, erc20Abi } from "viem";
 import {
   CREATE_PROPOSAL_MIN_PRICE,
   getProposalPriceWithAmount,
@@ -52,13 +51,14 @@ export async function POST(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const paymentTokenAddress = searchParams.get("paymentTokenAddress") || "";
-    if (!paymentTokenAddress) {
+    const danAddress = searchParams.get("danAddress") || "";
+    if (!danAddress) {
       return NextResponse.json(
         {
           errors: [
             {
               reason: "Invalid",
-              message: "Invalid paymentTokenAddress",
+              message: "Invalid danAddress",
             },
           ],
         },
@@ -90,23 +90,23 @@ export async function POST(req: NextRequest) {
     }
     const paymentPrice = getProposalPriceWithAmount(value, paymentTokenDetails);
     console.log("approve", {
-      paymentTokenAddress,
+      danAddress,
       paymentTokenDetails,
       paymentPrice,
     });
 
     const calldata = encodeFunctionData({
-      abi: PayToken.abi,
+      abi: erc20Abi,
       functionName: "approve",
-      args: [paymentTokenAddress as `0x${string}`, paymentPrice],
+      args: [danAddress as `0x${string}`, paymentPrice!],
     });
 
     return transaction({
       chainId: `eip155:${AttTokenDan.chain.id}`,
       method: "eth_sendTransaction",
       params: {
-        abi: PayToken.abi as Abi,
-        to: PayToken.address as `0x${string}`,
+        abi: erc20Abi as Abi,
+        to: paymentTokenAddress as `0x${string}`,
         data: calldata,
       },
     });
