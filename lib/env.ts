@@ -10,7 +10,7 @@ export const SWAPTOKEN_LEADERBOARD =
   process.env.SWAPTOKEN_LEADERBOARD || "https://dev.degencast.xyz";
 
 export const DEGENCAST_WEB_URL =
-  process.env.DEGENCAST_WEB_URL || "https://dev.degencast.xyz";
+  process.env.DEGENCAST_WEB_URL || "https://dev.degencast.wtf";
 
 export const FARCASTER_HUB_URL = process.env.FARCASTER_HUB_URL;
 export const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY || "";
@@ -21,3 +21,5 @@ export const TRADE_TOKEN_VIEWMORE =
 export const TRADE_TOKEN_LEADERBOARD =
   process.env.TRADE_TOKEN_LEADERBOARD ||
   "https://dev.degencast.xyz/channels/tokens";
+
+export const DEGEN_ADDRESS: `0x${string}` = process.env.DEGEN_ADDRESS as `0x${string}`;
