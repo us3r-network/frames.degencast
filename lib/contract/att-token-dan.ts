@@ -1,8 +1,8 @@
-import { polygon } from "viem/chains";
+import { baseSepolia } from "viem/chains";
 
 export const AttTokenDan = {
-  chain: polygon,
-  address: "0x5e9e373c59e474f9049b3e7bc5d8b24f1092b9b8",
+  chain: baseSepolia,
+  address: "0x3a2d6819cafab4d053267d069cf80354ab83fb24",
   abi: [
     {
       inputs: [],
