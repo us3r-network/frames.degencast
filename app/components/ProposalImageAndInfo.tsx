@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function ImageAndInfo({ castHash }: { castHash: string }) {
+export default function ImageAndInfo({
+  castHash,
+  state,
+}: {
+  castHash: string;
+  state: string;
+}) {
   return (
     <div tw="flex flex-row mt-[20px]">
       <img
@@ -62,11 +68,11 @@ export default function ImageAndInfo({ castHash }: { castHash: string }) {
           </div>
           <div tw="mt-[8px] flex items-center justify-between" style={{}}>
             <span> Current stance:</span>
-            <span>Downvote</span>
+            <span>{state}</span>
           </div>
           <div tw="mt-[8px] flex items-center justify-between" style={{}}>
-            <span> Minimum cost:</span>
-            <span>4321 DEGEN</span>
+            <span>Minimum cost:</span>
+            <span>300 DEGEN</span>
           </div>
         </div>
       </div>

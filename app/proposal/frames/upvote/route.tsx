@@ -17,7 +17,7 @@ const handleRequest = frames(async (ctx) => {
   return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
-        <ProposalImageAndInfo castHash={castHash} />
+        <ProposalImageAndInfo castHash={castHash} state="TODO" />
         <ProposalHr />
         <ProposalDescription />
         <ProposalHr />
