@@ -7,10 +7,13 @@ import { frames } from "../../frames/frames";
 
 export const POST = frames(async (ctx) => {
   const amount = ctx.message?.inputText || "";
-  const danAddress = `0xcB0AA92278589ad38018E328936B0d178799a78c`;
+  const danAddress = ctx.searchParams?.danAddress;
 
-  console.log("approve degen", amount, process.env.NODE_ENV);
+  console.log("approve degen", amount, danAddress);
 
+  if (!danAddress) {
+    return error("DanContract address is required");
+  }
   if (!amount) {
     return error("Amount is required");
   }
@@ -18,7 +21,7 @@ export const POST = frames(async (ctx) => {
   const calldata = encodeFunctionData({
     abi: erc20Abi,
     functionName: "approve",
-    args: [danAddress, parseEther(amount)],
+    args: [danAddress as `0x`, parseEther(amount)],
   });
 
   // Return transaction data that conforms to the correct type
@@ -27,6 +30,7 @@ export const POST = frames(async (ctx) => {
       process.env.NODE_ENV === "development" ? baseSepolia.id : base.id
     }`,
     method: "eth_sendTransaction",
+    attribution: false,
     params: {
       abi: erc20Abi,
       to: DEGEN_ADDRESS,

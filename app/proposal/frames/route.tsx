@@ -8,7 +8,8 @@ import { frames, imageOptions } from "./frames";
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
-
+  const imageUri = `https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`;
+  // console.log({ inviteFid, castHash, imageUri });
   return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
@@ -23,18 +24,14 @@ const handleRequest = frames(async (ctx) => {
         >
           Is it worth becoming a Curation NFT?
         </div>
-        <img
-          tw="w-[676px] h-[676px] mt-[32px]"
-          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
-          alt=""
-        />
+        <img tw="w-[676px] h-[676px] mt-[32px]" src={imageUri} alt="" />
       </div>
     ),
     imageOptions: imageOptions,
     buttons: [
       <Button
         action="post"
-        target={{ pathname: "/frames/approve", query: { inviteFid, castHash } }}
+        target={{ pathname: "/frames/vote", query: { inviteFid, castHash } }}
       >
         Vote
       </Button>,

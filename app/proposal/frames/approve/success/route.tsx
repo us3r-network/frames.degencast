@@ -2,23 +2,24 @@
 
 import React from "react";
 import { Button } from "frames.js/next";
-import { frames, imageOptions } from "../frames";
+import { frames, imageOptions } from "../../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
 import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
-import ProposalImageAndInfo from "../../../components/ProposalImageAndInfo";
-import ProposalDescription from "../../../components/ProposalDescription";
-import ProposalHr from "../../../components/ProposalHr";
+import ProposalImageAndInfo from "../../../../components/ProposalImageAndInfo";
+import ProposalDescription from "../../../../components/ProposalDescription";
+import ProposalHr from "../../../../components/ProposalHr";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
   const type = ctx.searchParams?.type || "";
+  const danAddress = ctx.searchParams?.danAddress || "";
+
   const transactionId = ctx.message?.transactionId || "";
 
-  // TODO: next cast
-  const nextCastHash = "0x1d083d785ca466887ffb7a3885d7d1636636aa17";
+  console.log({ type, castHash, inviteFid, danAddress });
 
   return {
     image: (
@@ -31,7 +32,7 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "28px",
           }}
         >
-          <div>Transaction Completed!</div>
+          <div>Approve Completed!</div>
         </div>
         <div tw="h-[12px]"></div>
         <ProposalImageAndInfo castHash={castHash} state="TODO" />
@@ -40,15 +41,20 @@ const handleRequest = frames(async (ctx) => {
       </div>
     ),
     imageOptions: imageOptions,
+    textInput: `amount minimum 300`,
     buttons: [
       <Button
-        action="post"
+        action="tx"
         target={{
-          pathname: `/frames`,
-          query: { castHash: nextCastHash },
+          pathname: type == "upvote" ? `/tx-data/upvote` : `/tx-data/downvote`,
+          query: { danAddress, castHash },
+        }}
+        post_url={{
+          pathname: `/frames/success`,
+          query: { danAddress, castHash },
         }}
       >
-        Next cast
+        {type}
       </Button>,
       <Button
         action="link"
