@@ -42,3 +42,5 @@ spec:
               value: "https://dev.degencast.xyz/channels/tokens"
             - name: TRADE_TOKEN_LEADERBOARD
               value: "https://dev.degencast.xyz/channels/tokens"
+            - name: DEGEN_ADDRESS
+              value: "0xD084FD38BB7fDba38b0a2BffbA9e558ce29Ad8AC"
