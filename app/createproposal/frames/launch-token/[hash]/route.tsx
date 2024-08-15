@@ -3,17 +3,12 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../../frames";
-import { getTokenDetails } from "@/lib/createproposal/getTokenDetails";
-import {
-  CREATE_PROPOSAL_MIN_PRICE,
-  getPaymentToken,
-  getProposalPriceWithAmount,
-} from "@/lib/createproposal/proposal-helper";
 import { createToken, getCastImageUrl } from "@/lib/createproposal/api";
 import ImageWrapper from "../../../components/image-wrapper";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { NextRequest } from "next/server";
 import ImageContent from "@/app/createproposal/components/image-content";
+import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
 
 const handleGetRequest = async (
   req: NextRequest,
@@ -117,43 +112,7 @@ const handlePostRequest = async (
       };
     }
 
-    let paymentTokenAddress;
-    try {
-      paymentTokenAddress = await getPaymentToken({
-        contractAddress: danAddress!,
-      });
-    } catch (error) {
-      console.error("Error getting payment token", error);
-    }
-
-    const textInput = `The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`;
-    return {
-      image: (
-        <ImageWrapper>
-          <ImageContent castImgUrl={castImageUrl} />
-        </ImageWrapper>
-      ),
-      imageOptions,
-      textInput,
-      buttons: [
-        <Button
-          action="tx"
-          target={{
-            pathname: `/tx-data/approve`,
-            query: { danAddress, paymentTokenAddress },
-          }}
-          post_url={{
-            pathname: `/frames/success/approve/${hash}`,
-            query: { danAddress, paymentTokenAddress },
-          }}
-        >
-          Upvote
-        </Button>,
-        <Button action="link" target={`https://dev.degencast.wtf`}>
-          Open App
-        </Button>,
-      ],
-    };
+    return await getProposeFrameConfig(danAddress, hash);
   })(req);
 };
 

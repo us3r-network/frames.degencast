@@ -11,7 +11,7 @@ export default function ImageContent({
     <div tw=" w-full h-full flex flex-col p-[16px] box-border gap-[16px]">
       <div tw="flex-1 flex flex-row gap-[24px]">
         <img src={castImgUrl} alt="" tw="flex flex-1" />
-        <div tw="flex flex-1">channel info</div>
+        <div tw="flex flex-1 h-full flex-col item-center">channel info</div>
       </div>
 
       <div tw="flex flex-1">About</div>

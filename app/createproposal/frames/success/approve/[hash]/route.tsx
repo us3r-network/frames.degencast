@@ -5,6 +5,7 @@ import { frames } from "../../../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
 import { FRAMES_BASE_URL } from "@/lib/env";
+import ImageWrapper from "@/app/createproposal/components/image-wrapper";
 
 const handleRequest = async (
   req: NextRequest,
@@ -27,7 +28,14 @@ const handleRequest = async (
     }
 
     return {
-      image: `${FRAMES_BASE_URL}/images/success-approve.png`,
+      image: (
+        <ImageWrapper>
+          APPROVE SUCCESSFULLY!
+          <br />
+          <br />
+          CONTINUE TO PROPOSE!
+        </ImageWrapper>
+      ),
       buttons: [
         <Button
           action="tx"
