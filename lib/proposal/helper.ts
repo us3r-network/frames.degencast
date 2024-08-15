@@ -2,7 +2,7 @@ import { baseSepoliaClient, baseClient } from "../viem";
 import { DanContractABI } from "./dan";
 
 
-const client = process.env.NODE_ENV === 'development' ? baseSepoliaClient : baseClient;
+const client = baseSepoliaClient;
 
 export async function getProposePrice(danAddress: `0x${string}`, castHash: string) {
     const price = await client.readContract({

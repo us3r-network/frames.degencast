@@ -28,13 +28,22 @@ const handleRequest = async (req: NextRequest) => {
     `${DEGENCAST_API}/topics/casts/${castHash}/proposal`
   );
   const castInfo = await castInfoResp.json();
-  console.log({ castInfo });
 
   const castProposalState: number | undefined = castInfo?.data?.state;
-  console.log({ state: castProposalState });
 
   /// have not proposal yet
   if (castProposalState === undefined) {
+    const data = await fetch(
+      `${FRAMES_BASE_URL}/createproposal/frames/propose/${castHash}`
+    );
+    const text = await data.text();
+    return new Response(text, {
+      headers: { "content-type": "text/html" },
+    });
+  }
+
+  /// ready to mint
+  if (castInfo.data.state === ProposalState.ReadyToMint) {
     const data = await fetch(
       `${FRAMES_BASE_URL}/another/frames?inviteFid=${inviteFid}&castHash=${castHash}`
     );
@@ -43,17 +52,6 @@ const handleRequest = async (req: NextRequest) => {
       headers: { "content-type": "text/html" },
     });
   }
-
-  // /// ready to mint
-  // if (castInfo.data.state === 3) {
-  //   const data = await fetch(
-  //     `${FRAMES_BASE_URL}/another/frames?inviteFid=${inviteFid}&castHash=${castHash}`
-  //   );
-  //   const text = await data.text();
-  //   return new Response(text, {
-  //     headers: { "content-type": "text/html" },
-  //   });
-  // }
 
   const castDanAddr = castInfo?.data?.dan || "";
 
@@ -82,6 +80,7 @@ const handleRequest = async (req: NextRequest) => {
       challengePrice = formatEther(disputePrice);
     }
     console.log({ challengePrice });
+    const currentStance: string = getProposalState(proposal.state);
 
     const buttons = (function () {
       if (proposalRoundIndex === 1) {
@@ -93,7 +92,7 @@ const handleRequest = async (req: NextRequest) => {
               query: { inviteFid, castHash },
             }}
           >
-            refresh
+            Refresh
           </Button>,
           <Button
             action="tx"
@@ -106,8 +105,9 @@ const handleRequest = async (req: NextRequest) => {
               query: {
                 inviteFid,
                 danAddress: castDanAddr,
-                type: "upvote",
+                type: "Upvote",
                 castHash,
+                currentStance,
               },
             }}
           >
@@ -124,8 +124,9 @@ const handleRequest = async (req: NextRequest) => {
               query: {
                 inviteFid,
                 danAddress: castDanAddr,
-                type: "downvote",
+                type: "Downvote",
                 castHash,
+                currentStance,
               },
             }}
           >
@@ -157,8 +158,14 @@ const handleRequest = async (req: NextRequest) => {
               query: { inviteFid, danAddress: castDanAddr },
             }}
             post_url={{
-              pathname: `/frames/upvote`,
-              query: { inviteFid, danAddress: castDanAddr },
+              pathname: `/frames/approve/success`,
+              query: {
+                inviteFid,
+                danAddress: castDanAddr,
+                type: "Upvote",
+                castHash,
+                currentStance,
+              },
             }}
           >
             Upvote
@@ -188,8 +195,14 @@ const handleRequest = async (req: NextRequest) => {
             query: { inviteFid, danAddress: castDanAddr },
           }}
           post_url={{
-            pathname: `/frames/downvote`,
-            query: { inviteFid, danAddress: castDanAddr },
+            pathname: `/frames/approve/success`,
+            query: {
+              inviteFid,
+              danAddress: castDanAddr,
+              type: "Downvote",
+              castHash,
+              currentStance,
+            },
           }}
         >
           Downvote
@@ -203,12 +216,10 @@ const handleRequest = async (req: NextRequest) => {
       ];
     })();
 
-    const state: string = getProposalState(castProposalState);
-
     return {
       image: (
         <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
-          <ImageAndInfo castHash={castHash} state={state} />
+          <ImageAndInfo castHash={castHash} state={currentStance} />
           <Hr />
 
           <ProposalTint

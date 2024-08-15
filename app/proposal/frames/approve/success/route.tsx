@@ -10,12 +10,14 @@ import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import ProposalImageAndInfo from "../../../../components/ProposalImageAndInfo";
 import ProposalDescription from "../../../../components/ProposalDescription";
 import ProposalHr from "../../../../components/ProposalHr";
+import { ProposalType } from "@/lib/proposal/proposalState";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
-  const type = ctx.searchParams?.type || "";
+  const type = ctx.searchParams?.type as ProposalType;
   const danAddress = ctx.searchParams?.danAddress || "";
+  const currentStance = ctx.searchParams?.currentStance || "";
 
   const transactionId = ctx.message?.transactionId || "";
 
@@ -35,7 +37,7 @@ const handleRequest = frames(async (ctx) => {
           <div>Approve Completed!</div>
         </div>
         <div tw="h-[12px]"></div>
-        <ProposalImageAndInfo castHash={castHash} state="TODO" />
+        <ProposalImageAndInfo castHash={castHash} state={currentStance} />
         <ProposalHr />
         <ProposalDescription />
       </div>
@@ -46,7 +48,7 @@ const handleRequest = frames(async (ctx) => {
       <Button
         action="tx"
         target={{
-          pathname: type == "upvote" ? `/tx-data/upvote` : `/tx-data/downvote`,
+          pathname: type == "Upvote" ? `/tx-data/upvote` : `/tx-data/downvote`,
           query: { danAddress, castHash },
         }}
         post_url={{

@@ -26,9 +26,7 @@ export const POST = frames(async (ctx) => {
 
   // Return transaction data that conforms to the correct type
   return transaction({
-    chainId: `eip155:${
-      process.env.NODE_ENV === "development" ? baseSepolia.id : base.id
-    }`,
+    chainId: `eip155:${baseSepolia.id}`,
     method: "eth_sendTransaction",
     attribution: false,
     params: {

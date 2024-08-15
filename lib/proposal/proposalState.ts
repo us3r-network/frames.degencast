@@ -8,6 +8,8 @@ export enum ProposalState {
     Abandoned = 4,
 }
 
+export type ProposalType = "Upvote" | "Downvote";
+
 // export const ProposalStateMap = {
 //     [ProposalState.Proposed]: "Proposed",
 //     [ProposalState.Accepted]: "Accepted",
