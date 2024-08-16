@@ -89,11 +89,6 @@ export async function POST(req: NextRequest) {
       );
     }
     const paymentPrice = getProposalPriceWithAmount(value, paymentTokenDetails);
-    console.log("approve", {
-      danAddress,
-      paymentTokenDetails,
-      paymentPrice,
-    });
 
     const calldata = encodeFunctionData({
       abi: erc20Abi,

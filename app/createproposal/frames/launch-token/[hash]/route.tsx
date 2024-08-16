@@ -3,12 +3,13 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../../frames";
-import { createToken, getCastImageUrl } from "@/lib/createproposal/api";
+import { createToken, getCommunityInfo } from "@/lib/createproposal/api";
 import ImageWrapper from "../../../components/image-wrapper";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { NextRequest } from "next/server";
-import ImageContent from "@/app/createproposal/components/image-content";
 import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
+import CastInfo from "@/app/createproposal/components/CastInfo";
+import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
 
 const handleGetRequest = async (
   req: NextRequest,
@@ -17,7 +18,6 @@ const handleGetRequest = async (
   const hash = params.hash;
   const cast = await getCastWithHash(hash);
   const channelId = cast?.channel?.id || "";
-  const castImageUrl = getCastImageUrl(hash);
   return await frames(async (ctx) => {
     if (!channelId) {
       return {
@@ -30,6 +30,12 @@ const handleGetRequest = async (
         ],
       };
     }
+    const channelTokenInfo = await getChannelTokenInfo(channelId);
+    const { danAddress } = channelTokenInfo;
+    if (danAddress) {
+      return await getProposeFrameConfig(hash, channelTokenInfo);
+    }
+
     const buttons = [
       <Button
         action="post"
@@ -45,9 +51,14 @@ const handleGetRequest = async (
     ];
     return {
       image: (
-        <ImageWrapper>
-          <ImageContent castImgUrl={castImageUrl} />
-        </ImageWrapper>
+        <CastInfo
+          castHash={hash}
+          channelName={channelTokenInfo.channelName}
+          channelId={channelTokenInfo.channelId}
+          launchProgress={channelTokenInfo.launchProgress}
+          state="None"
+          promptText="This channel hasn’t activated Curation Token yet. Please activate first."
+        />
       ),
       imageOptions,
       buttons,
@@ -62,23 +73,7 @@ const handlePostRequest = async (
   const hash = params.hash;
   const cast = await getCastWithHash(hash);
   const channelId = cast?.channel?.id || "";
-  const castImageUrl = getCastImageUrl(hash);
   return await frames(async (ctx) => {
-    if (!channelId) {
-      return {
-        image: (
-          <ImageWrapper>
-            <ImageContent castImgUrl={castImageUrl} />
-          </ImageWrapper>
-        ),
-        imageOptions: imageOptions,
-        buttons: [
-          <Button action="link" target={`https://dev.degencast.wtf`}>
-            Open App
-          </Button>,
-        ],
-      };
-    }
     const { message } = ctx;
     const requesterFid = String(message?.requesterFid! || "");
     const attToken = await createToken(channelId, requesterFid);
@@ -91,6 +86,7 @@ const handlePostRequest = async (
         image: (
           <ImageWrapper>
             There was an error creating the token.
+            <br />
             <br />
             Please try again later.
           </ImageWrapper>
@@ -112,7 +108,9 @@ const handlePostRequest = async (
       };
     }
 
-    return await getProposeFrameConfig(danAddress, hash);
+    const channelTokenInfo = await getChannelTokenInfo(channelId);
+
+    return await getProposeFrameConfig(hash, channelTokenInfo);
   })(req);
 };
 

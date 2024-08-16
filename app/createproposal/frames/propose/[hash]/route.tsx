@@ -3,12 +3,11 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../../frames";
-import { Address } from "viem";
-import { getCastImageUrl, getCommunityInfo } from "@/lib/createproposal/api";
 import ImageWrapper from "../../../components/image-wrapper";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { NextRequest } from "next/server";
 import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
+import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
 
 const handleRequest = async (
   req: NextRequest,
@@ -17,6 +16,7 @@ const handleRequest = async (
   const hash = params.hash;
   const cast = await getCastWithHash(hash);
   const channelId = cast?.channel?.id || "";
+
   return await frames(async (ctx) => {
     if (!channelId) {
       return {
@@ -29,17 +29,14 @@ const handleRequest = async (
         ],
       };
     }
-
-    const castImageUrl = getCastImageUrl(hash);
-    let danAddress: Address | "" = "";
-
-    const communityInfo = await getCommunityInfo(channelId);
-    danAddress = communityInfo?.data?.attentionTokenInfo?.danContract || "";
+    const channelTokenInfo = await getChannelTokenInfo(channelId);
+    const { danAddress } = channelTokenInfo;
     if (!danAddress) {
       return {
         image: (
           <ImageWrapper>
             Channel token is not created!
+            <br />
             <br />
             To activate the curation token!
           </ImageWrapper>
@@ -61,7 +58,7 @@ const handleRequest = async (
       };
     }
 
-    return await getProposeFrameConfig(danAddress, hash);
+    return await getProposeFrameConfig(hash, channelTokenInfo);
   })(req);
 };
 
