@@ -1,7 +1,4 @@
 /* eslint-disable react/jsx-key */
-import { getCastImageUrl, getCommunityInfo } from "@/lib/createproposal/api";
-import { Address } from "viem";
-import ImageWrapper from "../../components/image-wrapper";
 import { imageOptions } from "../frames";
 import { Button } from "frames.js/next";
 import {
@@ -9,15 +6,15 @@ import {
   getPaymentToken,
   getProposals,
 } from "@/lib/createproposal/proposal-helper";
-import ImageContent from "../../components/image-content";
 import { FRAMES_BASE_URL } from "@/lib/env";
+import CastInfo from "../../components/CastInfo";
+import { ChannelTokenInfo } from "./getChannelTokenInfo";
 
 export const getProposeFrameConfig = async (
-  danAddress: Address,
-  hash: string
+  hash: string,
+  channelTokenInfo: ChannelTokenInfo
 ) => {
-  const castImageUrl = getCastImageUrl(hash);
-
+  const { danAddress } = channelTokenInfo;
   const proposals = await getProposals({
     contractAddress: danAddress as `0x${string}`,
     castHash: hash,
@@ -25,14 +22,22 @@ export const getProposeFrameConfig = async (
   const isCreated = Number(proposals?.roundIndex) > 0;
   if (isCreated) {
     return {
-      image: <ImageWrapper>Proposal already created</ImageWrapper>,
+      image: (
+        <CastInfo
+          castHash={hash}
+          channelName={channelTokenInfo.channelName}
+          channelId={channelTokenInfo.channelId}
+          launchProgress={channelTokenInfo.launchProgress}
+          state="Upvote"
+        />
+      ),
       imageOptions,
       buttons: [
         <Button
-          action="post"
+          action="link"
           target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
             `Use frame to vote the proposal`
-          )}&embeds[]=${FRAMES_BASE_URL}/proposal/vote`}
+          )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames/vote?castHash=${hash}`}
         >
           Share Frame
         </Button>,
@@ -55,9 +60,14 @@ export const getProposeFrameConfig = async (
   const textInput = `The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`;
   return {
     image: (
-      <ImageWrapper>
-        <ImageContent castImgUrl={castImageUrl} />
-      </ImageWrapper>
+      <CastInfo
+        castHash={hash}
+        channelName={channelTokenInfo.channelName}
+        channelId={channelTokenInfo.channelId}
+        launchProgress={channelTokenInfo.launchProgress}
+        state="None"
+        promptText="Upvote and earn minting fee rewards upon success!"
+      />
     ),
     imageOptions,
     textInput,
