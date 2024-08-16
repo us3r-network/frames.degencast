@@ -9,6 +9,7 @@ import ProposalDescription from "../../../components/ProposalDescription";
 import ProposalHr from "../../../components/ProposalHr";
 import ProposalChallenge from "../../../components/ProposalChallenge";
 import ProposalButton from "../../../components/ProposalButton";
+import ProposalTint from "../../../components/ProposalTint";
 import {
   getDisputePrice,
   getProposal,
@@ -49,25 +50,42 @@ const handleRequest = frames(async (ctx) => {
           launchProgress={launchProgress}
         />
         <ProposalHr />
-        <ProposalDescription />
-        <ProposalHr />
+
+        <ProposalTint
+          msg={"Upvote and earn minting fee rewards upon success!"}
+        />
+
+        <ProposalButton text="Upvote & Accelerate Countdown" />
+        <div
+          tw="text-[#fff] mt-[16px] flex justify-center items-center w-full"
+          style={{
+            fontFamily: "Inter",
+            fontSize: "16px",
+            fontWeight: 700,
+            lineHeight: "24px",
+          }}
+        >
+          or
+        </div>
         <ProposalChallenge amount={challengePrice} />
-        <ProposalButton text="Upvote" />
+
+        <ProposalTint
+          msg={
+            "Downvote spam casts, if you win, you can share the staked funds from upvoters."
+          }
+        />
+
+        <ProposalButton text="Downvote" />
       </div>
     ),
     imageOptions: imageOptions,
-    textInput: `amount minimum 300 $DEGEN`,
+    textInput: `The minimum amount: 300`,
     buttons: [
       <Button
         action="post"
         target={{
-          pathname: `/frames/upvote`,
-          query: {
-            inviteFid,
-            castHash,
-            danAddress,
-            launchProgress,
-          },
+          pathname: `/frames/updownvote`,
+          query: { inviteFid, castHash },
         }}
       >
         Refresh
@@ -76,27 +94,27 @@ const handleRequest = frames(async (ctx) => {
         action="tx"
         target={{
           pathname: `/tx-data/upvote`,
-          query: { inviteFid, castHash, danAddress, amount: 300 },
+          query: { inviteFid, castHash, danAddress },
         }}
         post_url={{
           pathname: `/frames/success`,
           query: { inviteFid, castHash, danAddress },
         }}
       >
-        300 DEGEN
+        Upvote
       </Button>,
       <Button
         action="tx"
         target={{
-          pathname: `/tx-data/upvote`,
-          query: { inviteFid, castHash, danAddress, amount: 8848 },
+          pathname: `/tx-data/downvote`,
+          query: { inviteFid, castHash, danAddress },
         }}
         post_url={{
           pathname: `/frames/success`,
           query: { inviteFid, castHash, danAddress },
         }}
       >
-        8848 DEGEN
+        Downvote
       </Button>,
       <Button
         action="link"

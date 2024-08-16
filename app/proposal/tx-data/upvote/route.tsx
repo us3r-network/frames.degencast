@@ -9,8 +9,9 @@ export const POST = frames(async (ctx) => {
   const amount = ctx.message?.inputText || "";
   const danAddress = ctx.searchParams?.danAddress;
   const castHash = ctx.searchParams?.castHash;
+  const queryAmount = ctx.searchParams?.amount;
 
-  console.log("approve degen", amount, danAddress, castHash);
+  console.log("upvote", { amount, danAddress, castHash, queryAmount });
 
   if (!castHash) {
     return error("Cast Hash is required");
@@ -18,16 +19,14 @@ export const POST = frames(async (ctx) => {
   if (!danAddress) {
     return error("DanContract address is required");
   }
-  if (!amount) {
+  if (!amount && !queryAmount) {
     return error("Amount is required");
   }
-
-  console.log("upvote", danAddress, castHash, amount);
-
+  const amountArg = amount || queryAmount;
   const calldata = encodeFunctionData({
     abi: DanContractABI,
     functionName: "proposeProposal",
-    args: [castHash as `0x`, parseEther(amount)],
+    args: [castHash as `0x`, parseEther(amountArg)],
   });
 
   // Return transaction data that conforms to the correct type

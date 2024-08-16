@@ -16,9 +16,10 @@ import { getProposalState } from "@/lib/proposal/proposalState";
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
-  const type = ctx.searchParams?.type || "";
-  const transactionId = ctx.message?.transactionId || "";
   const danAddress = ctx.searchParams?.danAddress as `0x`;
+
+  const transactionId = ctx.message?.transactionId || "";
+
   const proposal = await getProposal(danAddress, castHash);
   console.log({ proposal });
 
@@ -59,8 +60,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        // target={`https://www.onceupon.xyz/${transactionId}?delay=1000`}
-        target={`https://sepolia.basescan.org/tx/${transactionId}`}
+        target={`https://base.blockscout.com/tx/${transactionId}`}
       >
         View Tx
       </Button>,

@@ -2,27 +2,56 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
-import { error } from "frames.js/core";
-import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
+import { DEGENCAST_WEB_URL } from "@/lib/env";
 
 import ProposalImageAndInfo from "../../../components/ProposalImageAndInfo";
 import ProposalDescription from "../../../components/ProposalDescription";
 import ProposalHr from "../../../components/ProposalHr";
 import ProposalChallenge from "../../../components/ProposalChallenge";
 import ProposalButton from "../../../components/ProposalButton";
+import {
+  getDisputePrice,
+  getProposal,
+  getProposePrice,
+} from "@/lib/proposal/helper";
+import { getProposalState } from "@/lib/proposal/proposalState";
+import { formatEther } from "viem";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
-  const castHash = ctx.searchParams?.castHash || "";
+  const danAddress = ctx.searchParams?.danAddress! as `0x`;
+  const castHash = ctx.searchParams?.castHash! as `0x`;
+  const launchProgress = ctx.searchParams?.launchProgress || "0%";
+
+  const proposal = await getProposal(danAddress, castHash);
+  const currentStance = getProposalState(proposal.state);
+  const proposalRoundIndex = Number(proposal.roundIndex);
+  let challengePrice = "0";
+  if (proposalRoundIndex === 1) {
+    const disputePrice = await getDisputePrice(danAddress, castHash);
+    challengePrice = formatEther(disputePrice);
+  }
+  if (proposalRoundIndex % 2 === 0) {
+    const proposalPrice = await getProposePrice(danAddress, castHash);
+    challengePrice = formatEther(proposalPrice);
+  } else {
+    const disputePrice = await getDisputePrice(danAddress, castHash);
+    challengePrice = formatEther(disputePrice);
+  }
+  console.log({ challengePrice });
 
   return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px] py-[25px]">
-        <ProposalImageAndInfo castHash={castHash} state="TODO" />
+        <ProposalImageAndInfo
+          castHash={castHash}
+          state={currentStance}
+          launchProgress={launchProgress}
+        />
         <ProposalHr />
         <ProposalDescription />
         <ProposalHr />
-        <ProposalChallenge amount="8,848" />
+        <ProposalChallenge amount={challengePrice} />
         <ProposalButton text="Downvote" />
       </div>
     ),
@@ -30,23 +59,44 @@ const handleRequest = frames(async (ctx) => {
     textInput: `amount minimum 300 $DEGEN`,
     buttons: [
       <Button
+        action="post"
+        target={{
+          pathname: `/frames/downvote`,
+          query: {
+            inviteFid,
+            castHash,
+            danAddress,
+            launchProgress,
+          },
+        }}
+      >
+        Refresh
+      </Button>,
+      <Button
         action="tx"
         target={{
-          pathname: `/tx-data/approve`,
-          query: {},
+          pathname: `/tx-data/downvote`,
+          query: { inviteFid, castHash, danAddress, amount: 300 },
         }}
         post_url={{
           pathname: `/frames/success`,
-          query: {},
+          query: { inviteFid, castHash, danAddress },
         }}
       >
-        Approve
+        300 DEGEN
       </Button>,
       <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        action="tx"
+        target={{
+          pathname: `/tx-data/downvote`,
+          query: { inviteFid, castHash, danAddress, amount: 8848 },
+        }}
+        post_url={{
+          pathname: `/frames/success`,
+          query: { inviteFid, castHash, danAddress },
+        }}
       >
-        View Cast
+        8848 DEGEN
       </Button>,
       <Button
         action="link"
