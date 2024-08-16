@@ -3,9 +3,11 @@ import React from "react";
 export default function ImageAndInfo({
   castHash,
   state,
+  launchProgress = "TODO",
 }: {
   castHash: string;
   state: string;
+  launchProgress?: string;
 }) {
   return (
     <div tw="flex flex-row mt-[20px]">
@@ -64,7 +66,7 @@ export default function ImageAndInfo({
         >
           <div tw="flex items-center justify-between">
             <span> Launch Progress:</span>
-            <span>77%</span>
+            <span>{launchProgress}</span>
           </div>
           <div tw="mt-[8px] flex items-center justify-between" style={{}}>
             <span> Current stance:</span>

@@ -18,6 +18,7 @@ const handleRequest = frames(async (ctx) => {
   const type = ctx.searchParams?.type as ProposalType;
   const danAddress = ctx.searchParams?.danAddress || "";
   const currentStance = ctx.searchParams?.currentStance || "";
+  const launchProgress = ctx.searchParams?.launchProgress || "0%";
 
   const transactionId = ctx.message?.transactionId || "";
 
@@ -37,7 +38,11 @@ const handleRequest = frames(async (ctx) => {
           <div>Approve Completed!</div>
         </div>
         <div tw="h-[12px]"></div>
-        <ProposalImageAndInfo castHash={castHash} state={currentStance} />
+        <ProposalImageAndInfo
+          castHash={castHash}
+          state={currentStance}
+          launchProgress={launchProgress}
+        />
         <ProposalHr />
         <ProposalDescription />
       </div>
@@ -60,8 +65,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        // target={`https://www.onceupon.xyz/${transactionId}?delay=1000`}
-        target={`https://sepolia.basescan.org/tx/${transactionId}`}
+        target={`https://base.blockscout.com/tx/${transactionId}`}
       >
         View Tx
       </Button>,

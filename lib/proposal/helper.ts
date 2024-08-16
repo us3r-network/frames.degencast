@@ -1,5 +1,7 @@
+import { erc20Abi } from "viem";
 import { baseSepoliaClient, baseClient } from "../viem";
 import { DanContractABI } from "./dan";
+import { DEGEN_ADDRESS } from "../env";
 
 
 const client = baseSepoliaClient;
@@ -37,4 +39,14 @@ export async function getProposal(danAddress: `0x${string}`, castHash: string) {
         state: number,
     };
     return proposal
+}
+
+export async function getApprovedAmount(danAddress: `0x${string}`, wallet: `0x${string}`) {
+    const amount = await client.readContract({
+        abi: erc20Abi,
+        address: DEGEN_ADDRESS,
+        functionName: "allowance",
+        args: [wallet, danAddress],
+    });
+    return amount as bigint;
 }
