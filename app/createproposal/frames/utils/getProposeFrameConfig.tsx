@@ -59,15 +59,17 @@ export const getProposeFrameConfig = async (
     console.error("Error getting payment token", error);
   }
 
+  const { channelName, channelId, channelDescription, launchProgress } =
+    channelTokenInfo;
   const textInput = `The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`;
   return {
     image: (
       <CastInfo
         castHash={hash}
-        channelName={channelTokenInfo.channelName}
-        channelId={channelTokenInfo.channelId}
-        channelDescription={channelTokenInfo.channelDescription}
-        launchProgress={channelTokenInfo.launchProgress}
+        channelName={channelName}
+        channelId={channelId}
+        channelDescription={channelDescription}
+        launchProgress={launchProgress}
         state="None"
         promptText="Upvote and earn minting fee rewards upon success!"
       />
@@ -79,11 +81,21 @@ export const getProposeFrameConfig = async (
         action="tx"
         target={{
           pathname: `/tx-data/approve`,
-          query: { paymentTokenAddress, ...channelTokenInfo },
+          query: {
+            paymentTokenAddress,
+            danAddress,
+          },
         }}
         post_url={{
           pathname: `/frames/success/approve/${hash}`,
-          query: { paymentTokenAddress, ...channelTokenInfo },
+          query: {
+            danAddress,
+            paymentTokenAddress,
+            channelName,
+            channelId,
+            channelDescription,
+            launchProgress,
+          },
         }}
       >
         Upvote
