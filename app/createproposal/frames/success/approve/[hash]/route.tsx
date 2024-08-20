@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-key */
 
 import { Button } from "frames.js/next";
-import { frames } from "../../../frames";
+import { frames, imageOptions } from "../../../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
-import { FRAMES_BASE_URL } from "@/lib/env";
-import ImageWrapper from "@/app/createproposal/components/image-wrapper";
+import { ChannelTokenInfo } from "../../../utils/getChannelTokenInfo";
+import CastInfo from "@/app/createproposal/components/CastInfo";
 
 const handleRequest = async (
   req: NextRequest,
@@ -17,10 +17,12 @@ const handleRequest = async (
     const { message } = ctx;
     const txId = message?.transactionId;
     const input = message?.inputText;
-    const danAddress = ctx.searchParams.danAddress || "";
-    const paymentTokenAddress = ctx.searchParams.paymentTokenAddress || "";
+    const { paymentTokenAddress, ...channelTokenInfo } =
+      ctx.searchParams as ChannelTokenInfo & {
+        paymentTokenAddress: string;
+      };
 
-    if (!danAddress) {
+    if (!channelTokenInfo.danAddress) {
       return error("danAddress no support");
     }
     if (!paymentTokenAddress) {
@@ -29,23 +31,27 @@ const handleRequest = async (
 
     return {
       image: (
-        <ImageWrapper>
-          APPROVE SUCCESSFULLY!
-          <br />
-          <br />
-          CONTINUE TO PROPOSE!
-        </ImageWrapper>
+        <CastInfo
+          castHash={hash}
+          channelName={channelTokenInfo.channelName}
+          channelId={channelTokenInfo.channelId}
+          channelDescription={channelTokenInfo.channelDescription}
+          launchProgress={channelTokenInfo.launchProgress}
+          state="None"
+          successText="Approve Completed!"
+        />
       ),
+      imageOptions,
       buttons: [
         <Button
           action="tx"
           target={{
             pathname: `/tx-data/propose/${hash}`,
-            query: { price: input, danAddress, paymentTokenAddress },
+            query: { price: input, paymentTokenAddress, ...channelTokenInfo },
           }}
           post_url={{
             pathname: `/frames/success`,
-            query: { hash },
+            query: { hash, ...channelTokenInfo },
           }}
         >
           Next

@@ -8,6 +8,7 @@ import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { NextRequest } from "next/server";
 import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
 import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
+import CastInfo from "@/app/createproposal/components/CastInfo";
 
 const handleRequest = async (
   req: NextRequest,
@@ -34,12 +35,16 @@ const handleRequest = async (
     if (!danAddress) {
       return {
         image: (
-          <ImageWrapper>
-            Channel token is not created!
-            <br />
-            <br />
-            To activate the curation token!
-          </ImageWrapper>
+          <CastInfo
+            castHash={hash}
+            channelName={channelTokenInfo.channelName}
+            channelId={channelTokenInfo.channelId}
+            channelDescription={channelTokenInfo.channelDescription}
+            launchProgress={channelTokenInfo.launchProgress}
+            state="None"
+            promptText="Upvote and earn minting fee rewards upon success!"
+            errorText="Channel token is not created!"
+          />
         ),
         imageOptions: imageOptions,
         buttons: [
@@ -47,6 +52,7 @@ const handleRequest = async (
             action="post"
             target={{
               pathname: `/frames/launch-token/${hash}`,
+              query: { ...channelTokenInfo },
             }}
           >
             Launch Curation Token

@@ -3,13 +3,16 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../../frames";
-import { createToken, getCommunityInfo } from "@/lib/createproposal/api";
+import { createToken } from "@/lib/createproposal/api";
 import ImageWrapper from "../../../components/image-wrapper";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { NextRequest } from "next/server";
 import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
 import CastInfo from "@/app/createproposal/components/CastInfo";
-import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
+import {
+  ChannelTokenInfo,
+  getChannelTokenInfo,
+} from "../../utils/getChannelTokenInfo";
 
 const handleGetRequest = async (
   req: NextRequest,
@@ -36,32 +39,33 @@ const handleGetRequest = async (
       return await getProposeFrameConfig(hash, channelTokenInfo);
     }
 
-    const buttons = [
-      <Button
-        action="post"
-        target={{
-          pathname: `/frames/launch-token/${hash}`,
-        }}
-      >
-        Launch Curation Token
-      </Button>,
-      <Button action="link" target={`https://dev.degencast.wtf`}>
-        Open App
-      </Button>,
-    ];
     return {
       image: (
         <CastInfo
           castHash={hash}
           channelName={channelTokenInfo.channelName}
           channelId={channelTokenInfo.channelId}
+          channelDescription={channelTokenInfo.channelDescription}
           launchProgress={channelTokenInfo.launchProgress}
           state="None"
           promptText="This channel hasn’t activated Curation Token yet. Please activate first."
         />
       ),
       imageOptions,
-      buttons,
+      buttons: [
+        <Button
+          action="post"
+          target={{
+            pathname: `/frames/launch-token/${hash}`,
+            query: { ...channelTokenInfo },
+          }}
+        >
+          Launch Curation Token
+        </Button>,
+        <Button action="link" target={`https://dev.degencast.wtf`}>
+          Open App
+        </Button>,
+      ],
     };
   })(req);
 };
@@ -75,21 +79,24 @@ const handlePostRequest = async (
   const channelId = cast?.channel?.id || "";
   return await frames(async (ctx) => {
     const { message } = ctx;
+    // const { ...channelTokenInfo } = ctx.searchParams as ChannelTokenInfo;
+    // const channelId = channelTokenInfo.channelId;
     const requesterFid = String(message?.requesterFid! || "");
     const attToken = await createToken(channelId, requesterFid);
+    const channelTokenInfo = await getChannelTokenInfo(channelId);
     const danAddress = attToken?.data?.danContract;
-    console.log("attToken", attToken);
-    console.log("requesterFid", requesterFid);
-
     if (!danAddress) {
       return {
         image: (
-          <ImageWrapper>
-            There was an error creating the token.
-            <br />
-            <br />
-            Please try again later.
-          </ImageWrapper>
+          <CastInfo
+            castHash={hash}
+            channelName={channelTokenInfo.channelName}
+            channelId={channelTokenInfo.channelId}
+            channelDescription={channelTokenInfo.channelDescription}
+            launchProgress={channelTokenInfo.launchProgress}
+            state="None"
+            promptText="This channel hasn’t activated Curation Token yet. Please activate first."
+          />
         ),
         imageOptions,
         buttons: [
@@ -97,9 +104,10 @@ const handlePostRequest = async (
             action="post"
             target={{
               pathname: `/frames/launch-token/${hash}`,
+              query: { ...channelTokenInfo },
             }}
           >
-            Retry
+            Try Again
           </Button>,
           <Button action="link" target={`https://dev.degencast.wtf`}>
             Open App
@@ -107,8 +115,6 @@ const handlePostRequest = async (
         ],
       };
     }
-
-    const channelTokenInfo = await getChannelTokenInfo(channelId);
 
     return await getProposeFrameConfig(hash, channelTokenInfo);
   })(req);
