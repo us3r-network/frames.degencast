@@ -52,7 +52,7 @@ const handleRequest = frames(async (ctx) => {
   /// ready to mint
   if (castInfo.data.state === ProposalState.ReadyToMint) {
     const data = await fetch(
-      `${FRAMES_BASE_URL}/another/frames?inviteFid=${inviteFid}&castHash=${castHash}`
+      `${FRAMES_BASE_URL}/curationnft/frames?inviteFid=${inviteFid}&castHash=${castHash}`
     );
     const text = await data.text();
     return new Response(text, {
@@ -85,8 +85,7 @@ const handleRequest = frames(async (ctx) => {
   }
   console.log({ challengePrice });
 
-  const connectWallet = (ctx.message?.connectedAddress ||
-    "0x3ae6c93C96e0366b899bEe8e286a6946a9DAd52b") as `0x${string}`;
+  const connectWallet = ctx.message?.connectedAddress as `0x${string}`;
   console.log({ castDanAddr, connectWallet });
 
   let needApprove = true;

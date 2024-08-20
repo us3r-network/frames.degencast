@@ -2,27 +2,46 @@
 
 import React from "react";
 import { Button } from "frames.js/next";
-import { frames, imageOptions } from "../../frames";
+import { frames, imageOptions } from "../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
-import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
+import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
-import ProposalImageAndInfo from "../../../../components/ProposalImageAndInfo";
-import ProposalDescription from "../../../../components/ProposalDescription";
-import ProposalHr from "../../../../components/ProposalHr";
-import { ProposalType } from "@/lib/proposal/proposalState";
+import ProposalImageAndMint from "../../../components/ProposalImageAndMint";
+import ProposalDescription from "../../../components/ProposalDescription";
+import ProposalHr from "../../../components/ProposalHr";
+import { getMintPrice, getProposal } from "@/lib/proposal/helper";
+import { getProposalState } from "@/lib/proposal/proposalState";
+import { formatEther } from "viem";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
-  const type = ctx.searchParams?.type as ProposalType;
-  const danAddress = ctx.searchParams?.danAddress || "";
-  const currentStance = ctx.searchParams?.currentStance || "";
-  const launchProgress = ctx.searchParams?.launchProgress || "0%";
 
   const transactionId = ctx.message?.transactionId || "";
+  const connectWallet = ctx.message?.connectedAddress || "";
 
-  console.log({ type, castHash, inviteFid, danAddress });
+  let tokenId;
+  let castInfo;
+  let communityCuration;
+  try {
+    const castInfoResp = await fetch(
+      `${DEGENCAST_API}/topics/casts/${castHash}/proposal`
+    );
+    castInfo = await castInfoResp.json();
+  } catch (err) {
+    throw error("Error fetching castInfo");
+  }
+
+  communityCuration = castInfo?.data.tokenAddr;
+  tokenId = castInfo?.data.tokenId;
+  if (!communityCuration) {
+    throw error("address is required");
+  }
+  const mintPrice = await getMintPrice(communityCuration, 1);
+
+  // TODO: next cast
+  const nextCastHash = "0x1d083d785ca466887ffb7a3885d7d1636636aa17";
 
   return {
     image: (
@@ -35,33 +54,27 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "28px",
           }}
         >
-          <div>Approve Completed!</div>
+          <div>Transaction Completed!</div>
         </div>
         <div tw="h-[12px]"></div>
-        <ProposalImageAndInfo
+        <ProposalImageAndMint
           castHash={castHash}
-          state={currentStance}
-          launchProgress={launchProgress}
+          price={formatEther(mintPrice)}
         />
         <ProposalHr />
         <ProposalDescription />
       </div>
     ),
     imageOptions: imageOptions,
-    textInput: `amount minimum 300`,
     buttons: [
       <Button
-        action="tx"
+        action="post"
         target={{
-          pathname: type == "Upvote" ? `/tx-data/upvote` : `/tx-data/downvote`,
-          query: { danAddress, castHash },
-        }}
-        post_url={{
-          pathname: `/frames/success`,
-          query: { danAddress, castHash, launchProgress },
+          pathname: `/frames`,
+          query: { castHash: nextCastHash, inviteFid },
         }}
       >
-        {type}
+        Next cast
       </Button>,
       <Button
         action="link"
