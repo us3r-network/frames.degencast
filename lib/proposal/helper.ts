@@ -82,3 +82,23 @@ export async function checkCurationHasGraduate(curation: `0x${string}`) {
     console.log(tokenInfo);
     return tokenInfo.graduated;
 }
+
+// const quoterContract = {
+//     address: UNISWAP_V3_QUOTERV2_CONTRACT_ADDRESS,
+//     abi: QuoterV2.abi,
+//     chainId: buyToken.chainId,
+//   };
+//   // console.log("fetchInputAmount", buyAmount, sellToken, buyToken);
+//   const { data, error } = useReadContract({
+//     ...quoterContract,
+//     functionName: "quoteExactOutputSingle",
+//     args: [
+//       {
+//         tokenIn: sellToken.address,
+//         tokenOut: buyToken.address,
+//         amount: buyAmount,
+//         fee: FeeAmount.MEDIUM,
+//         sqrtPriceLimitX96: 0,
+//       },
+//     ],
+//   } as any);

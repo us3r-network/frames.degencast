@@ -42,5 +42,9 @@ spec:
               value: "https://dev.degencast.xyz/channels/tokens"
             - name: TRADE_TOKEN_LEADERBOARD
               value: "https://dev.degencast.xyz/channels/tokens"
+            - name: BASE_NETWORK
+              value: "sepolia"
             - name: DEGEN_ADDRESS
               value: "0xD084FD38BB7fDba38b0a2BffbA9e558ce29Ad8AC"
+            - name: CURATION_FACTORY_ADDRESS
+              value: "0x85E67F404AA1e0E78Eee02725AA242F1ebEd81bf"
