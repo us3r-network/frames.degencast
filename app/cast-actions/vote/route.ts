@@ -73,9 +73,10 @@ export async function POST(request: Request) {
     return new Response(
       JSON.stringify({
         type: "frame",
-        frameUrl: `${FRAMES_BASE_URL}/createproposal/frames/launch-token/${castHash}`,
+        frameUrl: `${FRAMES_BASE_URL}/createproposal/frames/launch-token-view/${castHash}`,
       }),
       {
+        status: 200,
         headers: {
           "content-type": "application/json",
         },
