@@ -50,8 +50,8 @@ export async function POST(request: Request) {
     );
   }
   const castHash = action.cast.hash;
-  const cast = await getCastWithHash(castHash);
-  const channelId = cast?.channel?.id || "";
+  // const cast = await getCastWithHash(castHash);
+  const channelId = action.cast?.channel?.id || "";
   if (!channelId) {
     return new Response(
       JSON.stringify({
