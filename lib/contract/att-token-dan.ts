@@ -1,8 +1,8 @@
-import { baseSepolia } from "viem/chains";
+import { baseSepolia, base } from "viem/chains";
+import { BASE_NETWORK } from "../env";
 
 export const AttTokenDan = {
-  chain: baseSepolia,
-  address: "0x3a2d6819cafab4d053267d069cf80354ab83fb24",
+  chain: BASE_NETWORK === "main" ? base : baseSepolia,
   abi: [
     {
       inputs: [],

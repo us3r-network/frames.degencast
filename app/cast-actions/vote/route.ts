@@ -110,7 +110,7 @@ export async function POST(request: Request) {
     return new Response(
       JSON.stringify({
         type: "frame",
-        frameUrl: `${FRAMES_BASE_URL}/another/frames?castHash=${castHash}`,
+        frameUrl: `${FRAMES_BASE_URL}/curationnft/frames?castHash=${castHash}`,
       }),
       {
         status: 200,
