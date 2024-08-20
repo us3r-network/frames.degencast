@@ -2,7 +2,7 @@ import { NEYNAR_API_KEY } from "../env";
 import { NeynarCast } from "./neynar-types";
 
 const NeynarApiHeaders = {
-  "Content-Type": "application/json",
+  "content-type": "application/json",
   api_key: NEYNAR_API_KEY,
 } as HeadersInit;
 
@@ -20,12 +20,13 @@ export const neynarValidateFrameMessage = async (messageBytes: any) => {
   const url = "https://api.neynar.com/v2/farcaster/frame/validate";
   const options = {
     method: "POST",
-    headers: NeynarApiHeaders,
+
+    headers: { accept: "application/json", ...NeynarApiHeaders },
     body: JSON.stringify({
-      cast_reaction_context: false,
+      cast_reaction_context: true,
       follow_context: false,
       signer_context: false,
-      channel_follow_context: false,
+      channel_follow_context: true,
       message_bytes_in_hex: messageBytes,
     }),
   };
