@@ -1,28 +1,44 @@
 /* eslint-disable react/jsx-key */
 
 import { Button } from "frames.js/next";
-import { frames } from "../frames";
+import { frames, imageOptions } from "../frames";
 import { FRAMES_BASE_URL } from "@/lib/env";
-
-const FRAME_BASE_URL = process.env.FRAMES_BASE_URL;
+import CastInfo from "../../components/CastInfo";
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
   const txId = message?.transactionId;
+  const { hash, channelName, channelId, channelDescription, launchProgress } =
+    ctx.searchParams as {
+      hash: string;
+      channelName: string;
+      channelId: string;
+      channelDescription: string;
+      launchProgress: string;
+    };
   return {
-    image: `${FRAME_BASE_URL}/images/success.png`,
+    image: (
+      <CastInfo
+        castHash={hash}
+        channelName={channelName}
+        channelId={channelId}
+        channelDescription={channelDescription}
+        launchProgress={launchProgress}
+        state="Upvote"
+        successText="Transaction Completed!"
+        upvoted={true}
+      />
+    ),
+    imageOptions,
     buttons: [
-      <Button
-        action="link"
-        target={`https://www.onceupon.xyz/${txId}?delay=1000`}
-      >
+      <Button action="link" target={`https://base.blockscout.com/tx/${txId}`}>
         View Tx
       </Button>,
       <Button
         action="link"
         target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
           `Use frame to vote the proposal`
-        )}&embeds[]=${FRAMES_BASE_URL}/proposal/vote`}
+        )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames/vote?castHash=${hash}`}
       >
         Share Frame
       </Button>,

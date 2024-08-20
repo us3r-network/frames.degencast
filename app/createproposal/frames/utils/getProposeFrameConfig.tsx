@@ -27,8 +27,10 @@ export const getProposeFrameConfig = async (
           castHash={hash}
           channelName={channelTokenInfo.channelName}
           channelId={channelTokenInfo.channelId}
+          channelDescription={channelTokenInfo.channelDescription}
           launchProgress={channelTokenInfo.launchProgress}
           state="Upvote"
+          upvoted={true}
         />
       ),
       imageOptions,
@@ -64,6 +66,7 @@ export const getProposeFrameConfig = async (
         castHash={hash}
         channelName={channelTokenInfo.channelName}
         channelId={channelTokenInfo.channelId}
+        channelDescription={channelTokenInfo.channelDescription}
         launchProgress={channelTokenInfo.launchProgress}
         state="None"
         promptText="Upvote and earn minting fee rewards upon success!"
@@ -76,11 +79,11 @@ export const getProposeFrameConfig = async (
         action="tx"
         target={{
           pathname: `/tx-data/approve`,
-          query: { danAddress, paymentTokenAddress },
+          query: { paymentTokenAddress, ...channelTokenInfo },
         }}
         post_url={{
           pathname: `/frames/success/approve/${hash}`,
-          query: { danAddress, paymentTokenAddress },
+          query: { paymentTokenAddress, ...channelTokenInfo },
         }}
       >
         Upvote
