@@ -22,4 +22,6 @@ export const TRADE_TOKEN_LEADERBOARD =
   process.env.TRADE_TOKEN_LEADERBOARD ||
   "https://dev.degencast.xyz/channels/tokens";
 
+export const BASE_NETWORK = process.env.BASE_NETWORK || "sepolia";
 export const DEGEN_ADDRESS: `0x${string}` = process.env.DEGEN_ADDRESS as `0x${string}`;
+export const CURATION_FACTORY_ADDRESS: `0x${string}` = process.env.CURATION_FACTORY_ADDRESS as `0x${string}`;

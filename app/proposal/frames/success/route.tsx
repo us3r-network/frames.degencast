@@ -17,7 +17,7 @@ const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
   const danAddress = ctx.searchParams?.danAddress as `0x`;
-
+  const launchProgress = ctx.searchParams?.launchProgress || "0%";
   const transactionId = ctx.message?.transactionId || "";
 
   const proposal = await getProposal(danAddress, castHash);
@@ -42,7 +42,11 @@ const handleRequest = frames(async (ctx) => {
           <div>Transaction Completed!</div>
         </div>
         <div tw="h-[12px]"></div>
-        <ProposalImageAndInfo castHash={castHash} state={currentStance} />
+        <ProposalImageAndInfo
+          castHash={castHash}
+          state={currentStance}
+          launchProgress={launchProgress}
+        />
         <ProposalHr />
         <ProposalDescription />
       </div>
