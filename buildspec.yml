@@ -8,6 +8,8 @@ phases:
       - export PATH=$PWD/:$PATH
   pre_build:
     commands:
+      - echo "Logging in to Docker Hub..."
+      - echo 1Zhangyunhe | docker login --username hrbustor89 --password-stdin
       - echo kubectl version...
       - kubectl version --client
       - echo Logging in to Amazon ECR...
@@ -40,3 +42,6 @@ phases:
 artifacts:
   files:
     - imageDetail.json
+cache:
+  paths:
+    - '/root/.cache'
