@@ -4,7 +4,6 @@ import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../../../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
-import { ChannelTokenInfo } from "../../../utils/getChannelTokenInfo";
 import CastInfo from "@/app/createproposal/components/CastInfo";
 
 const handleRequest = async (
@@ -17,12 +16,23 @@ const handleRequest = async (
     const { message } = ctx;
     const txId = message?.transactionId;
     const input = message?.inputText;
-    const { paymentTokenAddress, ...channelTokenInfo } =
-      ctx.searchParams as ChannelTokenInfo & {
-        paymentTokenAddress: string;
-      };
+    const {
+      danAddress,
+      paymentTokenAddress,
+      channelName,
+      channelId,
+      channelDescription,
+      launchProgress,
+    } = ctx.searchParams as {
+      danAddress: string;
+      paymentTokenAddress: string;
+      channelName: string;
+      channelId: string;
+      channelDescription: string;
+      launchProgress: string;
+    };
 
-    if (!channelTokenInfo.danAddress) {
+    if (!danAddress) {
       return error("danAddress no support");
     }
     if (!paymentTokenAddress) {
@@ -33,10 +43,10 @@ const handleRequest = async (
       image: (
         <CastInfo
           castHash={hash}
-          channelName={channelTokenInfo.channelName}
-          channelId={channelTokenInfo.channelId}
-          channelDescription={channelTokenInfo.channelDescription}
-          launchProgress={channelTokenInfo.launchProgress}
+          channelName={channelName}
+          channelId={channelId}
+          channelDescription={channelDescription}
+          launchProgress={launchProgress}
           state="None"
           successText="Approve Completed!"
         />
@@ -47,11 +57,17 @@ const handleRequest = async (
           action="tx"
           target={{
             pathname: `/tx-data/propose/${hash}`,
-            query: { price: input, paymentTokenAddress, ...channelTokenInfo },
+            query: { price: input, paymentTokenAddress, danAddress },
           }}
           post_url={{
             pathname: `/frames/success`,
-            query: { hash, ...channelTokenInfo },
+            query: {
+              hash,
+              channelName,
+              channelId,
+              channelDescription,
+              launchProgress,
+            },
           }}
         >
           Next

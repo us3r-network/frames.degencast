@@ -9,10 +9,7 @@ import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { NextRequest } from "next/server";
 import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
 import CastInfo from "@/app/createproposal/components/CastInfo";
-import {
-  ChannelTokenInfo,
-  getChannelTokenInfo,
-} from "../../utils/getChannelTokenInfo";
+import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
 
 const handleGetRequest = async (
   req: NextRequest,
@@ -39,14 +36,16 @@ const handleGetRequest = async (
       return await getProposeFrameConfig(hash, channelTokenInfo);
     }
 
+    const { channelName, channelDescription, launchProgress } =
+      channelTokenInfo;
     return {
       image: (
         <CastInfo
           castHash={hash}
-          channelName={channelTokenInfo.channelName}
-          channelId={channelTokenInfo.channelId}
-          channelDescription={channelTokenInfo.channelDescription}
-          launchProgress={channelTokenInfo.launchProgress}
+          channelName={channelName}
+          channelId={channelId}
+          channelDescription={channelDescription}
+          launchProgress={launchProgress}
           state="None"
           promptText="This channel hasn’t activated Curation Token yet. Please activate first."
         />
@@ -57,7 +56,6 @@ const handleGetRequest = async (
           action="post"
           target={{
             pathname: `/frames/launch-token/${hash}`,
-            query: { ...channelTokenInfo },
           }}
         >
           Launch Curation Token
@@ -79,8 +77,6 @@ const handlePostRequest = async (
   const channelId = cast?.channel?.id || "";
   return await frames(async (ctx) => {
     const { message } = ctx;
-    // const { ...channelTokenInfo } = ctx.searchParams as ChannelTokenInfo;
-    // const channelId = channelTokenInfo.channelId;
     const requesterFid = String(message?.requesterFid! || "");
     const attToken = await createToken(channelId, requesterFid);
     const channelTokenInfo = await getChannelTokenInfo(channelId);
@@ -104,7 +100,6 @@ const handlePostRequest = async (
             action="post"
             target={{
               pathname: `/frames/launch-token/${hash}`,
-              query: { ...channelTokenInfo },
             }}
           >
             Try Again

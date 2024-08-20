@@ -4,22 +4,26 @@ import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
 import { FRAMES_BASE_URL } from "@/lib/env";
 import CastInfo from "../../components/CastInfo";
-import { ChannelTokenInfo } from "../utils/getChannelTokenInfo";
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
   const txId = message?.transactionId;
-  const { hash, ...channelTokenInfo } = ctx.searchParams as ChannelTokenInfo & {
-    hash: string;
-  };
+  const { hash, channelName, channelId, channelDescription, launchProgress } =
+    ctx.searchParams as {
+      hash: string;
+      channelName: string;
+      channelId: string;
+      channelDescription: string;
+      launchProgress: string;
+    };
   return {
     image: (
       <CastInfo
         castHash={hash}
-        channelName={channelTokenInfo.channelName}
-        channelId={channelTokenInfo.channelId}
-        channelDescription={channelTokenInfo.channelDescription}
-        launchProgress={channelTokenInfo.launchProgress}
+        channelName={channelName}
+        channelId={channelId}
+        channelDescription={channelDescription}
+        launchProgress={launchProgress}
         state="Upvote"
         successText="Transaction Completed!"
         upvoted={true}

@@ -52,7 +52,6 @@ const handleRequest = async (
             action="post"
             target={{
               pathname: `/frames/launch-token/${hash}`,
-              query: { ...channelTokenInfo },
             }}
           >
             Launch Curation Token
