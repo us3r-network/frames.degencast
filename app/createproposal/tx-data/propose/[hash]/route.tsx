@@ -12,7 +12,7 @@ import {
   ApiRespCode,
   checkCastProposalMetadata,
 } from "@/lib/createproposal/api";
-import { transaction } from "frames.js/core";
+import { error, transaction } from "frames.js/core";
 
 export async function POST(
   req: NextRequest,
@@ -27,53 +27,18 @@ export async function POST(
   return await frames(async (ctx) => {
     const { message: frameMessage } = ctx;
     if (!frameMessage) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "No frame message",
-            },
-          ],
-        },
-        {
-          status: 400,
-        }
-      );
+      return error("Invalid frame message");
     }
     if (!danAddress || !paymentTokenAddress) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message:
-                "Invalid request: danAddress or paymentTokenAddress is missing",
-            },
-          ],
-        },
-        {
-          status: 400,
-        }
+      return error(
+        "Invalid request: danAddress or paymentTokenAddress is missing"
       );
     }
 
     const requesterFid = frameMessage.requesterFid;
     const price = Number(inputPrice);
     if (isNaN(price)) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "Invalid value",
-            },
-          ],
-        },
-        {
-          status: 400,
-        }
-      );
+      return error("Amount is required");
     }
 
     const cast = await getCastWithHash(hash);
@@ -88,19 +53,7 @@ export async function POST(
     const { data, code } = arRes;
 
     if (code !== ApiRespCode.SUCCESS || !data.arUrl) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "Invalid metadata",
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+      return error("Invalid proposal metadata");
     }
     const { arUrl } = data;
     const config = {
@@ -123,19 +76,7 @@ export async function POST(
       calldata = encodeFunctionData(funData);
       console.log("calldata", calldata);
     } catch (error: any) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Calldata",
-              message: error.message,
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+      return error("Invalid calldata");
     }
 
     const proposals = await getProposals({
@@ -144,19 +85,7 @@ export async function POST(
     });
     const isCreated = Number(proposals?.roundIndex) > 0;
     if (isCreated) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "Proposal already created",
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+      return error("Proposal already created");
     }
     return transaction({
       chainId: `eip155:${AttTokenDan.chain.id}`,

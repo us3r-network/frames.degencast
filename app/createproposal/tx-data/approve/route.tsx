@@ -7,65 +7,28 @@ import {
 } from "@/lib/createproposal/proposal-helper";
 import { getTokenDetails } from "@/lib/createproposal/getTokenDetails";
 import { AttTokenDan } from "@/lib/contract/att-token-dan";
-import { transaction } from "frames.js/core";
+import { error, transaction } from "frames.js/core";
 
 export async function POST(req: NextRequest) {
   return await frames(async (ctx) => {
     const { message: frameMessage } = ctx;
-    console.log("frameMessage", frameMessage);
     if (!frameMessage) {
-      throw new Error("No frame message");
+      return error("Invalid frame message");
     }
     const value = Number(frameMessage.inputText || "");
 
     if (isNaN(value)) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "Invalid value",
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+      return error("Amount is required");
     }
     if (value < CREATE_PROPOSAL_MIN_PRICE) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: `The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`,
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+      return error(`The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`);
     }
 
     const { searchParams } = new URL(req.url);
     const paymentTokenAddress = searchParams.get("paymentTokenAddress") || "";
     const danAddress = searchParams.get("danAddress") || "";
     if (!danAddress) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "Invalid danAddress",
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+      return error("DanContract address is required");
     }
 
     let paymentTokenDetails;
@@ -73,20 +36,8 @@ export async function POST(req: NextRequest) {
       paymentTokenDetails = await getTokenDetails(
         paymentTokenAddress as `0x${string}`
       );
-    } catch (error) {
-      return NextResponse.json(
-        {
-          errors: [
-            {
-              reason: "Invalid",
-              message: "Invalid paymentTokenAddress",
-            },
-          ],
-        },
-        {
-          status: 500,
-        }
-      );
+    } catch (err) {
+      return error("Invalid paymentTokenAddress");
     }
     const paymentPrice = getProposalPriceWithAmount(value, paymentTokenDetails);
 
