@@ -24,11 +24,13 @@ export function getProposalState(state: number): string {
         case ProposalState.NotProposed:
             return "Not Proposed";
         case ProposalState.Proposed:
-            return "Proposed";
+            // return "Proposed";
+            return "Upvoted"
         case ProposalState.Accepted:
-            return "Accepted";
+            return "Upvoted";
         case ProposalState.Disputed:
-            return "Disputed";
+            // return "Disputed";
+            return 'Downvoted';
         case ProposalState.ReadyToMint:
             return "Ready To Mint";
         case ProposalState.Abandoned:
