@@ -28,23 +28,22 @@ const handleRequest = frames(async (ctx) => {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
         <div
-          tw="text-white mt-[32px] flex justify-center items-center w-full text-[#00D1A7]"
+          tw={
+            "text-white mt-[32px] flex justify-center items-center w-full text-[#00D1A7]"
+          }
           style={{
-            fontSize: "36px",
+            fontSize: "32px",
             fontWeight: 700,
-            lineHeight: "28px",
+            lineHeight: "40px",
           }}
         >
           <div>Approve Completed!</div>
         </div>
-        <div tw="h-[12px]"></div>
-        <ProposalImageAndInfo
-          castHash={castHash}
-          state={currentStance}
-          launchProgress={launchProgress}
+        <img
+          tw="w-[600px] h-[600px] mt-[16px]"
+          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          alt=""
         />
-        <ProposalHr />
-        <ProposalDescription />
       </div>
     ),
     imageOptions: imageOptions,

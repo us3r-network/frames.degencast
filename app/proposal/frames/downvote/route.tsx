@@ -43,16 +43,24 @@ const handleRequest = frames(async (ctx) => {
   return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px] py-[25px]">
-        <ProposalImageAndInfo
-          castHash={castHash}
-          state={currentStance}
-          launchProgress={launchProgress}
+        <div
+          tw={`flex justify-between items-center mt-[16px] text-white w-[540px] text-[#F41F4C]`}
+          style={{
+            fontSize: "32px",
+            fontWeight: 700,
+            lineHeight: "40px",
+          }}
+        >
+          <div>Cast Status:</div>
+          <div>{"Downvoted"}</div>
+        </div>
+        <img
+          tw="w-[540px] h-[540px] mt-[16px]"
+          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          alt=""
         />
         <ProposalHr />
         <ProposalDescription />
-        <ProposalHr />
-        <ProposalChallenge amount={challengePrice} />
-        <ProposalButton text="Downvote" />
       </div>
     ),
     imageOptions: imageOptions,

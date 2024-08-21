@@ -6,11 +6,8 @@ import { NextRequest } from "next/server";
 
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import { frames, imageOptions } from "../frames";
-import ImageAndInfo from "../../../components/ProposalImageAndInfo";
-import Hr from "../../../components/ProposalHr";
-import ProposalButton from "../../../components/ProposalButton";
-import ProposalChallenge from "../../../components/ProposalChallenge";
-import ProposalTint from "../../../components/ProposalTint";
+import ProposalHr from "../../../components/ProposalHr";
+import ProposalDescription from "../../../components/ProposalDescription";
 import { getProposalState, ProposalState } from "@/lib/proposal/proposalState";
 import {
   getApprovedAmount,
@@ -262,39 +259,27 @@ const handleRequest = frames(async (ctx) => {
 
   return {
     image: (
-      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
-        <ImageAndInfo
-          castHash={castHash}
-          state={currentStance}
-          launchProgress={launchProgress}
-        />
-        <Hr />
-
-        <ProposalTint
-          msg={"Upvote and earn minting fee rewards upon success!"}
-        />
-
-        <ProposalButton text="Upvote & Accelerate Countdown" />
+      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full px-[32px] py-[0px]">
         <div
-          tw="text-[#fff] mt-[16px] flex justify-center items-center w-full"
+          tw={`flex justify-between items-center mt-[16px] text-white w-[540px] ${
+            currentStance === "Downvoted" ? "text-[#F41F4C]" : "text-[#00D1A7]"
+          }`}
           style={{
-            fontFamily: "Inter",
-            fontSize: "16px",
+            fontSize: "32px",
             fontWeight: 700,
-            lineHeight: "24px",
+            lineHeight: "40px",
           }}
         >
-          or
+          <div>Cast Status:</div>
+          <div>{currentStance}</div>
         </div>
-        <ProposalChallenge amount={challengePrice} />
-
-        <ProposalTint
-          msg={
-            "Downvote spam casts, if you win, you can share the staked funds from upvoters."
-          }
+        <img
+          tw="w-[540px] h-[540px] mt-[16px]"
+          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          alt=""
         />
-
-        <ProposalButton text="Downvote" />
+        <ProposalHr />
+        <ProposalDescription />
       </div>
     ),
     imageOptions: imageOptions,

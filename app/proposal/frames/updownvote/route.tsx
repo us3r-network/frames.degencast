@@ -22,7 +22,6 @@ const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const danAddress = ctx.searchParams?.danAddress! as `0x`;
   const castHash = ctx.searchParams?.castHash! as `0x`;
-  const launchProgress = ctx.searchParams?.launchProgress || "0%";
 
   const proposal = await getProposal(danAddress, castHash);
   const currentStance = getProposalState(proposal.state);
@@ -44,38 +43,26 @@ const handleRequest = frames(async (ctx) => {
   return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
-        <ProposalImageAndInfo
-          castHash={castHash}
-          state={currentStance}
-          launchProgress={launchProgress}
-        />
-        <ProposalHr />
-
-        <ProposalTint
-          msg={"Upvote and earn minting fee rewards upon success!"}
-        />
-
-        <ProposalButton text="Upvote & Accelerate Countdown" />
         <div
-          tw="text-[#fff] mt-[16px] flex justify-center items-center w-full"
+          tw={`flex justify-between items-center mt-[16px] text-white w-[540px] ${
+            currentStance === "Downvoted" ? "text-[#F41F4C]" : "text-[#00D1A7]"
+          }`}
           style={{
-            fontFamily: "Inter",
-            fontSize: "16px",
+            fontSize: "32px",
             fontWeight: 700,
-            lineHeight: "24px",
+            lineHeight: "40px",
           }}
         >
-          or
+          <div>Cast Status:</div>
+          <div>{currentStance}</div>
         </div>
-        <ProposalChallenge amount={challengePrice} />
-
-        <ProposalTint
-          msg={
-            "Downvote spam casts, if you win, you can share the staked funds from upvoters."
-          }
+        <img
+          tw="w-[540px] h-[540px] mt-[16px]"
+          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          alt=""
         />
-
-        <ProposalButton text="Downvote" />
+        <ProposalHr />
+        <ProposalDescription />
       </div>
     ),
     imageOptions: imageOptions,
