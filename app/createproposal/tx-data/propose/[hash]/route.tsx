@@ -5,6 +5,7 @@ import { AttTokenDan } from "@/lib/contract/att-token-dan";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getTokenDetails } from "@/lib/createproposal/getTokenDetails";
 import {
+  CREATE_PROPOSAL_MIN_PRICE,
   getProposalPriceWithAmount,
   getProposals,
 } from "@/lib/createproposal/proposal-helper";
@@ -22,7 +23,7 @@ export async function POST(
   const { searchParams } = new URL(req.url);
   const danAddress = searchParams.get("danAddress") || "";
   const paymentTokenAddress = searchParams.get("paymentTokenAddress") || "";
-  const inputPrice = searchParams.get("price") || "";
+  const inputPrice = searchParams.get("price") || CREATE_PROPOSAL_MIN_PRICE;
 
   return await frames(async (ctx) => {
     const { message: frameMessage } = ctx;
