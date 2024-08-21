@@ -28,6 +28,11 @@ export const POST = frames(async (ctx) => {
   } catch (err) {
     throw error("Error fetching castInfo");
   }
+  console.log(castInfo);
+  const deadline = castInfo?.data.deadline;
+  if (deadline && Number(deadline) < Date.now() / 1000) {
+    throw error("Has Expired");
+  }
   communityCuration = castInfo?.data.tokenAddr;
   if (!communityCuration) {
     throw error("CommunityCuration is required");

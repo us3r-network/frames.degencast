@@ -5,7 +5,7 @@ import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
-import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
+import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
 import ProposalImageAndInfo from "../../../components/ProposalImageAndInfo";
 import ProposalDescription from "../../../components/ProposalDescription";
@@ -26,7 +26,51 @@ const handleRequest = frames(async (ctx) => {
   const castProposalState: number = proposal.state;
   const currentStance: string = getProposalState(castProposalState);
   // TODO: next cast
-  const nextCastHash = "0x1d083d785ca466887ffb7a3885d7d1636636aa17";
+  let nextCastHash = "";
+  try {
+    const castInfoResp = await fetch(
+      `${DEGENCAST_API}/topics/frames/${castHash}/nextcasthash`
+    );
+    const data = await castInfoResp.json();
+    nextCastHash = data?.data;
+  } catch (err) {
+    throw error("Error fetching castInfo");
+  }
+
+  const buttons = [
+    <Button
+      action="link"
+      target={`https://base.blockscout.com/tx/${transactionId}`}
+    >
+      View Tx
+    </Button>,
+    <Button
+      action="link"
+      target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+    >
+      View Cast
+    </Button>,
+    <Button
+      action="link"
+      target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+    >
+      Open App
+    </Button>,
+  ];
+
+  if (nextCastHash) {
+    buttons.unshift(
+      <Button
+        action="post"
+        target={{
+          pathname: `/frames`,
+          query: { castHash: nextCastHash, inviteFid },
+        }}
+      >
+        Next cast
+      </Button>
+    );
+  }
 
   return {
     image: (
@@ -52,35 +96,7 @@ const handleRequest = frames(async (ctx) => {
       </div>
     ),
     imageOptions: imageOptions,
-    buttons: [
-      <Button
-        action="post"
-        target={{
-          pathname: `/frames`,
-          query: { castHash: nextCastHash, inviteFid },
-        }}
-      >
-        Next cast
-      </Button>,
-      <Button
-        action="link"
-        target={`https://base.blockscout.com/tx/${transactionId}`}
-      >
-        View Tx
-      </Button>,
-      <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
-      >
-        View Cast
-      </Button>,
-      <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
-      >
-        Open App
-      </Button>,
-    ],
+    buttons: buttons,
   };
 });
 
