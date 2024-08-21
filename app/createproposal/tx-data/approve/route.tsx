@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
     if (!frameMessage) {
       return error("Invalid frame message");
     }
-    const value = Number(frameMessage.inputText || "");
+    const value =
+      Number(frameMessage.inputText || "") || CREATE_PROPOSAL_MIN_PRICE;
 
     if (isNaN(value)) {
       return error("Amount is required");
