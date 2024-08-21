@@ -19,15 +19,11 @@ export const POST = frames(async (ctx) => {
     return error("Amount is required");
   }
 
-  // const mintPrice = await getMintPrice(
-  //   communityCuration as `0x`,
-  //   Number(amount)
-  // );
   console.log("mintPrice", mintPrice);
 
   const calldata = encodeFunctionData({
     abi: FactoryContractABI,
-    functionName: "mintNFT",
+    functionName: "mintNFTFromUniV3",
     args: [
       communityCuration as `0x`,
       BigInt(tokenId),

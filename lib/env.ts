@@ -25,3 +25,4 @@ export const TRADE_TOKEN_LEADERBOARD =
 export const BASE_NETWORK = process.env.BASE_NETWORK || "sepolia";
 export const DEGEN_ADDRESS: `0x${string}` = process.env.DEGEN_ADDRESS as `0x${string}`;
 export const CURATION_FACTORY_ADDRESS: `0x${string}` = process.env.CURATION_FACTORY_ADDRESS as `0x${string}`;
+export const UNISWAP_QUOTEV2_ADDRESS: `0x${string}` = process.env.UNISWAP_QUOTEV2_ADDRESS as `0x${string}`;

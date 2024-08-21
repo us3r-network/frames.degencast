@@ -1,8 +1,12 @@
 import { erc20Abi } from "viem";
+import QuoterV2 from "@uniswap/v3-periphery/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json";
+import { FeeAmount } from "@uniswap/v3-sdk";
+
 import { baseSepoliaClient, baseClient } from "../viem";
 import { DanContractABI } from "./dan";
 import { FactoryContractABI } from "./factory";
-import { BASE_NETWORK, CURATION_FACTORY_ADDRESS, DEGEN_ADDRESS } from "../env";
+import { BASE_NETWORK, CURATION_FACTORY_ADDRESS, DEGEN_ADDRESS, UNISWAP_QUOTEV2_ADDRESS } from "../env";
+import { CurationABI } from "./curation";
 
 
 const client = BASE_NETWORK === 'main' ? baseClient : baseSepoliaClient;
@@ -83,22 +87,29 @@ export async function checkCurationHasGraduate(curation: `0x${string}`) {
     return tokenInfo.graduated;
 }
 
-// const quoterContract = {
-//     address: UNISWAP_V3_QUOTERV2_CONTRACT_ADDRESS,
-//     abi: QuoterV2.abi,
-//     chainId: buyToken.chainId,
-//   };
-//   // console.log("fetchInputAmount", buyAmount, sellToken, buyToken);
-//   const { data, error } = useReadContract({
-//     ...quoterContract,
-//     functionName: "quoteExactOutputSingle",
-//     args: [
-//       {
-//         tokenIn: sellToken.address,
-//         tokenOut: buyToken.address,
-//         amount: buyAmount,
-//         fee: FeeAmount.MEDIUM,
-//         sqrtPriceLimitX96: 0,
-//       },
-//     ],
-//   } as any);
+export async function getMintPriceFromUniswap(curation: `0x${string}`, amount: number) {
+    const tokenUnit = await client.readContract({
+        abi: CurationABI,
+        address: curation,
+        functionName: "tokenUnit",
+        args: [],
+    }) as bigint;
+    const amountOutData: any = await client.readContract({
+        abi: QuoterV2.abi,
+        address: UNISWAP_QUOTEV2_ADDRESS,
+        functionName: "quoteExactOutputSingle",
+        args: [{
+            tokenIn: DEGEN_ADDRESS,
+            tokenOut: curation,
+            amount: BigInt(amount) * tokenUnit * BigInt(1e18),
+            fee: FeeAmount.MEDIUM,
+            sqrtPriceLimitX96: 0,
+        }],
+    });
+    // console.log('getMintPriceFromUniswap', amountOut);
+    // getMintPriceFromUniswap [ 37617341369683162043n, 4879343079835459036988009651n, 0, 101576n ]
+    const amountOut = amountOutData[0];
+
+    return amountOut as bigint;
+}
+

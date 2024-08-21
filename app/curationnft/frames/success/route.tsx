@@ -13,6 +13,8 @@ import ProposalHr from "../../../components/ProposalHr";
 import { getMintPrice, getProposal } from "@/lib/proposal/helper";
 import { getProposalState } from "@/lib/proposal/proposalState";
 import { formatEther } from "viem";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelTokenInfo } from "@/app/createproposal/frames/utils/getChannelTokenInfo";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -20,6 +22,14 @@ const handleRequest = frames(async (ctx) => {
 
   const transactionId = ctx.message?.transactionId || "";
   const connectWallet = ctx.message?.connectedAddress || "";
+
+  const cast = await getCastWithHash(castHash);
+  const channelId = cast?.channel?.id || "";
+  if (!channelId) {
+    throw error("channelId is required");
+  }
+  const channelTokenInfo = await getChannelTokenInfo(channelId);
+  const { channelName, channelDescription, launchProgress } = channelTokenInfo;
 
   let tokenId;
   let castInfo;
@@ -60,6 +70,9 @@ const handleRequest = frames(async (ctx) => {
         <ProposalImageAndMint
           castHash={castHash}
           price={formatEther(mintPrice)}
+          channelId={channelId}
+          channelName={channelName}
+          channelDescription={channelDescription}
         />
         <ProposalHr />
         <ProposalDescription />
