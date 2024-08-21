@@ -19,6 +19,7 @@ import {
 import { formatEther } from "viem";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelTokenInfo } from "@/app/createproposal/frames/utils/getChannelTokenInfo";
+import MintDescription from "@/app/components/MintDescription";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -26,16 +27,11 @@ const handleRequest = frames(async (ctx) => {
   const amount = ctx.message?.inputText || "1";
   const transactionId = ctx.message?.transactionId || "";
   const connectWallet = ctx.message?.connectedAddress || "";
-  const cast = await getCastWithHash(castHash);
-  const channelId = cast?.channel?.id || "";
-  if (!channelId) {
-    throw error("channelId is required");
-  }
-  const channelTokenInfo = await getChannelTokenInfo(channelId);
-  const { channelName, channelDescription, launchProgress } = channelTokenInfo;
+
   let tokenId;
   let castInfo;
   let communityCuration;
+
   try {
     const castInfoResp = await fetch(
       `${DEGENCAST_API}/topics/casts/${castHash}/proposal`
@@ -44,9 +40,10 @@ const handleRequest = frames(async (ctx) => {
   } catch (err) {
     throw error("Error fetching castInfo");
   }
-
+  console.log({ castInfo });
   communityCuration = castInfo?.data.tokenAddr;
   tokenId = castInfo?.data.tokenId;
+  const launchProgress = castInfo?.data.launchProgress;
   if (!communityCuration) {
     throw error("address is required");
   }
@@ -83,27 +80,35 @@ const handleRequest = frames(async (ctx) => {
 
   return {
     image: (
-      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
+      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full px-[32px] py-[0px]">
         <div
-          tw="text-white mt-[32px] flex justify-center items-center w-full text-[#00D1A7]"
+          tw="text-white mt-[16px] flex justify-center items-center w-full text-[#00D1A7]"
           style={{
-            fontSize: "36px",
+            fontSize: "32px",
             fontWeight: 700,
-            lineHeight: "28px",
+            lineHeight: "40px",
           }}
         >
           <div>Approve Completed!</div>
         </div>
-        <div tw="h-[12px]"></div>
-        <ProposalImageAndMint
-          castHash={castHash}
-          price={formatEther(mintPrice)}
-          channelId={channelId}
-          channelName={channelName}
-          channelDescription={channelDescription}
+        <img
+          tw="w-[540px] h-[540px] mt-[16px]"
+          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          alt=""
         />
+        <div
+          tw="flex justify-between items-center mt-[16px] text-white w-full"
+          style={{
+            fontSize: "16px",
+            fontWeight: 700,
+            lineHeight: "24px",
+          }}
+        >
+          <div>Launch Progress:</div>
+          <div>{launchProgress}</div>
+        </div>
         <ProposalHr />
-        <ProposalDescription />
+        <MintDescription />
       </div>
     ),
     imageOptions: imageOptions,
