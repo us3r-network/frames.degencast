@@ -3,10 +3,17 @@ import React from "react";
 export default function ImageAndMint({
   castHash,
   price,
+  channelName,
+  channelId,
+  channelDescription,
 }: {
   castHash: string;
   price: string;
+  channelName?: string;
+  channelId?: string;
+  channelDescription?: string;
 }) {
+  const priceNumber = parseFloat(price);
   return (
     <div tw="flex flex-row mt-[20px]">
       <img
@@ -25,7 +32,7 @@ export default function ImageAndMint({
               lineHeight: "40px",
             }}
           >
-            degencast
+            {channelName || "————"}
           </div>
           <div
             style={{
@@ -37,9 +44,10 @@ export default function ImageAndMint({
               lineHeight: "28px",
             }}
           >
-            /degencast
+            {channelId ? `/${channelId}` : "————"}
           </div>
           <div
+            tw="line-clamp-3"
             style={{
               padding: 0,
               marginTop: "16px",
@@ -49,8 +57,7 @@ export default function ImageAndMint({
               lineHeight: "24px",
             }}
           >
-            Minting Curation NFTs is like purchasing Curation Token with great
-            potential for appreciation.
+            {channelDescription}
           </div>
         </div>
         <div
@@ -68,7 +75,7 @@ export default function ImageAndMint({
           </div>
           <div tw="mt-[8px] flex items-center justify-between" style={{}}>
             <span>Price:</span>
-            <span>{`${price} DEGEN`}</span>
+            <span>{`${priceNumber.toFixed(5)} DEGEN`}</span>
           </div>
           {/* <div tw="mt-[8px] flex items-center justify-between" style={{}}>
             <span>Holding:</span>

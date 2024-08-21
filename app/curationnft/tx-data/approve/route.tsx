@@ -11,6 +11,7 @@ import { frames } from "../../frames/frames";
 import {
   checkCurationHasGraduate,
   getMintPrice,
+  getMintPriceFromUniswap,
 } from "../../../../lib/proposal/helper";
 
 export const POST = frames(async (ctx) => {
@@ -36,8 +37,11 @@ export const POST = frames(async (ctx) => {
   const graduated = await checkCurationHasGraduate(communityCuration);
 
   if (graduated) {
-    // TODO: get mint price for graduated curation
-    mintPrice = BigInt(0);
+    mintPrice = await getMintPriceFromUniswap(
+      communityCuration,
+      Number(amount)
+    );
+    mintPrice = (mintPrice * BigInt(11005)) / BigInt(10000);
   } else {
     mintPrice = await getMintPrice(communityCuration, Number(amount));
   }

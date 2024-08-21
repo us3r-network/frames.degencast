@@ -14,8 +14,11 @@ import {
   checkCurationHasGraduate,
   getCurationBalance,
   getMintPrice,
+  getMintPriceFromUniswap,
 } from "@/lib/proposal/helper";
 import { formatEther } from "viem";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelTokenInfo } from "@/app/createproposal/frames/utils/getChannelTokenInfo";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -23,7 +26,13 @@ const handleRequest = frames(async (ctx) => {
   const amount = ctx.message?.inputText || "1";
   const transactionId = ctx.message?.transactionId || "";
   const connectWallet = ctx.message?.connectedAddress || "";
-
+  const cast = await getCastWithHash(castHash);
+  const channelId = cast?.channel?.id || "";
+  if (!channelId) {
+    throw error("channelId is required");
+  }
+  const channelTokenInfo = await getChannelTokenInfo(channelId);
+  const { channelName, channelDescription, launchProgress } = channelTokenInfo;
   let tokenId;
   let castInfo;
   let communityCuration;
@@ -62,8 +71,11 @@ const handleRequest = frames(async (ctx) => {
   const graduated = await checkCurationHasGraduate(communityCuration);
 
   if (graduated) {
-    // TODO: get mint price for graduated curation
-    mintPrice = BigInt(0);
+    mintPrice = await getMintPriceFromUniswap(
+      communityCuration,
+      Number(amount)
+    );
+    mintPrice = (mintPrice * BigInt(11005)) / BigInt(10000);
   } else {
     mintPrice = await getMintPrice(communityCuration, Number(amount));
   }
@@ -86,6 +98,9 @@ const handleRequest = frames(async (ctx) => {
         <ProposalImageAndMint
           castHash={castHash}
           price={formatEther(mintPrice)}
+          channelId={channelId}
+          channelName={channelName}
+          channelDescription={channelDescription}
         />
         <ProposalHr />
         <ProposalDescription />
