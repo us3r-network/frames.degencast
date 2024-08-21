@@ -7,14 +7,8 @@ import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
-import ProposalImageAndMint from "../../../components/ProposalImageAndMint";
-import ProposalDescription from "../../../components/ProposalDescription";
 import ProposalHr from "../../../components/ProposalHr";
-import { getMintPrice, getProposal } from "@/lib/proposal/helper";
-import { getProposalState } from "@/lib/proposal/proposalState";
-import { formatEther } from "viem";
-import { getCastWithHash } from "@/lib/createproposal/neynar-api";
-import { getChannelTokenInfo } from "@/app/createproposal/frames/utils/getChannelTokenInfo";
+import MintDescription from "@/app/components/MintDescription";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -22,14 +16,6 @@ const handleRequest = frames(async (ctx) => {
 
   const transactionId = ctx.message?.transactionId || "";
   const connectWallet = ctx.message?.connectedAddress || "";
-
-  const cast = await getCastWithHash(castHash);
-  const channelId = cast?.channel?.id || "";
-  if (!channelId) {
-    throw error("channelId is required");
-  }
-  const channelTokenInfo = await getChannelTokenInfo(channelId);
-  const { channelName, channelDescription, launchProgress } = channelTokenInfo;
 
   let tokenId;
   let castInfo;
@@ -48,7 +34,7 @@ const handleRequest = frames(async (ctx) => {
   if (!communityCuration) {
     throw error("address is required");
   }
-  const mintPrice = await getMintPrice(communityCuration, 1);
+  const launchProgress = castInfo?.data.launchProgress;
 
   let nextCastHash = "";
   try {
@@ -98,27 +84,35 @@ const handleRequest = frames(async (ctx) => {
 
   https: return {
     image: (
-      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
+      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full px-[32px] py-[0px]">
         <div
-          tw="text-white mt-[32px] flex justify-center items-center w-full text-[#00D1A7]"
+          tw="text-white mt-[16px] flex justify-center items-center w-full text-[#00D1A7]"
           style={{
-            fontSize: "36px",
+            fontSize: "32px",
             fontWeight: 700,
-            lineHeight: "28px",
+            lineHeight: "40px",
           }}
         >
           <div>Transaction Completed!</div>
         </div>
-        <div tw="h-[12px]"></div>
-        <ProposalImageAndMint
-          castHash={castHash}
-          price={formatEther(mintPrice)}
-          channelId={channelId}
-          channelName={channelName}
-          channelDescription={channelDescription}
+        <img
+          tw="w-[540px] h-[540px] mt-[16px]"
+          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          alt=""
         />
+        <div
+          tw="flex justify-between items-center mt-[16px] text-white w-full"
+          style={{
+            fontSize: "16px",
+            fontWeight: 700,
+            lineHeight: "24px",
+          }}
+        >
+          <div>Launch Progress:</div>
+          <div>{launchProgress}</div>
+        </div>
         <ProposalHr />
-        <ProposalDescription />
+        <MintDescription />
       </div>
     ),
     imageOptions: imageOptions,
