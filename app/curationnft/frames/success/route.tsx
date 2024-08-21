@@ -50,10 +50,53 @@ const handleRequest = frames(async (ctx) => {
   }
   const mintPrice = await getMintPrice(communityCuration, 1);
 
-  // TODO: next cast
-  const nextCastHash = "0x1d083d785ca466887ffb7a3885d7d1636636aa17";
+  let nextCastHash = "";
+  try {
+    const castInfoResp = await fetch(
+      `${DEGENCAST_API}/topics/frames/${castHash}/nextcasthash`
+    );
+    const data = await castInfoResp.json();
+    nextCastHash = data?.data;
+  } catch (err) {
+    throw error("Error fetching castInfo");
+  }
 
-  return {
+  const buttons = [
+    <Button
+      action="link"
+      target={`https://base.blockscout.com/tx/${transactionId}`}
+    >
+      View Tx
+    </Button>,
+    <Button
+      action="link"
+      target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+    >
+      View Cast
+    </Button>,
+    <Button
+      action="link"
+      target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+    >
+      Open App
+    </Button>,
+  ];
+
+  if (nextCastHash) {
+    buttons.unshift(
+      <Button
+        action="post"
+        target={{
+          pathname: `/frames`,
+          query: { castHash: nextCastHash, inviteFid },
+        }}
+      >
+        Next cast
+      </Button>
+    );
+  }
+
+  https: return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
         <div
@@ -79,35 +122,7 @@ const handleRequest = frames(async (ctx) => {
       </div>
     ),
     imageOptions: imageOptions,
-    buttons: [
-      <Button
-        action="post"
-        target={{
-          pathname: `/frames`,
-          query: { castHash: nextCastHash, inviteFid },
-        }}
-      >
-        Next cast
-      </Button>,
-      <Button
-        action="link"
-        target={`https://base.blockscout.com/tx/${transactionId}`}
-      >
-        View Tx
-      </Button>,
-      <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
-      >
-        View Cast
-      </Button>,
-      <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
-      >
-        Open App
-      </Button>,
-    ],
+    buttons: buttons,
   };
 });
 
