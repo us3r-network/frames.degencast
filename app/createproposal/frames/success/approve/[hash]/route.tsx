@@ -16,20 +16,9 @@ const handleRequest = async (
     const { message } = ctx;
     const txId = message?.transactionId;
     const input = message?.inputText;
-    const {
-      danAddress,
-      paymentTokenAddress,
-      channelName,
-      channelId,
-      channelDescription,
-      launchProgress,
-    } = ctx.searchParams as {
+    const { danAddress, paymentTokenAddress } = ctx.searchParams as {
       danAddress: string;
       paymentTokenAddress: string;
-      channelName: string;
-      channelId: string;
-      channelDescription: string;
-      launchProgress: string;
     };
 
     if (!danAddress) {
@@ -40,17 +29,7 @@ const handleRequest = async (
     }
 
     return {
-      image: (
-        <CastInfo
-          castHash={hash}
-          channelName={channelName}
-          channelId={channelId}
-          channelDescription={channelDescription}
-          launchProgress={launchProgress}
-          state="None"
-          successText="Approve Completed!"
-        />
-      ),
+      image: <CastInfo castHash={hash} approved={true} />,
       imageOptions,
       buttons: [
         <Button
@@ -63,10 +42,6 @@ const handleRequest = async (
             pathname: `/frames/success`,
             query: {
               hash,
-              channelName,
-              channelId,
-              channelDescription,
-              launchProgress,
             },
           }}
         >
