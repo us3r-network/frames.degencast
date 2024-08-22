@@ -22,7 +22,7 @@ export const POST = frames(async (ctx) => {
   let castInfo;
   try {
     const castInfoResp = await fetch(
-      `${DEGENCAST_API}/topics/casts/${castHash}/proposal`
+      `${DEGENCAST_API}/topics/casts/${castHash}/mint`
     );
     castInfo = await castInfoResp.json();
   } catch (err) {
@@ -30,10 +30,10 @@ export const POST = frames(async (ctx) => {
   }
   console.log(castInfo);
   const deadline = castInfo?.data.deadline;
+  communityCuration = castInfo?.data.tokenAddr;
   if (deadline && Number(deadline) < Date.now() / 1000) {
     throw error("Has Expired");
   }
-  communityCuration = castInfo?.data.tokenAddr;
   if (!communityCuration) {
     throw error("CommunityCuration is required");
   }
@@ -50,7 +50,7 @@ export const POST = frames(async (ctx) => {
   } else {
     mintPrice = await getMintPrice(communityCuration, Number(amount));
   }
-  console.log("mintPrice", mintPrice);
+  console.log("mintPrice", { graduated, mintPrice });
 
   const calldata = encodeFunctionData({
     abi: erc20Abi,

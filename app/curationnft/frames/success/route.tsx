@@ -22,7 +22,7 @@ const handleRequest = frames(async (ctx) => {
   let communityCuration;
   try {
     const castInfoResp = await fetch(
-      `${DEGENCAST_API}/topics/casts/${castHash}/proposal`
+      `${DEGENCAST_API}/topics/casts/${castHash}/mint`
     );
     castInfo = await castInfoResp.json();
   } catch (err) {
@@ -42,6 +42,7 @@ const handleRequest = frames(async (ctx) => {
       `${DEGENCAST_API}/topics/frames/${castHash}/nextcasthash`
     );
     const data = await castInfoResp.json();
+    console.log("nextdata", data);
     nextCastHash = data?.data;
   } catch (err) {
     throw error("Error fetching castInfo");
@@ -58,7 +59,7 @@ const handleRequest = frames(async (ctx) => {
       action="link"
       target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
     >
-      View Cast
+      Start curating
     </Button>,
     <Button
       action="link"
@@ -82,7 +83,7 @@ const handleRequest = frames(async (ctx) => {
     );
   }
 
-  https: return {
+  return {
     image: (
       <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full px-[32px] py-[0px]">
         <div

@@ -83,7 +83,6 @@ export async function checkCurationHasGraduate(curation: `0x${string}`) {
         functionName: "getTokenInfo",
         args: [curation],
     });
-    console.log(tokenInfo);
     return tokenInfo.graduated;
 }
 
