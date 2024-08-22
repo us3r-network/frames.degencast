@@ -22,17 +22,7 @@ export const getProposeFrameConfig = async (
   const isCreated = Number(proposals?.roundIndex) > 0;
   if (isCreated) {
     return {
-      image: (
-        <CastInfo
-          castHash={hash}
-          channelName={channelTokenInfo.channelName}
-          channelId={channelTokenInfo.channelId}
-          channelDescription={channelTokenInfo.channelDescription}
-          launchProgress={channelTokenInfo.launchProgress}
-          state="Upvote"
-          upvoted={true}
-        />
-      ),
+      image: <CastInfo castHash={hash} upvoted={true} />,
       imageOptions,
       buttons: [
         <Button
@@ -59,20 +49,10 @@ export const getProposeFrameConfig = async (
     console.error("Error getting payment token", error);
   }
 
-  const { channelName, channelId, channelDescription, launchProgress } =
-    channelTokenInfo;
   const textInput = `The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`;
   return {
     image: (
-      <CastInfo
-        castHash={hash}
-        channelName={channelName}
-        channelId={channelId}
-        channelDescription={channelDescription}
-        launchProgress={launchProgress}
-        state="None"
-        promptText="Upvote and earn minting fee rewards upon success!"
-      />
+      <CastInfo castHash={hash} title="Is it worth becoming a Curation NFT?" />
     ),
     imageOptions,
     textInput,
@@ -91,10 +71,6 @@ export const getProposeFrameConfig = async (
           query: {
             danAddress,
             paymentTokenAddress,
-            channelName,
-            channelId,
-            channelDescription,
-            launchProgress,
           },
         }}
       >

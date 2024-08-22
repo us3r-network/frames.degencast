@@ -35,19 +35,11 @@ const handleGetRequest = async (
     if (danAddress) {
       return await getProposeFrameConfig(hash, channelTokenInfo);
     }
-
-    const { channelName, channelDescription, launchProgress } =
-      channelTokenInfo;
     return {
       image: (
         <CastInfo
           castHash={hash}
-          channelName={channelName}
-          channelId={channelId}
-          channelDescription={channelDescription}
-          launchProgress={launchProgress}
-          state="None"
-          promptText="This channel hasn’t activated Curation Token yet. Please activate first."
+          title="Channel hasn’t activated Curation Token yet."
         />
       ),
       imageOptions,
@@ -58,7 +50,7 @@ const handleGetRequest = async (
             pathname: `/frames/launch-token/${hash}`,
           }}
         >
-          Launch Curation Token
+          Activate Curation Token
         </Button>,
         <Button action="link" target={`https://dev.degencast.wtf`}>
           Open App
@@ -86,12 +78,7 @@ const handlePostRequest = async (
         image: (
           <CastInfo
             castHash={hash}
-            channelName={channelTokenInfo.channelName}
-            channelId={channelTokenInfo.channelId}
-            channelDescription={channelTokenInfo.channelDescription}
-            launchProgress={channelTokenInfo.launchProgress}
-            state="None"
-            promptText="This channel hasn’t activated Curation Token yet. Please activate first."
+            title="Channel hasn’t activated Curation Token yet."
           />
         ),
         imageOptions,
