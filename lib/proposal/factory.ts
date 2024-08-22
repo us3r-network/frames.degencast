@@ -34,6 +34,7 @@ export const FactoryContractABI = [
         type: "error",
     },
     { inputs: [], name: "CommunityCuration__InsufficientPayment", type: "error" },
+    { inputs: [], name: "CommunityCuration__InvalidAmount", type: "error" },
     { inputs: [], name: "CommunityCuration__InvalidFeeBip", type: "error" },
     { inputs: [], name: "CommunityCuration__InvalidTokenId", type: "error" },
     {
