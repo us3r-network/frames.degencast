@@ -140,7 +140,9 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={`${DEGENCAST_WEB_URL}/casts/${castHash.slice(
+          2
+        )}?inviteFid=${inviteFid}`}
       >
         View Cast
       </Button>,
