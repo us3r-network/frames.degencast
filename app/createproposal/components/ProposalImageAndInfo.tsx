@@ -1,3 +1,4 @@
+import { DEGENCAST_API } from "@/lib/env";
 import React from "react";
 
 export default function ImageAndInfo({
@@ -19,7 +20,7 @@ export default function ImageAndInfo({
     <div tw="flex flex-row mt-[20px]">
       <img
         tw="w-[360px] h-[360px]"
-        src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+        src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
         alt=""
       />
       <div tw="w-[16px]"></div>

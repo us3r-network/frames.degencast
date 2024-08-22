@@ -89,7 +89,7 @@ const handleRequest = frames(async (ctx) => {
         </div>
         <img
           tw="w-[600px] h-[600px] mt-[16px]"
-          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
           alt=""
         />
       </div>

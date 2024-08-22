@@ -2,13 +2,13 @@
 
 import { Button } from "frames.js/next";
 
-import { FRAMES_BASE_URL, DEGENCAST_WEB_URL } from "@/lib/env";
+import { FRAMES_BASE_URL, DEGENCAST_WEB_URL, DEGENCAST_API } from "@/lib/env";
 import { frames, imageOptions } from "./frames";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
-  const imageUri = `https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`;
+  const imageUri = `${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`;
   // console.log({ inviteFid, castHash, imageUri });
   return {
     image: (
