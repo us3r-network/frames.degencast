@@ -9,13 +9,7 @@ const handleRequest = frames(async (ctx) => {
   const castHash = ctx.searchParams?.castHash || "";
 
   return {
-    image: (
-      <img
-        tw="w-full h-full"
-        src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
-        alt=""
-      />
-    ),
+    image: `https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`,
     imageOptions: imageOptions,
     textInput: `Enter quantity, default is 1`,
     buttons: [
