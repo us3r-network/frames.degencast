@@ -9,7 +9,7 @@ const handleRequest = frames(async (ctx) => {
   const castHash = ctx.searchParams?.castHash || "";
 
   return {
-    image: `https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`,
+    image: `${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`,
     imageOptions: imageOptions,
     textInput: `Enter quantity, default is 1`,
     buttons: [

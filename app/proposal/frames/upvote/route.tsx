@@ -2,7 +2,7 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
-import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
+import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
 import ProposalImageAndInfo from "../../../components/ProposalImageAndInfo";
 import ProposalDescription from "../../../components/ProposalDescription";
@@ -56,7 +56,7 @@ const handleRequest = frames(async (ctx) => {
         </div>
         <img
           tw="w-[540px] h-[540px] mt-[16px]"
-          src={`https://api-dev.u3.xyz/3r-farcaster/cast-image?castHash=${castHash}`}
+          src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
           alt=""
         />
         <ProposalHr />
