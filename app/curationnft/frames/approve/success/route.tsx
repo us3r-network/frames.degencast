@@ -34,13 +34,12 @@ const handleRequest = frames(async (ctx) => {
 
   try {
     const castInfoResp = await fetch(
-      `${DEGENCAST_API}/topics/casts/${castHash}/proposal`
+      `${DEGENCAST_API}/topics/casts/${castHash}/mint`
     );
     castInfo = await castInfoResp.json();
   } catch (err) {
     throw error("Error fetching castInfo");
   }
-  console.log({ castInfo });
   communityCuration = castInfo?.data.tokenAddr;
   tokenId = castInfo?.data.tokenId;
   const launchProgress = castInfo?.data.launchProgress;
