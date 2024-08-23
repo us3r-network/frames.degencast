@@ -9,6 +9,7 @@ import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
 import ProposalHr from "../../../components/ProposalHr";
 import MintDescription from "@/app/components/MintDescription";
+import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -49,10 +50,7 @@ const handleRequest = frames(async (ctx) => {
   }
 
   const buttons = [
-    <Button
-      action="link"
-      target={`https://base.blockscout.com/tx/${transactionId}`}
-    >
+    <Button action="link" target={`${getExplorerUrlWithTx(transactionId)}`}>
       View Tx
     </Button>,
     <Button
