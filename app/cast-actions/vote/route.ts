@@ -13,7 +13,7 @@ import { FRAMES_BASE_URL } from "@/lib/env";
 
 export async function GET(request: Request) {
   const actionConfig = {
-    name: "Vote proposal",
+    name: "Curate with DEGEN",
     icon: "thumbsup",
     description: "Turn a cast into a Curation NFT.",
     aboutUrl: "https://github.com/us3r-network/degencast",
