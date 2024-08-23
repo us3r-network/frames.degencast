@@ -20,6 +20,7 @@ import { formatEther } from "viem";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelTokenInfo } from "@/app/createproposal/frames/utils/getChannelTokenInfo";
 import MintDescription from "@/app/components/MintDescription";
+import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -132,10 +133,7 @@ const handleRequest = frames(async (ctx) => {
       >
         Mint
       </Button>,
-      <Button
-        action="link"
-        target={`https://base.blockscout.com/tx/${transactionId}`}
-      >
+      <Button action="link" target={`${getExplorerUrlWithTx(transactionId)}`}>
         View Tx
       </Button>,
       <Button
