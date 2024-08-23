@@ -5,12 +5,12 @@ export const frames = createFrames({
   basePath: "/proposal",
   baseUrl: process.env.FRAMES_BASE_URL,
 
-  middleware: [
-    imagesWorkerMiddleware({
-      imagesRoute: "/frames/images",
-      secret: "degencast",
-    }),
-  ],
+  // middleware: [
+  //   imagesWorkerMiddleware({
+  //     imagesRoute: "/frames/images",
+  //     secret: "degencast",
+  //   }),
+  // ],
 });
 import * as fs from "node:fs";
 import * as path from "node:path";
