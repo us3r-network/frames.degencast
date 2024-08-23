@@ -1,3 +1,4 @@
+import { imagesWorkerMiddleware } from "frames.js/middleware/images-worker";
 import { createFrames } from "frames.js/next";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -15,6 +16,12 @@ const InterBoldFont = fs.readFileSync(
 export const frames = createFrames({
   basePath: "/curationnft",
   baseUrl: process.env.FRAMES_BASE_URL,
+  middleware: [
+    imagesWorkerMiddleware({
+      imagesRoute: "/frames/images",
+      secret: "degencast",
+    }),
+  ],
 });
 
 export const imageOptions: {

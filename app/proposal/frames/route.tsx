@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-
+import React from "react";
 import { Button } from "frames.js/next";
 
 import { FRAMES_BASE_URL, DEGENCAST_WEB_URL, DEGENCAST_API } from "@/lib/env";

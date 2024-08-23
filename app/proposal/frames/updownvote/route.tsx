@@ -53,8 +53,8 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "40px",
           }}
         >
-          <div>Cast Status:</div>
-          <div>{currentStance}</div>
+          <div tw="flex">Cast Status:</div>
+          <div tw="flex">{currentStance}</div>
         </div>
         <img
           tw="w-[540px] h-[540px] mt-[16px]"
