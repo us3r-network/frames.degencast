@@ -51,8 +51,8 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "40px",
           }}
         >
-          <div>Cast Status:</div>
-          <div>{"Upvoted"}</div>
+          <div tw="flex">Cast Status:</div>
+          <div tw="flex">{"Upvoted"}</div>
         </div>
         <img
           tw="w-[540px] h-[540px] mt-[16px]"

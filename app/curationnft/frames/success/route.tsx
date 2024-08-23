@@ -18,6 +18,7 @@ const handleRequest = frames(async (ctx) => {
   const transactionId = ctx.message?.transactionId || "";
   const connectWallet = ctx.message?.connectedAddress || "";
 
+  let nextCastHash = "";
   let tokenId;
   let castInfo;
   let communityCuration;
@@ -30,14 +31,13 @@ const handleRequest = frames(async (ctx) => {
     throw error("Error fetching castInfo");
   }
 
-  communityCuration = castInfo?.data.tokenAddr;
-  tokenId = castInfo?.data.tokenId;
+  communityCuration = castInfo?.data?.tokenAddr;
+  tokenId = castInfo?.data?.tokenId;
   if (!communityCuration) {
     throw error("address is required");
   }
   const launchProgress = castInfo?.data.launchProgress;
 
-  let nextCastHash = "";
   try {
     const castInfoResp = await fetch(
       `${DEGENCAST_API}/topics/frames/${castHash}/nextcasthash`
@@ -92,7 +92,7 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "40px",
           }}
         >
-          <div>Transaction Completed!</div>
+          <div tw="flex">Transaction Completed!</div>
         </div>
         <img
           tw="w-[540px] h-[540px] mt-[16px]"
@@ -107,8 +107,8 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "24px",
           }}
         >
-          <div>Launch Progress:</div>
-          <div>{launchProgress}</div>
+          <div tw="flex">Launch Progress:</div>
+          <div tw="flex">{launchProgress}</div>
         </div>
         <ProposalHr />
         <MintDescription />

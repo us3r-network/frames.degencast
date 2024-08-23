@@ -82,7 +82,7 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "28px",
           }}
         >
-          <div>Transaction Completed!</div>
+          <div tw="flex">Transaction Completed!</div>
         </div>
         <img
           tw="w-[600px] h-[600px] mt-[16px]"

@@ -1,9 +1,16 @@
 import { createFrames } from "frames.js/next";
-import { FrameDefinition } from "frames.js/types";
+import { imagesWorkerMiddleware } from "frames.js/middleware/images-worker";
 
 export const frames = createFrames({
   basePath: "/proposal",
   baseUrl: process.env.FRAMES_BASE_URL,
+
+  middleware: [
+    imagesWorkerMiddleware({
+      imagesRoute: "/frames/images",
+      secret: "degencast",
+    }),
+  ],
 });
 import * as fs from "node:fs";
 import * as path from "node:path";
