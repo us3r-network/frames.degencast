@@ -16,12 +16,12 @@ const InterBoldFont = fs.readFileSync(
 export const frames = createFrames({
   basePath: "/curationnft",
   baseUrl: process.env.FRAMES_BASE_URL,
-  // middleware: [
-  //   imagesWorkerMiddleware({
-  //     imagesRoute: "/frames/images",
-  //     secret: "degencast",
-  //   }),
-  // ],
+  middleware: [
+    imagesWorkerMiddleware({
+      imagesRoute: "/frames/images",
+      secret: "degencast",
+    }),
+  ],
 });
 
 export const imageOptions: {
