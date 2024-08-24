@@ -5,7 +5,7 @@ metadata:
   name: degencast-frames-ingress
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:272372497786:certificate/205f07a4-df9b-4e60-8af3-53a5311a9abd
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:272372497786:certificate/7fb7f674-83fb-48c7-a723-f3b879da4006
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 spec:
