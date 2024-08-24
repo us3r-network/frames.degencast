@@ -21,7 +21,7 @@ spec:
             - containerPort: 3000
           env:
             - name: FRAMES_BASE_URL
-              value: "https://alpha.frames.degencast.xyz"
+              value: "https://alpha.frames.degencast.wtf"
             - name: DEGENCAST_WEB_URL
               value: "https://dev.degencast.wtf"
             - name: DEGENCAST_API
