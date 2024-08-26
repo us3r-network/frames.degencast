@@ -16,16 +16,16 @@ const handleRequest = frames(async (ctx) => {
     image: <TransactionResult castHash={hash} completed={true} />,
     imageOptions,
     buttons: [
-      <Button action="link" target={getExplorerUrlWithTx(txId as any)}>
-        View Tx
-      </Button>,
       <Button
         action="link"
         target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
           `Use frame to vote the proposal`
-        )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?castHash=${hash}`}
+        )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?castHash=${hash}&embeds[]=https://warpcast.com/~/conversations/${hash}`}
       >
         Share Frame
+      </Button>,
+      <Button action="link" target={getExplorerUrlWithTx(txId as any)}>
+        View Tx
       </Button>,
       <Button action="link" target={`https://dev.degencast.wtf`}>
         Open App
