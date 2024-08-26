@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
-    "@radix-ui/react-label": "^2.1.0",
-    "@radix-ui/react-radio-group": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@uniswap/v3-periphery": "^1.4.4",
     "@uniswap/v3-sdk": "^3.13.1",
