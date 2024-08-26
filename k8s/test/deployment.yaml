@@ -20,33 +20,33 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: FRAMES_BASE_URL
+            - name: NEXT_PUBLIC_FRAMES_BASE_URL
               value: "https://alpha.frames.degencast.wtf"
-            - name: DEGENCAST_WEB_URL
+            - name: NEXT_PUBLIC_DEGENCAST_WEB_URL
               value: "https://dev.degencast.wtf"
-            - name: DEGENCAST_API
+            - name: NEXT_PUBLIC_DEGENCAST_API
               value: "https://api-dev.u3.xyz"
-            - name: FEE_RECIPIENT_WALLET_ADDRESS
+            - name: NEXT_PUBLIC_FEE_RECIPIENT_WALLET_ADDRESS
               value: "0x1AF3b65FFa0222c447DD4373299071F945EB36A2"
-            - name: API_KEY_0X_API_KEY
+            - name: NEXT_PUBLIC_API_KEY_0X_API_KEY
               value: "edaf2c5d-be24-4415-a675-195aa9f3ac6a"
-            - name: BUY_TOKEN_PERCENTAGE_FEE
+            - name: NEXT_PUBLIC_BUY_TOKEN_PERCENTAGE_FEE
               value: "0.003"
-            - name: SWAPTOKEN_LEADERBOARD
+            - name: NEXT_PUBLIC_SWAPTOKEN_LEADERBOARD
               value: "https://dev.degencast.wtf"
-            - name: NEYNAR_API_KEY
+            - name: NEXT_PUBLIC_NEYNAR_API_KEY
               value: 976F5E1F-03AA-4BCC-81B2-CB80BB6F844A
-            - name: FARCASTER_HUB_URL
+            - name: NEXT_PUBLIC_FARCASTER_HUB_URL
               value: "https://hub-api.neynar.com"
-            - name: TRADE_TOKEN_VIEWMORE
+            - name: NEXT_PUBLIC_TRADE_TOKEN_VIEWMORE
               value: "https://dev.degencast.xyz/channels/tokens"
-            - name: TRADE_TOKEN_LEADERBOARD
+            - name: NEXT_PUBLIC_TRADE_TOKEN_LEADERBOARD
               value: "https://dev.degencast.xyz/channels/tokens"
-            - name: BASE_NETWORK
+            - name: NEXT_PUBLIC_BASE_NETWORK
               value: "sepolia"
-            - name: DEGEN_ADDRESS
+            - name: NEXT_PUBLIC_DEGEN_ADDRESS
               value: "0xD084FD38BB7fDba38b0a2BffbA9e558ce29Ad8AC"
-            - name: CURATION_FACTORY_ADDRESS
+            - name: NEXT_PUBLIC_CURATION_FACTORY_ADDRESS
               value: "0x85E67F404AA1e0E78Eee02725AA242F1ebEd81bf"
-            - name: UNISWAP_QUOTEV2_ADDRESS
+            - name: NEXT_PUBLIC_UNISWAP_QUOTEV2_ADDRESS
               value: "0xC5290058841028F1614F3A6F0F5816cAd0df5E27"
