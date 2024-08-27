@@ -51,7 +51,7 @@ export async function POST(request: Request) {
   }
   const castHash = action.cast.hash;
   // const cast = await getCastWithHash(castHash);
-  const channelId = action.cast?.channel?.id || "";
+  const channelId = action.cast?.channel?.id || "home";
   if (!channelId) {
     return new Response(
       JSON.stringify({
