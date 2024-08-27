@@ -61,7 +61,7 @@ const handleRequest = frames(async (ctx) => {
           query: { danAddress, castHash, launchProgress },
         }}
       >
-        {type}
+        {type == "Upvote" ? "Upvote👍" : "Challenge👎"}
       </Button>,
       <Button action="link" target={`${getExplorerUrlWithTx(transactionId)}`}>
         View Tx

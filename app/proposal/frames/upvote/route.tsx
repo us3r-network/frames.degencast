@@ -67,20 +67,6 @@ const handleRequest = frames(async (ctx) => {
     textInput: `amount minimum 300 $DEGEN`,
     buttons: [
       <Button
-        action="post"
-        target={{
-          pathname: `/frames/upvote`,
-          query: {
-            inviteFid,
-            castHash,
-            danAddress,
-            launchProgress,
-          },
-        }}
-      >
-        Refresh
-      </Button>,
-      <Button
         action="tx"
         target={{
           pathname: `/tx-data/upvote`,
@@ -105,6 +91,20 @@ const handleRequest = frames(async (ctx) => {
         }}
       >
         8848 DEGEN
+      </Button>,
+      <Button
+        action="post"
+        target={{
+          pathname: `/frames/upvote`,
+          query: {
+            inviteFid,
+            castHash,
+            danAddress,
+            launchProgress,
+          },
+        }}
+      >
+        Refresh
       </Button>,
       <Button
         action="link"
