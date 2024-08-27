@@ -16,9 +16,10 @@ const handleRequest = async (
     const { message } = ctx;
     const txId = message?.transactionId;
     const input = message?.inputText;
-    const { danAddress, paymentTokenAddress } = ctx.searchParams as {
+    const { danAddress, paymentTokenAddress, channelId } = ctx.searchParams as {
       danAddress: string;
       paymentTokenAddress: string;
+      channelId?: string;
     };
 
     if (!danAddress) {
@@ -42,6 +43,7 @@ const handleRequest = async (
             pathname: `/frames/success`,
             query: {
               hash,
+              channelId,
             },
           }}
         >

@@ -14,7 +14,7 @@ export const getProposeFrameConfig = async (
   hash: string,
   channelTokenInfo: ChannelTokenInfo
 ) => {
-  const { danAddress } = channelTokenInfo;
+  const { danAddress, channelId } = channelTokenInfo;
   const proposals = await getProposals({
     contractAddress: danAddress as `0x${string}`,
     castHash: hash,
@@ -71,6 +71,7 @@ export const getProposeFrameConfig = async (
           query: {
             danAddress,
             paymentTokenAddress,
+            channelId,
           },
         }}
       >

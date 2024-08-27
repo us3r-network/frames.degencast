@@ -6,7 +6,7 @@ import { ProposalEntity } from "@/lib/createproposal/types/proposal";
 import { useRef, useState } from "react";
 import { getExploreCastFeeds } from "../lib/api";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 10;
 export type CastFeedsItem = {
   channel: CommunityEntity;
   tokenInfo: AttentionTokenEntity;
@@ -14,10 +14,11 @@ export type CastFeedsItem = {
   proposal: ProposalEntity;
 };
 
-export default function useLoadCastFeeds(props?: { type?: string }) {
+export default function useLoadCastFeeds(props?: { fid?: string }) {
   const [items, setItems] = useState<CastFeedsItem[]>([]);
   const [status, setStatus] = useState(AsyncRequestStatus.IDLE);
-  const typeRef = useRef(props?.type || "");
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const fidRef = useRef(props?.fid || "");
   const pageInfoRef = useRef({
     hasNextPage: true,
     nextCursor: "",
@@ -27,7 +28,7 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
   const loading = status === AsyncRequestStatus.PENDING;
 
   const loadItems = async () => {
-    const type = typeRef.current;
+    const fid = fidRef.current;
     const { hasNextPage, nextCursor, nextPageNumber } = pageInfoRef.current;
 
     if (hasNextPage === false) {
@@ -39,7 +40,7 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
         limit: PAGE_SIZE,
         cursor: nextCursor,
         pageNumber: nextPageNumber,
-        ...(type && { type }),
+        ...(fid && { fid }),
       };
       const resp = await getExploreCastFeeds(params);
       if (resp.code !== ApiRespCode.SUCCESS) {
@@ -51,18 +52,26 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
 
       setItems([...items, ...casts]);
 
+      const hasMore =
+        !!next.cursor &&
+        (casts.length >= PAGE_SIZE ||
+          (casts.length > 0 && next.cursor !== nextCursor));
       pageInfoRef.current = {
-        hasNextPage:
-          !!next.cursor &&
-          (casts.length >= PAGE_SIZE ||
-            (casts.length > 0 && next.cursor !== nextCursor)),
+        hasNextPage: hasMore,
         nextCursor: next.cursor,
         nextPageNumber: nextPageNumber + 1,
       };
+      setHasNextPage(hasMore);
       setStatus(AsyncRequestStatus.FULFILLED);
     } catch (err) {
       console.error(err);
       setStatus(AsyncRequestStatus.REJECTED);
+      pageInfoRef.current = {
+        hasNextPage: false,
+        nextCursor,
+        nextPageNumber,
+      };
+      setHasNextPage(false);
     }
   };
 
@@ -70,5 +79,6 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
     loading,
     items,
     loadItems,
+    hasNextPage,
   };
 }

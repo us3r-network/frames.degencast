@@ -8,6 +8,7 @@ import { ProposalStatus } from "./ProposalStatus";
 import { ProposalButton } from "./ProposalButton";
 import { Card } from "@/components/ui/card";
 import { getCastImageUrl } from "../lib/cast";
+import ChannelMetaInfo from "./ChannelMetaInfo";
 
 type ChannelCastCardProps = {
   channel: CommunityEntity;
@@ -23,12 +24,15 @@ const ChannelCastCard = React.forwardRef<
   return (
     <Card
       className={cn(
-        "box-border w-full flex-col gap-4 rounded-[20px] border-none p-4",
+        "box-border w-full flex-col gap-4 rounded-[16px] border-none p-4",
         className
       )}
       ref={ref}
     >
       <div>
+        <ChannelMetaInfo channel={channel} tokenInfo={tokenInfo} />
+      </div>
+      <div className="mt-4">
         <img src={getCastImageUrl(cast.hash)} alt="" />
       </div>
       <div className="flex flex-row items-center justify-between mt-4">

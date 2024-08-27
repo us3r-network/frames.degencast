@@ -9,8 +9,9 @@ import { getExplorerUrlWithTx } from "../utils/getExplorerUrlWithTx";
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
   const txId = message?.transactionId;
-  const { hash } = ctx.searchParams as {
+  const { hash, channelId } = ctx.searchParams as {
     hash: string;
+    channelId?: string;
   };
   return {
     image: <TransactionResult castHash={hash} completed={true} />,
@@ -20,7 +21,9 @@ const handleRequest = frames(async (ctx) => {
         action="link"
         target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
           `Use frame to vote the proposal`
-        )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?castHash=${hash}&embeds[]=https://warpcast.com/~/conversations/${hash}`}
+        )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?castHash=${hash}&embeds[]=https://warpcast.com/~/conversations/${hash}${
+          channelId ? `&channelKey=${channelId}` : ""
+        }`}
       >
         Share Frame
       </Button>,

@@ -43,11 +43,12 @@ export async function POST(request: Request) {
       }
     );
   }
+  const fid = action?.interactor?.fid;
   return new Response(
     JSON.stringify({
       type: "form",
       title: "Vote Cast",
-      url: `${FRAMES_BASE_URL}/composer-actions/vote-cast/casts`,
+      url: `${FRAMES_BASE_URL}/composer-actions/vote-cast/casts?fid=${fid}`,
     }),
     {
       status: 200,

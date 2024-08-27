@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@uniswap/v3-periphery": "^1.4.4",
     "@uniswap/v3-sdk": "^3.13.1",
@@ -21,6 +22,7 @@
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-infinite-scroller": "^1.2.6",
     "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
@@ -31,6 +33,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-infinite-scroller": "^1.2.5",
     "eslint": "9.8.0",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
