@@ -14,7 +14,7 @@ const handleRequest = async (
 ) => {
   const hash = params.hash;
   const cast = await getCastWithHash(hash);
-  const channelId = cast?.channel?.id || "";
+  const channelId = cast?.channel?.id || "home";
   return await frames(async (ctx) => {
     if (!channelId) {
       return {
