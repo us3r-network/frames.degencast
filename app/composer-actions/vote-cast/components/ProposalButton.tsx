@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { getWarpcastConversationUrl } from "@/lib/cast";
 import { NeynarCast } from "@/lib/createproposal/neynar-types";
 import { ProposalEntity } from "@/lib/createproposal/types/proposal";
-import getFrameUrlWithState from "@/lib/proposal/getFrameUrlWithState";
 import { useMemo } from "react";
+import getFrameUrlWithState from "../lib/getFrameUrlWithState";
 
 export type ProposalButtonProps = {
   cast: NeynarCast;

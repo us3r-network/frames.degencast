@@ -3,7 +3,8 @@ import { NeynarCast } from "@/lib/createproposal/neynar-types";
 import { AttentionTokenEntity } from "@/lib/createproposal/types/attention-token";
 import { CommunityEntity } from "@/lib/createproposal/types/community";
 import { ProposalEntity } from "@/lib/createproposal/types/proposal";
-import { DEGENCAST_API } from "@/lib/env";
+import { DEGENCAST_API } from "./env";
+// import { DEGENCAST_API } from "@/lib/env";
 
 export type ExploreCastFeeds = {
   limit?: number;

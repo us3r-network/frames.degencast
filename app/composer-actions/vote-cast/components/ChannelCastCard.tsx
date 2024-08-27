@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { ProposalStatus } from "./ProposalStatus";
 import { ProposalButton } from "./ProposalButton";
-import { getCastImageUrl } from "@/lib/cast";
 import { Card } from "@/components/ui/card";
+import { getCastImageUrl } from "../lib/cast";
 
 type ChannelCastCardProps = {
   channel: CommunityEntity;
