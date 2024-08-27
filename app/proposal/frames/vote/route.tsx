@@ -127,15 +127,6 @@ const handleRequest = frames(async (ctx) => {
     if (proposalRoundIndex === 1) {
       return [
         <Button
-          action="post"
-          target={{
-            pathname: "/frames/vote",
-            query: { inviteFid, castHash },
-          }}
-        >
-          Refresh
-        </Button>,
-        <Button
           action="tx"
           target={{
             pathname: `/tx-data/approve`,
@@ -152,7 +143,7 @@ const handleRequest = frames(async (ctx) => {
             },
           }}
         >
-          Upvote
+          Upvote👍
         </Button>,
         <Button
           action="tx"
@@ -171,7 +162,16 @@ const handleRequest = frames(async (ctx) => {
             },
           }}
         >
-          Downvote
+          Challenge👎
+        </Button>,
+        <Button
+          action="post"
+          target={{
+            pathname: "/frames/vote",
+            query: { inviteFid, castHash },
+          }}
+        >
+          Refresh
         </Button>,
         <Button
           action="link"

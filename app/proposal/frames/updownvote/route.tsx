@@ -69,15 +69,6 @@ const handleRequest = frames(async (ctx) => {
     textInput: `The minimum amount: 300`,
     buttons: [
       <Button
-        action="post"
-        target={{
-          pathname: `/frames/updownvote`,
-          query: { inviteFid, castHash },
-        }}
-      >
-        Refresh
-      </Button>,
-      <Button
         action="tx"
         target={{
           pathname: `/tx-data/upvote`,
@@ -88,7 +79,7 @@ const handleRequest = frames(async (ctx) => {
           query: { inviteFid, castHash, danAddress },
         }}
       >
-        Upvote
+        Upvote👍
       </Button>,
       <Button
         action="tx"
@@ -101,7 +92,16 @@ const handleRequest = frames(async (ctx) => {
           query: { inviteFid, castHash, danAddress },
         }}
       >
-        Downvote
+        Challenge👎
+      </Button>,
+      <Button
+        action="post"
+        target={{
+          pathname: `/frames/updownvote`,
+          query: { inviteFid, castHash },
+        }}
+      >
+        Refresh
       </Button>,
       <Button
         action="link"
