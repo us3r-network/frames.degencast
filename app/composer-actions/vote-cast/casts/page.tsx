@@ -7,9 +7,12 @@ import ChannelCastCard from "../components/ChannelCastCard";
 import { cn } from "@/lib/utils";
 import ComposerDescription from "../components/ComposerDescription";
 import { Separator } from "@/components/ui/separator";
+import { useSearchParams } from "next/navigation";
 
 export default function VoteCasts() {
-  const { loadItems, loading, items, hasNextPage } = useLoadCastFeeds();
+  const searchParams = useSearchParams();
+  const fid = searchParams.get("fid") || "";
+  const { loadItems, loading, items, hasNextPage } = useLoadCastFeeds({ fid });
   const loader = (
     <div
       className={cn("w-full flex items-center justify-center text-white py-4")}

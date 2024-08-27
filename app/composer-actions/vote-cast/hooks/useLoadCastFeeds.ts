@@ -14,11 +14,11 @@ export type CastFeedsItem = {
   proposal: ProposalEntity;
 };
 
-export default function useLoadCastFeeds(props?: { type?: string }) {
+export default function useLoadCastFeeds(props?: { fid?: string }) {
   const [items, setItems] = useState<CastFeedsItem[]>([]);
   const [status, setStatus] = useState(AsyncRequestStatus.IDLE);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const typeRef = useRef(props?.type || "");
+  const fidRef = useRef(props?.fid || "");
   const pageInfoRef = useRef({
     hasNextPage: true,
     nextCursor: "",
@@ -28,7 +28,7 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
   const loading = status === AsyncRequestStatus.PENDING;
 
   const loadItems = async () => {
-    const type = typeRef.current;
+    const fid = fidRef.current;
     const { hasNextPage, nextCursor, nextPageNumber } = pageInfoRef.current;
 
     if (hasNextPage === false) {
@@ -40,7 +40,7 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
         limit: PAGE_SIZE,
         cursor: nextCursor,
         pageNumber: nextPageNumber,
-        ...(type && { type }),
+        ...(fid && { fid }),
       };
       const resp = await getExploreCastFeeds(params);
       if (resp.code !== ApiRespCode.SUCCESS) {

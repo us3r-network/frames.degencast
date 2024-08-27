@@ -10,6 +10,7 @@ export type ExploreCastFeeds = {
   limit?: number;
   cursor?: string;
   pageNumber?: number;
+  fid?: string;
 };
 export type ExploreCastFeedsData = {
   casts: Array<{
@@ -28,6 +29,9 @@ export async function getExploreCastFeeds(
 ): Promise<ApiResp<ExploreCastFeedsData>> {
   let url = `${DEGENCAST_API}/topics/channels/feed/cast`;
   const searchParams = new URLSearchParams();
+  if (params.fid) {
+    searchParams.append("fid", params.fid);
+  }
   if (params.limit) {
     searchParams.append("limit", String(params.limit));
   }
