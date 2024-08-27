@@ -6,6 +6,7 @@ import { NeynarCast } from "@/lib/createproposal/neynar-types";
 import { ProposalEntity } from "@/lib/createproposal/types/proposal";
 import { useMemo } from "react";
 import getFrameUrlWithState from "../lib/getFrameUrlWithState";
+import { Upload } from "lucide-react";
 
 export type ProposalButtonProps = {
   cast: NeynarCast;
@@ -23,7 +24,7 @@ export function ProposalButton({ proposal, cast }: ProposalButtonProps) {
   }
   return (
     <Button
-      className="h-[32px] bg-[#9151C3] py-[6px] px-[8px]"
+      className="h-[32px] bg-[#9151C3] py-[6px] px-[8px] gap-2"
       onClick={(e) => {
         e.preventDefault();
         window.parent.postMessage(
@@ -40,6 +41,7 @@ export function ProposalButton({ proposal, cast }: ProposalButtonProps) {
         );
       }}
     >
+      <Upload className="text-white size-4" />
       <span className="text-xs">Pick</span>
     </Button>
   );

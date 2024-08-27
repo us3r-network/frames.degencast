@@ -6,7 +6,7 @@ import { ProposalEntity } from "@/lib/createproposal/types/proposal";
 import { useRef, useState } from "react";
 import { getExploreCastFeeds } from "../lib/api";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 10;
 export type CastFeedsItem = {
   channel: CommunityEntity;
   tokenInfo: AttentionTokenEntity;
@@ -17,6 +17,7 @@ export type CastFeedsItem = {
 export default function useLoadCastFeeds(props?: { type?: string }) {
   const [items, setItems] = useState<CastFeedsItem[]>([]);
   const [status, setStatus] = useState(AsyncRequestStatus.IDLE);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const typeRef = useRef(props?.type || "");
   const pageInfoRef = useRef({
     hasNextPage: true,
@@ -51,18 +52,26 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
 
       setItems([...items, ...casts]);
 
+      const hasMore =
+        !!next.cursor &&
+        (casts.length >= PAGE_SIZE ||
+          (casts.length > 0 && next.cursor !== nextCursor));
       pageInfoRef.current = {
-        hasNextPage:
-          !!next.cursor &&
-          (casts.length >= PAGE_SIZE ||
-            (casts.length > 0 && next.cursor !== nextCursor)),
+        hasNextPage: hasMore,
         nextCursor: next.cursor,
         nextPageNumber: nextPageNumber + 1,
       };
+      setHasNextPage(hasMore);
       setStatus(AsyncRequestStatus.FULFILLED);
     } catch (err) {
       console.error(err);
       setStatus(AsyncRequestStatus.REJECTED);
+      pageInfoRef.current = {
+        hasNextPage: false,
+        nextCursor,
+        nextPageNumber,
+      };
+      setHasNextPage(false);
     }
   };
 
@@ -70,5 +79,6 @@ export default function useLoadCastFeeds(props?: { type?: string }) {
     loading,
     items,
     loadItems,
+    hasNextPage,
   };
 }
