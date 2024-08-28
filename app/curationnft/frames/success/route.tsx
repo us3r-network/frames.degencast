@@ -10,6 +10,7 @@ import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import ProposalHr from "../../../components/ProposalHr";
 import MintDescription from "@/app/components/MintDescription";
 import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
+import DegencastTag from "@/app/components/DegencastTag";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -50,14 +51,14 @@ const handleRequest = frames(async (ctx) => {
   }
 
   const buttons = [
-    <Button action="link" target={`${getExplorerUrlWithTx(transactionId)}`}>
-      View Tx
-    </Button>,
     <Button
-      action="link"
-      target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+      action="post"
+      target={{
+        pathname: `/frames/faq`,
+        query: { castHash, inviteFid },
+      }}
     >
-      Start curating
+      FAQ
     </Button>,
     <Button
       action="link"
@@ -80,12 +81,30 @@ const handleRequest = frames(async (ctx) => {
       </Button>
     );
   }
+  buttons.unshift(
+    <Button
+      action="tx"
+      target={{
+        pathname: "/tx-data/approve",
+        query: { inviteFid, castHash },
+      }}
+      post_url={{
+        pathname: `/frames/approve/success`,
+        query: {
+          inviteFid,
+          castHash,
+        },
+      }}
+    >
+      Mint more
+    </Button>
+  );
 
   return {
     image: (
-      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full px-[32px] py-[0px]">
+      <div tw="bg-[#1a1a1a] flex flex-col  items-center w-full h-full px-[32px] py-[0px]">
         <div
-          tw="text-white mt-[16px] flex justify-center items-center w-full text-[#00D1A7]"
+          tw="text-white mt-[16px] flex justify-center items-center w-full text-[#fff]"
           style={{
             fontSize: "32px",
             fontWeight: 700,
@@ -94,27 +113,17 @@ const handleRequest = frames(async (ctx) => {
         >
           <div tw="flex">Transaction Completed!</div>
         </div>
-        <img
-          tw="w-[540px] h-[540px] mt-[16px]"
-          src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
-          alt=""
-        />
-        <div
-          tw="flex justify-between items-center mt-[16px] text-white w-full"
-          style={{
-            fontSize: "16px",
-            fontWeight: 700,
-            lineHeight: "24px",
-          }}
-        >
-          <div tw="flex">Launch Progress:</div>
-          <div tw="flex">{launchProgress}</div>
+        <div tw="flex relative w-[720px] h-[720px] mt-[16px]">
+          <img
+            src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
+            alt=""
+          />
+          <DegencastTag />
         </div>
-        <ProposalHr />
-        <MintDescription />
       </div>
     ),
     imageOptions: imageOptions,
+    textInput: `Enter quantity, default is 1`,
     buttons: buttons,
   };
 });
