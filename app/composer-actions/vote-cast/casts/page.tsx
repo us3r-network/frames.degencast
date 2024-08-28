@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import useLoadCastFeeds from "../hooks/useLoadCastFeeds";
 import ChannelCastCard from "../components/ChannelCastCard";
@@ -9,7 +9,7 @@ import ComposerDescription from "../components/ComposerDescription";
 import { Separator } from "@/components/ui/separator";
 import { useSearchParams } from "next/navigation";
 
-export default function VoteCasts() {
+function VoteCasts() {
   const searchParams = useSearchParams();
   const fid = searchParams.get("fid") || "";
   const { loadItems, loading, items, hasNextPage } = useLoadCastFeeds({ fid });
@@ -50,5 +50,13 @@ export default function VoteCasts() {
         </div>
       </InfiniteScroll>
     </div>
+  );
+}
+
+export default function VoteCastPage() {
+  return (
+    <Suspense>
+      <VoteCasts />
+    </Suspense>
   );
 }
