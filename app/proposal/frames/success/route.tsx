@@ -12,6 +12,7 @@ import ProposalDescription from "../../../components/ProposalDescription";
 import ProposalHr from "../../../components/ProposalHr";
 import { getProposal } from "@/lib/proposal/helper";
 import { getProposalState } from "@/lib/proposal/proposalState";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -20,6 +21,8 @@ const handleRequest = frames(async (ctx) => {
   const launchProgress = ctx.searchParams?.launchProgress || "0%";
   const transactionId = ctx.message?.transactionId || "";
 
+  const cast = await getCastWithHash(castHash);
+  const channelId = cast?.channel?.id || "home";
   const proposal = await getProposal(danAddress, castHash);
   console.log({ proposal });
 
@@ -45,9 +48,11 @@ const handleRequest = frames(async (ctx) => {
       action="link"
       target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
         `Use the frame to swap or sign up, we both get $CAST!`
-      )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?inviteFid=${inviteFid}&castHash=${castHash}`}
+      )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?inviteFid=${inviteFid}&castHash=${castHash}&embeds[]=https://warpcast.com/~/conversations/${castHash}${
+        channelId ? `&channelKey=${channelId}` : ""
+      }`}
     >
-      ShareFrame
+      Share Frame
     </Button>,
     <Button
       action="link"
