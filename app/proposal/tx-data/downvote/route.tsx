@@ -6,10 +6,10 @@ import { frames } from "../../frames/frames";
 import { DanContractABI } from "@/lib/proposal/dan";
 
 export const POST = frames(async (ctx) => {
-  const amount = ctx.message?.inputText || "1";
+  const amount = ctx.message?.inputText || "300";
   const danAddress = ctx.searchParams?.danAddress;
   const castHash = ctx.searchParams?.castHash;
-  const queryAmount = ctx.searchParams?.amount || "1";
+  const queryAmount = ctx.searchParams?.amount || "300";
 
   console.log("downvote", { amount, danAddress, castHash, queryAmount });
 
