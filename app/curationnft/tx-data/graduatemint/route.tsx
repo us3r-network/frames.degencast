@@ -11,7 +11,7 @@ export const POST = frames(async (ctx) => {
   const castHash = ctx.searchParams?.castHash;
   const communityCuration = ctx.searchParams?.communityCuration;
   const tokenId = ctx.searchParams?.tokenId;
-  const amount = ctx.searchParams?.amount;
+  const amount = ctx.searchParams?.amount || "1";
   const mintPrice = ctx.searchParams?.mintPrice;
 
   console.log({ castHash, communityCuration, tokenId, amount, mintPrice });

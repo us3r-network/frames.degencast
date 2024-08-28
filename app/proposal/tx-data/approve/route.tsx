@@ -6,7 +6,7 @@ import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
 
 export const POST = frames(async (ctx) => {
-  const amount = ctx.message?.inputText || "";
+  const amount = ctx.message?.inputText || "300";
   const danAddress = ctx.searchParams?.danAddress;
 
   console.log("approve degen", amount, danAddress);
