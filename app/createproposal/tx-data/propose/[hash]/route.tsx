@@ -57,11 +57,17 @@ export async function POST(
       return error("Invalid proposal metadata");
     }
     const { arUrl } = data;
+    const contentCreator = String(
+      cast.author.verified_addresses.eth_addresses[0]
+    ) as `0x${string}`;
+
+    console.log("cast.author", cast.author);
+    if (!contentCreator) {
+      return error("Invalid content creator");
+    }
     const config = {
       contentHash: hash,
-      contentCreator: String(
-        cast.author.verified_addresses.eth_addresses[0]
-      ) as `0x${string}`,
+      contentCreator,
       contentURI: arUrl,
     };
 
