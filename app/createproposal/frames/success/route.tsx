@@ -42,7 +42,7 @@ const handleRequest = frames(async (ctx) => {
     buttons: [
       ...(nextCastHash
         ? [
-            <Button action="link" target={`/frames/next-cast/${nextCastHash}`}>
+            <Button action="post" target={`/frames/next-cast/${nextCastHash}`}>
               Next cast
             </Button>,
           ]
