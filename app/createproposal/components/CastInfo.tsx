@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
 import React from "react";
+import { FRAMES_BASE_URL } from "@/lib/env";
 
 export default function CastInfo({
   castHash,
@@ -90,28 +91,24 @@ export default function CastInfo({
           <div>Cast Status</div>
           <div>{statusText}</div>
         </div>
-        {/* <div tw="w-full mt-auto">
-          {createdBy && (
-            <div
-              tw="w-full flex flex-row items-center justify-end"
-              style={{
-                gap: "4px",
-                fontSize: "16px",
-                fontWeight: 700,
-                lineHeight: "24px",
-              }}
-            >
-              <div>Created by</div>
-
-              <img
-                tw="w-[24px] h-[24px] rounded-[30px]"
-                src={createdBy.avatar}
-                alt=""
-              />
-              <div>{createdBy.username}</div>
-            </div>
-          )}
-        </div> */}
+        <div
+          tw="flex items-center justify-end"
+          style={{
+            marginTop: "auto",
+            gap: " 4px",
+            fontSize: "24px",
+            color: "white",
+            fontWeight: 700,
+            lineHeight: "28px",
+          }}
+        >
+          <span> Power By</span>
+          <img
+            src={`${FRAMES_BASE_URL}/images/degencasthat.png`}
+            tw="w-[30px] h-[30px]"
+          />
+          <span> DegenCast</span>
+        </div>
       </div>
     </div>
   );
