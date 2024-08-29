@@ -50,3 +50,8 @@ spec:
               value: "0x6232cb5ba5bf3b7932d56e3938af4b54e2ef5dab"
             - name: UNISWAP_QUOTEV2_ADDRESS
               value: "0xC5290058841028F1614F3A6F0F5816cAd0df5E27"
+            - name: OPENSEA_BASE_URL
+              value: https://testnets.opensea.io/assets/base-sepolia
+            - name: CURATION_ACTION_LINK
+              value: https://warpcast.com/~/add-cast-action?url=https://alpha.frames.degencast.wtf/cast-actions/vote
+
