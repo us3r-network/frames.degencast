@@ -57,7 +57,7 @@ const handleRequest = async (
             },
           }}
         >
-          Next
+          Complete (2/2)
         </Button>,
       ],
     };

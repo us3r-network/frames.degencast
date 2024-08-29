@@ -62,6 +62,12 @@ const handleRequest = async (
           >
             FAQ
           </Button>,
+          <Button
+            action="link"
+            target={`${DEGENCAST_WEB_URL}/casts/${hash.slice(2)}`}
+          >
+            View Cast
+          </Button>,
           <Button action="link" target={DEGENCAST_WEB_URL}>
             Open App
           </Button>,
