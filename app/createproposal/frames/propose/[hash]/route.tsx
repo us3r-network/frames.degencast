@@ -9,6 +9,7 @@ import { NextRequest } from "next/server";
 import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
 import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
 import CastInfo from "@/app/createproposal/components/CastInfo";
+import { DEGENCAST_WEB_URL } from "@/lib/env";
 
 const handleRequest = async (
   req: NextRequest,
@@ -24,20 +25,22 @@ const handleRequest = async (
         image: <ImageWrapper>Curation only works in channels</ImageWrapper>,
         imageOptions: imageOptions,
         buttons: [
-          <Button action="link" target={`https://dev.degencast.wtf`}>
+          <Button action="link" target={DEGENCAST_WEB_URL}>
             Open App
           </Button>,
         ],
       };
     }
     const channelTokenInfo = await getChannelTokenInfo(channelId);
-    const { danAddress } = channelTokenInfo;
+    const { danAddress, channelName, channelLogo } = channelTokenInfo;
     if (!danAddress) {
       return {
         image: (
           <CastInfo
             castHash={hash}
-            title="Channel hasn’t activated Curation Token yet."
+            statusText={"Pending Activation"}
+            channelName={channelName}
+            channelLogo={channelLogo}
           />
         ),
         imageOptions: imageOptions,
@@ -48,9 +51,18 @@ const handleRequest = async (
               pathname: `/frames/launch-token/${hash}`,
             }}
           >
-            Activate Curation Token
+            Activate
           </Button>,
-          <Button action="link" target={`https://dev.degencast.wtf`}>
+          <Button
+            action="post"
+            target={{
+              pathname: `/frames/faq`,
+              query: { hash, backPath: `/frames/propose/${hash}` },
+            }}
+          >
+            FAQ
+          </Button>,
+          <Button action="link" target={DEGENCAST_WEB_URL}>
             Open App
           </Button>,
         ],

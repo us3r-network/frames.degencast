@@ -6,7 +6,7 @@ import {
   getPaymentToken,
   getProposals,
 } from "@/lib/createproposal/proposal-helper";
-import { FRAMES_BASE_URL } from "@/lib/env";
+import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import CastInfo from "../../components/CastInfo";
 import { ChannelTokenInfo } from "./getChannelTokenInfo";
 
@@ -14,7 +14,7 @@ export const getProposeFrameConfig = async (
   hash: string,
   channelTokenInfo: ChannelTokenInfo
 ) => {
-  const { danAddress, channelId } = channelTokenInfo;
+  const { danAddress, channelId, channelName, channelLogo } = channelTokenInfo;
   const proposals = await getProposals({
     contractAddress: danAddress as `0x${string}`,
     castHash: hash,
@@ -22,7 +22,14 @@ export const getProposeFrameConfig = async (
   const isCreated = Number(proposals?.roundIndex) > 0;
   if (isCreated) {
     return {
-      image: <CastInfo castHash={hash} upvoted={true} />,
+      image: (
+        <CastInfo
+          castHash={hash}
+          statusText="👍 Upvoted"
+          channelName={channelName}
+          channelLogo={channelLogo}
+        />
+      ),
       imageOptions,
       buttons: [
         <Button
@@ -33,7 +40,7 @@ export const getProposeFrameConfig = async (
         >
           Share Frame
         </Button>,
-        <Button action="link" target={`https://dev.degencast.wtf`}>
+        <Button action="link" target={DEGENCAST_WEB_URL}>
           Open App
         </Button>,
       ],
@@ -52,7 +59,12 @@ export const getProposeFrameConfig = async (
   const textInput = `The minimum amount: ${CREATE_PROPOSAL_MIN_PRICE}`;
   return {
     image: (
-      <CastInfo castHash={hash} title="Is it worth becoming a Curation NFT?" />
+      <CastInfo
+        castHash={hash}
+        statusText="Voteable"
+        channelName={channelName}
+        channelLogo={channelLogo}
+      />
     ),
     imageOptions,
     textInput,
@@ -77,7 +89,16 @@ export const getProposeFrameConfig = async (
       >
         Upvote
       </Button>,
-      <Button action="link" target={`https://dev.degencast.wtf`}>
+      <Button
+        action="post"
+        target={{
+          pathname: `/frames/faq`,
+          query: { hash, backPath: `/frames/propose/${hash}` },
+        }}
+      >
+        FAQ
+      </Button>,
+      <Button action="link" target={DEGENCAST_WEB_URL}>
         Open App
       </Button>,
     ],

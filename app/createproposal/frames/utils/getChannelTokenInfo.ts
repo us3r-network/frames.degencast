@@ -4,17 +4,19 @@ import { Address } from "viem";
 export type ChannelTokenInfo = {
   channelName: string;
   channelId: string;
+  channelLogo: string;
   channelDescription: string;
   danAddress: Address;
   launchProgress: string;
 };
 export const getChannelTokenInfo = async (channelId: string) => {
   const communityInfo = await getCommunityInfo(channelId);
-  const { attentionTokenInfo, name, description } = communityInfo?.data;
+  const { attentionTokenInfo, name, description, logo } = communityInfo?.data;
   return {
     channelName: name,
     channelId: channelId,
     channelDescription: description,
+    channelLogo: logo,
     danAddress: (attentionTokenInfo?.danContract || "") as Address,
     launchProgress: attentionTokenInfo?.progress || "",
   };
