@@ -6,12 +6,19 @@ import { frames } from "../../frames/frames";
 import { DanContractABI } from "@/lib/proposal/dan";
 
 export const POST = frames(async (ctx) => {
-  const amount = ctx.message?.inputText || "300";
+  const amount = ctx.message?.inputText;
   const danAddress = ctx.searchParams?.danAddress;
   const castHash = ctx.searchParams?.castHash;
-  const queryAmount = ctx.searchParams?.amount || "300";
+  const queryAmount = ctx.searchParams?.amount;
+  const challengePrice = ctx.searchParams?.challengePrice;
 
-  console.log("downvote", { amount, danAddress, castHash, queryAmount });
+  console.log("downvote", {
+    amount,
+    danAddress,
+    castHash,
+    queryAmount,
+    challengePrice,
+  });
 
   if (!castHash) {
     return error("Cast Hash is required");
@@ -19,11 +26,8 @@ export const POST = frames(async (ctx) => {
   if (!danAddress) {
     return error("DanContract address is required");
   }
-  if (!amount) {
-    return error("Amount is required");
-  }
 
-  const amountArg = amount || queryAmount;
+  const amountArg = amount || challengePrice || queryAmount || "300";
 
   const calldata = encodeFunctionData({
     abi: DanContractABI,

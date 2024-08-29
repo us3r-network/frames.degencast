@@ -13,14 +13,16 @@ import ProposalHr from "../../../components/ProposalHr";
 import { getProposal } from "@/lib/proposal/helper";
 import { getProposalState } from "@/lib/proposal/proposalState";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import DegencastTag2 from "@/app/components/DegencastTag2";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
   const danAddress = ctx.searchParams?.danAddress as `0x`;
-  const launchProgress = ctx.searchParams?.launchProgress || "0%";
-  const transactionId = ctx.message?.transactionId || "";
+  const castDataInfo = await getCastWithHash(castHash);
 
+  const castAuthor = castDataInfo?.author;
+  const castChannel = castDataInfo?.channel;
   const cast = await getCastWithHash(castHash);
   const channelId = cast?.channel?.id || "home";
   const proposal = await getProposal(danAddress, castHash);
@@ -52,7 +54,7 @@ const handleRequest = frames(async (ctx) => {
         channelId ? `&channelKey=${channelId}` : ""
       }`}
     >
-      Share Frame
+      Share
     </Button>,
     <Button
       action="link"
@@ -62,38 +64,105 @@ const handleRequest = frames(async (ctx) => {
     </Button>,
   ];
 
-  // if (nextCastHash) {
-  //   buttons.unshift(
-  //     <Button
-  //       action="post"
-  //       target={{
-  //         pathname: `/frames`,
-  //         query: { castHash: nextCastHash, inviteFid },
-  //       }}
-  //     >
-  //       Next cast
-  //     </Button>
-  //   );
-  // }
+  if (nextCastHash) {
+    buttons.unshift(
+      <Button
+        action="post"
+        target={{
+          pathname: `/frames`,
+          query: { castHash: nextCastHash, inviteFid },
+        }}
+      >
+        Next cast
+      </Button>
+    );
+  }
 
   return {
     image: (
-      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
-        <div
-          tw={`text-white mt-[32px] flex justify-center items-center w-full text-[#00D1A7]`}
-          style={{
-            fontSize: "36px",
-            fontWeight: 700,
-            lineHeight: "28px",
-          }}
-        >
-          <div tw="flex">Transaction Completed!</div>
-        </div>
+      <div tw="bg-[#1a1a1a] flex flex-row  items-center w-full h-full px-[77px] py-[90px]">
         <img
-          tw="w-[600px] h-[600px] mt-[16px]"
+          tw="w-[720px] h-[720px] "
           src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
           alt=""
         />
+        <div
+          tw={`flex flex-col justify-between items-center mt-[16px] h-full text-white w-[687px] ml-[40px] relative`}
+        >
+          <div tw="flex flex-col w-full">
+            <span
+              style={{
+                color: "#FFF",
+                fontSize: "96px",
+                fontWeight: 700,
+                lineHeight: "120px",
+              }}
+            >
+              Transaction Completed
+            </span>
+            <div
+              tw="flex flex-col mt-[30px]"
+              style={{
+                color: "#9BA1AD",
+                fontSize: "24px",
+                fontWeight: 500,
+                lineHeight: "36px",
+              }}
+            >
+              <p tw="p-0 m-0">
+                Risk DEGEN to vote and get rewarded for every mint.
+              </p>
+              <p tw="p-0 m-0">Permanently stored on Arweave.</p>
+            </div>
+            <div
+              tw="flex items-center justify-between mt-[30px]"
+              style={{
+                color: "#FFF",
+                fontSize: "40px",
+                fontWeight: 700,
+                lineHeight: "50px",
+              }}
+            >
+              <span>Channel</span>
+              <div tw="flex">
+                <img
+                  src={`${FRAMES_BASE_URL}/images/degenicon.png`}
+                  tw="w-[40px] h-[40px] mr-[8px]"
+                />
+                <span>$DEGEN</span>
+              </div>
+            </div>
+            <div
+              tw="flex items-center justify-between mt-[30px]"
+              style={{
+                color: "#FFF",
+                fontSize: "40px",
+                fontWeight: 700,
+                lineHeight: "50px",
+              }}
+            >
+              <span>Cast Status</span>
+              <span>{currentStance}</span>
+            </div>
+            <div
+              tw="flex items-center justify-between mt-[30px]"
+              style={{
+                color: "#FFF",
+                fontSize: "40px",
+                fontWeight: 700,
+                lineHeight: "50px",
+              }}
+            >
+              <span>Vote Staking</span>
+              <span>300 DEGEN</span>
+            </div>
+          </div>
+          <DegencastTag2
+            username={castAuthor.username}
+            pfp_url={castAuthor.pfp_url}
+            channelId={castChannel?.id}
+          />
+        </div>
       </div>
     ),
     imageOptions: imageOptions,

@@ -28,9 +28,9 @@ const InterBoldFont = fs.readFileSync(
 export const imageOptions: {
   aspectRatio?: "1.91:1" | "1:1";
 } & any = {
-  aspectRatio: "1:1",
-  width: 800,
-  height: 800,
+  aspectRatio: "1.91:1",
+  width: 1600,
+  hight: 900,
   fonts: [
     {
       name: "Inter",

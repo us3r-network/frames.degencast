@@ -4,17 +4,24 @@ import { Button } from "frames.js/next";
 
 import { FRAMES_BASE_URL, DEGENCAST_WEB_URL, DEGENCAST_API } from "@/lib/env";
 import { frames, imageOptions } from "./frames";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import DegencastTag2 from "@/app/components/DegencastTag2";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
+  const castInfo = await getCastWithHash(castHash);
+
+  const castAuthor = castInfo?.author;
+  const castChannel = castInfo?.channel;
   const imageUri = `${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`;
-  // console.log({ inviteFid, castHash, imageUri });
+  console.log({ inviteFid, castHash, imageUri });
   return {
     image: (
-      <div tw="bg-[#4C2896] flex flex-col  items-center w-full h-full p-[32px]">
+      <div tw="bg-[#1a1a1a] flex flex-row items-center w-full h-full px-[77px] py-[90px]">
+        <img tw="w-[720px] h-[720px]" src={imageUri} alt="" />
         <div
-          tw="text-white w-full justify-center items-center flex"
+          tw="text-white w-[687px] h-full justify-center flex relative ml-[40px]"
           style={{
             fontFamily: "Inter",
             fontSize: "36px",
@@ -22,9 +29,32 @@ const handleRequest = frames(async (ctx) => {
             lineHeight: "28px",
           }}
         >
-          Is it worth becoming a Curation NFT?
+          <div
+            tw="flex flex-col w-full"
+            style={{
+              color: "#FFF",
+
+              textAlign: "center",
+              fontSize: "96px",
+              fontWeight: 700,
+              lineHeight: "120px",
+            }}
+          >
+            <span> Make this Mintable in </span>
+            <div tw="flex items-center justify-center">
+              <img
+                src={`${FRAMES_BASE_URL}/images/degenicon.png`}
+                tw="w-[80px] h-[80px]"
+              />
+              <span>$DEGEN?</span>
+            </div>
+          </div>
+          <DegencastTag2
+            username={castAuthor.username}
+            pfp_url={castAuthor.pfp_url}
+            channelId={castChannel?.id}
+          />
         </div>
-        <img tw="w-[676px] h-[676px] mt-[32px]" src={imageUri} alt="" />
       </div>
     ),
     imageOptions: imageOptions,
@@ -34,6 +64,15 @@ const handleRequest = frames(async (ctx) => {
         target={{ pathname: "/frames/vote", query: { inviteFid, castHash } }}
       >
         Vote
+      </Button>,
+      <Button
+        action="post"
+        target={{
+          pathname: "/frames/faq",
+          query: { inviteFid, castHash, from: "/frames" },
+        }}
+      >
+        FAQ
       </Button>,
       <Button
         action="link"
