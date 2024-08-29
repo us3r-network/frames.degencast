@@ -3,8 +3,9 @@
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
 import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
-import TransactionResult from "../../components/TransactionResult";
 import { getExplorerUrlWithTx } from "../utils/getExplorerUrlWithTx";
+import CastInfo from "../../components/CastInfo";
+import { getChannelTokenInfo } from "../utils/getChannelTokenInfo";
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
@@ -13,8 +14,18 @@ const handleRequest = frames(async (ctx) => {
     hash: string;
     channelId?: string;
   };
+  const channelTokenInfo = await getChannelTokenInfo(channelId!);
+  const { channelName, channelLogo } = channelTokenInfo;
   return {
-    image: <TransactionResult castHash={hash} completed={true} />,
+    image: (
+      <CastInfo
+        castHash={hash}
+        title={`Approved Completed!`}
+        statusText={"Voteable"}
+        channelName={channelName}
+        channelLogo={channelLogo}
+      />
+    ),
     imageOptions,
     buttons: [
       <Button
