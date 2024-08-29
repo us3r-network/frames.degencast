@@ -29,3 +29,6 @@ export const CURATION_FACTORY_ADDRESS: `0x${string}` = process.env
   .CURATION_FACTORY_ADDRESS as `0x${string}`;
 export const UNISWAP_QUOTEV2_ADDRESS: `0x${string}` = process.env
   .UNISWAP_QUOTEV2_ADDRESS as `0x${string}`;
+
+export const OPENSEA_BASE_URL = process.env.OPENSEA_BASE_URL;
+export const CURATION_ACTION_LINK = process.env.CURATION_ACTION_LINK;
