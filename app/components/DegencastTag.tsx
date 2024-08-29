@@ -22,7 +22,7 @@ export default function DegencastTag() {
         src={`${FRAMES_BASE_URL}/images/degencasthat.png`}
         tw="w-[24px] h-[24px]"
       />
-      <span> DegenCast</span>
+      <span> Degencast.wtf</span>
     </div>
   );
 }
