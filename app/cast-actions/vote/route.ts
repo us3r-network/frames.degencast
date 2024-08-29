@@ -51,22 +51,6 @@ export async function POST(request: Request) {
   }
   const castHash = action.cast.hash;
 
-  const authorAddr = String(
-    action.cast?.author?.verified_addresses?.eth_addresses?.[0]
-  ) as `0x${string}`;
-  if (!authorAddr) {
-    return new Response(
-      JSON.stringify({
-        message: "Cast author address not found",
-      }),
-      {
-        status: 401,
-        headers: {
-          "content-type": "application/json",
-        },
-      }
-    );
-  }
   // const cast = await getCastWithHash(castHash);
   const channelId = action.cast?.channel?.id || "home";
   if (!channelId) {
