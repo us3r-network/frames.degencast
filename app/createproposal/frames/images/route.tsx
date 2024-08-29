@@ -17,7 +17,7 @@ const imagesRoute = createImagesWorker({
   imageOptions: {
     sizes: {
       "1:1": { width: 800, height: 800 },
-      "1.91:1": { width: 800, height: 418 },
+      "1.91:1": { width: 1600, height: 900 },
     },
     fonts: [
       {

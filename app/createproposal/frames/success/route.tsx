@@ -2,7 +2,7 @@
 
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
-import { FRAMES_BASE_URL } from "@/lib/env";
+import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import TransactionResult from "../../components/TransactionResult";
 import { getExplorerUrlWithTx } from "../utils/getExplorerUrlWithTx";
 
@@ -30,7 +30,7 @@ const handleRequest = frames(async (ctx) => {
       <Button action="link" target={getExplorerUrlWithTx(txId as any)}>
         View Tx
       </Button>,
-      <Button action="link" target={`https://dev.degencast.wtf`}>
+      <Button action="link" target={DEGENCAST_WEB_URL}>
         Open App
       </Button>,
     ],

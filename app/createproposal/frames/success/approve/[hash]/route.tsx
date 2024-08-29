@@ -5,6 +5,7 @@ import { frames, imageOptions } from "../../../frames";
 import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
 import CastInfo from "@/app/createproposal/components/CastInfo";
+import { getChannelTokenInfo } from "../../../utils/getChannelTokenInfo";
 
 const handleRequest = async (
   req: NextRequest,
@@ -28,9 +29,18 @@ const handleRequest = async (
     if (!paymentTokenAddress) {
       return error("paymentTokenAddress no support");
     }
-
+    const channelTokenInfo = await getChannelTokenInfo(channelId!);
+    const { channelName, channelLogo } = channelTokenInfo;
     return {
-      image: <CastInfo castHash={hash} approved={true} />,
+      image: (
+        <CastInfo
+          castHash={hash}
+          title={`Approved Completed!`}
+          statusText={"Voteable"}
+          channelName={channelName}
+          channelLogo={channelLogo}
+        />
+      ),
       imageOptions,
       buttons: [
         <Button
