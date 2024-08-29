@@ -21,30 +21,13 @@ export const getProposeFrameConfig = async (
   });
   const isCreated = Number(proposals?.roundIndex) > 0;
   if (isCreated) {
-    return {
-      image: (
-        <CastInfo
-          castHash={hash}
-          statusText="👍 Upvoted"
-          channelName={channelName}
-          channelLogo={channelLogo}
-        />
-      ),
-      imageOptions,
-      buttons: [
-        <Button
-          action="link"
-          target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
-            `Use frame to vote the proposal`
-          )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames/vote?castHash=${hash}`}
-        >
-          Share Frame
-        </Button>,
-        <Button action="link" target={DEGENCAST_WEB_URL}>
-          Open App
-        </Button>,
-      ],
-    };
+    const data = await fetch(
+      `${FRAMES_BASE_URL}/proposal/frames?castHash=${hash}`
+    );
+    const text = await data.text();
+    return new Response(text, {
+      headers: { "content-type": "text/html" },
+    });
   }
 
   let paymentTokenAddress;
@@ -87,7 +70,7 @@ export const getProposeFrameConfig = async (
           },
         }}
       >
-        Upvote
+        Upvote (1/2)
       </Button>,
       <Button
         action="post"
@@ -97,6 +80,12 @@ export const getProposeFrameConfig = async (
         }}
       >
         FAQ
+      </Button>,
+      <Button
+        action="link"
+        target={`${DEGENCAST_WEB_URL}/casts/${hash.slice(2)}`}
+      >
+        View Cast
       </Button>,
       <Button action="link" target={DEGENCAST_WEB_URL}>
         Open App
