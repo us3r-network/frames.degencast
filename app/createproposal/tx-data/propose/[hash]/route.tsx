@@ -58,7 +58,8 @@ export async function POST(
     }
     const { arUrl } = data;
     const contentCreator = String(
-      cast.author.verified_addresses.eth_addresses[0]
+      cast.author.verified_addresses.eth_addresses[0] ||
+        cast.author.custody_address
     ) as `0x${string}`;
 
     console.log("cast.author", cast.author);
