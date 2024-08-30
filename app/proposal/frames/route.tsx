@@ -52,8 +52,8 @@ const handleRequest = frames(async (ctx) => {
             </div>
           </div>
           <DegencastTag2
-            username={castAuthor.username}
-            pfp_url={castAuthor.pfp_url}
+            username={castAuthor?.username}
+            pfp_url={castAuthor?.pfp_url}
             channelId={castChannel?.id}
           />
         </div>
