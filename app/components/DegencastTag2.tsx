@@ -23,7 +23,9 @@ export default function DegencastTag2({
     >
       <div tw="flex justify-end items-center">
         <span>Created by</span>
-        <img src={pfp_url} tw="w-[24px] h-[24px] rounded-full mx-[4px]" />
+        {pfp_url && (
+          <img src={pfp_url} tw="w-[24px] h-[24px] rounded-full mx-[4px]" />
+        )}
         <span>{username}</span>
         <span>{`/${channelId || "home"}`}</span>
       </div>

@@ -4,11 +4,6 @@ import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
-import ProposalImageAndInfo from "../../../components/ProposalImageAndInfo";
-import ProposalDescription from "../../../components/ProposalDescription";
-import ProposalHr from "../../../components/ProposalHr";
-import ProposalChallenge from "../../../components/ProposalChallenge";
-import ProposalButton from "../../../components/ProposalButton";
 import {
   getDisputePrice,
   getProposal,
@@ -181,7 +176,7 @@ const handleRequest = frames(async (ctx) => {
         action="link"
         target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
       >
-        Open App
+        App
       </Button>,
     ],
   };

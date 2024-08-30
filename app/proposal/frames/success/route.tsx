@@ -60,7 +60,7 @@ const handleRequest = frames(async (ctx) => {
       action="link"
       target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
     >
-      Open App
+      App
     </Button>,
   ];
 

@@ -2,14 +2,7 @@
 import React from "react";
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
-import {
-  CURATION_ACTION_LINK,
-  DEGENCAST_API,
-  DEGENCAST_WEB_URL,
-  FRAMES_BASE_URL,
-  OPENSEA_BASE_URL,
-} from "@/lib/env";
-import { error } from "frames.js/core";
+import { DEGENCAST_WEB_URL } from "@/lib/env";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -162,13 +155,13 @@ const handleRequest = frames(async (ctx) => {
         action="link"
         target={`https://warpcast.com/~/conversations/${castHash}`}
       >
-        View Cast
+        Cast
       </Button>,
       <Button
         action="link"
         target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
       >
-        Open App
+        App
       </Button>,
     ],
   };

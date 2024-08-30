@@ -53,5 +53,5 @@ spec:
             - name: OPENSEA_BASE_URL
               value: https://testnets.opensea.io/assets/base-sepolia
             - name: CURATION_ACTION_LINK
-              value: https://warpcast.com/~/add-cast-action?url=https://alpha.frames.degencast.wtf/cast-actions/vote
+              value: https://warpcast.com/~/add-cast-action?url=https://frames.degencast.wtf/cast-actions/vote
 

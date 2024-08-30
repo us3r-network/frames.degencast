@@ -15,7 +15,7 @@ const handleRequest = frames(async (ctx) => {
   const castAuthor = castInfo?.author;
   const castChannel = castInfo?.channel;
   const imageUri = `${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`;
-  console.log({ inviteFid, castHash, imageUri });
+  console.log({ inviteFid, castHash, imageUri, castChannel });
   return {
     image: (
       <div tw="bg-[#1a1a1a] flex flex-row items-center w-full h-full px-[77px] py-[90px]">
@@ -42,11 +42,13 @@ const handleRequest = frames(async (ctx) => {
           >
             <span> Make this Mintable in </span>
             <div tw="flex items-center justify-center">
-              <img
-                src={`${FRAMES_BASE_URL}/images/degenicon.png`}
-                tw="w-[80px] h-[80px]"
-              />
-              <span>$DEGEN?</span>
+              {castChannel?.image_url && (
+                <img
+                  src={`${castChannel?.image_url}`}
+                  tw="w-[80px] h-[80px] mr-[4px]"
+                />
+              )}
+              <span>{`${castChannel?.name || ""}?`}</span>
             </div>
           </div>
           <DegencastTag2
@@ -80,13 +82,13 @@ const handleRequest = frames(async (ctx) => {
           2
         )}?inviteFid=${inviteFid}`}
       >
-        View Cast
+        Cast
       </Button>,
       <Button
         action="link"
         target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
       >
-        Open App
+        App
       </Button>,
     ],
   };
