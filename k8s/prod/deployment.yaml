@@ -17,6 +17,11 @@ spec:
         - name: degencast-frames
           image: 272372497786.dkr.ecr.us-east-1.amazonaws.com/degencast-frames:latest
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "4Gi"  # 请求的内存
+            limits:
+              memory: "8Gi"  # 限制的内存
           ports:
             - containerPort: 3000
           env:
