@@ -7,9 +7,6 @@ import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
 import { DEGENCAST_WEB_URL, FRAMES_BASE_URL, DEGENCAST_API } from "@/lib/env";
 
-import ProposalImageAndMint from "../../../../components/ProposalImageAndMint";
-import ProposalDescription from "../../../../components/ProposalDescription";
-import ProposalHr from "../../../../components/ProposalHr";
 import {
   checkCurationHasGraduate,
   getCurationBalance,
@@ -17,9 +14,6 @@ import {
   getMintPriceFromUniswap,
 } from "@/lib/proposal/helper";
 import { formatEther } from "viem";
-import { getCastWithHash } from "@/lib/createproposal/neynar-api";
-import { getChannelTokenInfo } from "@/app/createproposal/frames/utils/getChannelTokenInfo";
-import MintDescription from "@/app/components/MintDescription";
 import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 import DegencastTag from "@/app/components/DegencastTag";
 
@@ -33,6 +27,8 @@ const handleRequest = frames(async (ctx) => {
   let tokenId;
   let castInfo;
   let communityCuration;
+  let nftTokenUnit;
+  let launchProgress;
 
   try {
     const castInfoResp = await fetch(
@@ -44,7 +40,8 @@ const handleRequest = frames(async (ctx) => {
   }
   communityCuration = castInfo?.data.tokenAddr;
   tokenId = castInfo?.data.tokenId;
-  const launchProgress = castInfo?.data.launchProgress;
+  nftTokenUnit = castInfo?.data?.nftTokenUnit;
+  launchProgress = castInfo?.data.launchProgress;
   if (!communityCuration) {
     throw error("address is required");
   }
@@ -97,7 +94,10 @@ const handleRequest = frames(async (ctx) => {
             src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
             alt=""
           />
-          <DegencastTag />
+          <DegencastTag
+            tokenUint={nftTokenUnit || "100000"}
+            progress={launchProgress}
+          />
         </div>
       </div>
     ),
@@ -132,13 +132,13 @@ const handleRequest = frames(async (ctx) => {
           2
         )}?inviteFid=${inviteFid}`}
       >
-        View Cast
+        Cast
       </Button>,
       <Button
         action="link"
         target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
       >
-        Open App
+        App
       </Button>,
     ],
   };

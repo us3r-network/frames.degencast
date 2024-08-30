@@ -7,9 +7,9 @@ import {
   DEGENCAST_API,
   DEGENCAST_WEB_URL,
   FRAMES_BASE_URL,
-  OPENSEA_BASE_URL,
 } from "@/lib/env";
 import { error } from "frames.js/core";
+import { shortPubKey } from "@/lib/utils";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -18,7 +18,7 @@ const handleRequest = frames(async (ctx) => {
   let tokenId;
   let castInfo;
   let communityCuration;
-
+  let curators;
   try {
     const castInfoResp = await fetch(
       `${DEGENCAST_API}/topics/casts/${castHash}/mint`
@@ -27,8 +27,9 @@ const handleRequest = frames(async (ctx) => {
   } catch (err) {
     throw error("Error fetching castInfo");
   }
-  communityCuration = castInfo?.data.tokenAddr;
-  tokenId = castInfo?.data.tokenId;
+  communityCuration = castInfo?.data?.tokenAddr;
+  tokenId = castInfo?.data?.tokenId;
+  curators = castInfo?.data?.curators || [];
 
   return {
     image: (
@@ -36,7 +37,7 @@ const handleRequest = frames(async (ctx) => {
         <div
           tw="text-white flex justify-center items-center w-full text-[#fff]"
           style={{
-            fontSize: "32px",
+            fontSize: "40px",
             fontWeight: 700,
             lineHeight: "40px",
           }}
@@ -54,61 +55,17 @@ const handleRequest = frames(async (ctx) => {
           Curate
         </div>
         {[
-          "Upvote: Turn a cast into a Curation NFT.",
-          "Downvote: Reject the curation decision.",
-          "Vote cost: Minimum cost = Curation NFT price.",
-          "Weight: Vote weight = √spent.",
+          "Upvote/Downvote: Create or reject a Curation NFT.",
+          "Vote Cost & Weight: Costs the NFT price; weight depends on spending.",
+          "Challenge: Extend countdown; need double the weight to win.",
+          "Curators: Top 10 early upvoters earn more.",
         ].map((item, i) => {
           return (
             <div
               key={item}
               tw="text-white mt-[16px] flex justify-start items-center w-full"
               style={{
-                fontSize: "16px",
-                fontWeight: 500,
-                lineHeight: "24px",
-              }}
-            >
-              <span tw="w-1 h-1 bg-white rounded-full mx-2" />
-              {item}
-            </div>
-          );
-        })}
-        <div
-          tw="text-white mt-[16px] flex justify-start items-center w-full"
-          style={{
-            fontSize: "16px",
-            fontWeight: 500,
-            lineHeight: "24px",
-          }}
-        >
-          <span tw="w-1 h-1 bg-white rounded-full mx-2" />
-          Challenge: Disagree with current stance.
-        </div>
-        <div
-          tw="text-white flex justify-start items-center w-full"
-          style={{
-            fontSize: "16px",
-            fontWeight: 500,
-            lineHeight: "24px",
-          }}
-        >
-          <span tw="w-1 h-1 rounded-full mx-2" />
-          Challenge extends countdown by 1 hour. One challenge per account per
-          phase.
-        </div>
-        {[
-          "Win: Stance must have 2x the weight to win.",
-          "Result: Final stance after countdown.",
-          "Funds: Winner gets principal back, loser’s funds go to the winner based on weight.",
-          "Curators: After curation is approved, top 10 upvoters = curators. The earlier the more revenue.",
-        ].map((item, i) => {
-          return (
-            <div
-              key={item}
-              tw="text-white mt-[16px] flex justify-start items-center w-full"
-              style={{
-                fontSize: "16px",
+                fontSize: "20px",
                 fontWeight: 500,
                 lineHeight: "24px",
               }}
@@ -129,17 +86,17 @@ const handleRequest = frames(async (ctx) => {
           Curation NFT
         </div>
         {[
-          "Curation NFT = 1000 Curation Token.",
-          "NFT transaction fee: Degencast 1%, Channel host 2%, Creator 3%, ,Curators 4%.",
-          "When bounding curve reaches a market cap of 4,206,900 DEGEN, all the liquidity will be deposited into Uniswap v3.",
-          "After token launch, Curation NFT = 1000 Curation Token.",
+          "Token Value: Each NFT equals 1000 Curation Tokens.",
+          "Fees Distribution: 1% to Degencast, 2% to host, 3% to creators, 4% to curators.",
+          "Bonding Curve: Shared curve; liquidity moves to Uniswap at 42069 DEGEN cap.",
+          "After Launch: NFT still equals 1000 Tokens.",
         ].map((item, i) => {
           return (
             <div
               key={item}
               tw="text-white mt-[16px] flex justify-start  w-full"
               style={{
-                fontSize: "16px",
+                fontSize: "20px",
                 fontWeight: 500,
                 lineHeight: "24px",
               }}
@@ -149,6 +106,92 @@ const handleRequest = frames(async (ctx) => {
             </div>
           );
         })}
+        <div tw="flex border-b border-white mt-[16px] h-[1px] w-full"></div>
+        <div
+          tw="flex  mt-[16px] "
+          style={{
+            fontSize: "24px",
+            fontWeight: 700,
+            lineHeight: "28px",
+          }}
+        >
+          NFT Details
+        </div>
+        <div
+          tw="flex justify-between mt-[16px]"
+          style={{
+            fontSize: "20px",
+            fontWeight: 500,
+            lineHeight: "24px",
+          }}
+        >
+          <span>Contract Address</span>
+          <span>{shortPubKey(communityCuration)}</span>
+        </div>
+        <div
+          tw="flex justify-between mt-[16px]"
+          style={{
+            fontSize: "20px",
+            fontWeight: 500,
+            lineHeight: "24px",
+          }}
+        >
+          <span>Token ID</span>
+          <span>{tokenId}</span>
+        </div>
+
+        <div
+          tw="flex justify-between mt-[16px]"
+          style={{
+            fontSize: "20px",
+            fontWeight: 500,
+            lineHeight: "24px",
+          }}
+        >
+          <span>Token Standard</span>
+          <span>ERC1155 | ERC20</span>
+        </div>
+        <div
+          tw="flex justify-between mt-[16px]"
+          style={{
+            fontSize: "20px",
+            fontWeight: 500,
+            lineHeight: "24px",
+          }}
+        >
+          <span>Chain</span>
+
+          <div tw="flex items-center">
+            <img
+              src={`${FRAMES_BASE_URL}/images/baseicon.png`}
+              alt=""
+              tw="w-[16px] h-[16px] mr-[4px]"
+            />
+            <span> Base</span>
+          </div>
+        </div>
+        {curators.length > 0 && (
+          <div
+            tw="flex justify-between items-center mt-[16px]"
+            style={{
+              fontSize: "20px",
+              fontWeight: 500,
+              lineHeight: "24px",
+            }}
+          >
+            <span>First Curator</span>
+            <div tw="flex items-center">
+              {curators[0]?.pfp_url && (
+                <img
+                  src={`${curators[0]?.pfp_url}`}
+                  alt=""
+                  tw="w-[24px] h-[24px] mr-[4px] rounded-full"
+                />
+              )}
+              <span>{curators[0]?.username || ""}</span>
+            </div>
+          </div>
+        )}
       </div>
     ),
     imageOptions: imageOptions,
@@ -157,7 +200,7 @@ const handleRequest = frames(async (ctx) => {
       <Button
         action="post"
         target={{
-          pathname: "/frames/detail",
+          pathname: "/frames",
           query: { inviteFid, castHash },
         }}
       >
@@ -186,7 +229,7 @@ const handleRequest = frames(async (ctx) => {
         action="link"
         target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
       >
-        Open App
+        App
       </Button>,
     ],
   };

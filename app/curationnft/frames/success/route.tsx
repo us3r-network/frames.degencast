@@ -7,9 +7,6 @@ import { NextRequest } from "next/server";
 import { error } from "frames.js/core";
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
-import ProposalHr from "../../../components/ProposalHr";
-import MintDescription from "@/app/components/MintDescription";
-import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 import DegencastTag from "@/app/components/DegencastTag";
 
 const handleRequest = frames(async (ctx) => {
@@ -23,6 +20,8 @@ const handleRequest = frames(async (ctx) => {
   let tokenId;
   let castInfo;
   let communityCuration;
+  let nftTokenUnit;
+  let launchProgress;
   try {
     const castInfoResp = await fetch(
       `${DEGENCAST_API}/topics/casts/${castHash}/mint`
@@ -37,7 +36,7 @@ const handleRequest = frames(async (ctx) => {
   if (!communityCuration) {
     throw error("address is required");
   }
-  const launchProgress = castInfo?.data.launchProgress;
+  launchProgress = castInfo?.data.launchProgress;
 
   try {
     const castInfoResp = await fetch(
@@ -64,7 +63,7 @@ const handleRequest = frames(async (ctx) => {
       action="link"
       target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
     >
-      Open App
+      App
     </Button>,
   ];
 
@@ -118,7 +117,10 @@ const handleRequest = frames(async (ctx) => {
             src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
             alt=""
           />
-          <DegencastTag />
+          <DegencastTag
+            tokenUint={nftTokenUnit || "100000"}
+            progress={launchProgress}
+          />
         </div>
       </div>
     ),

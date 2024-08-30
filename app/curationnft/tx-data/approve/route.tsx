@@ -32,7 +32,7 @@ export const POST = frames(async (ctx) => {
   const deadline = castInfo?.data.deadline;
   communityCuration = castInfo?.data.tokenAddr;
   if (deadline && Number(deadline) < Date.now() / 1000) {
-    throw error("Has Expired");
+    throw error("Minting period has ended!");
   }
   if (!communityCuration) {
     throw error("CommunityCuration is required");
