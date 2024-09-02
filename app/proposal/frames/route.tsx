@@ -48,7 +48,7 @@ const handleRequest = frames(async (ctx) => {
                   tw="w-[80px] h-[80px] mr-[4px]"
                 />
               )}
-              <span>{`${castChannel?.name || ""}?`}</span>
+              <span>{`${castChannel?.name || "Home"}?`}</span>
             </div>
           </div>
           <DegencastTag2
