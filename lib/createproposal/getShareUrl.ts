@@ -8,6 +8,6 @@ export const getShareUrl = (
   return `https://warpcast.com/~/compose?text=${encodeURIComponent(
     `Propose to permanently archive on Arweave for @${authorFname} in /${channelId}`
   )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?castHash=${castHash}&embeds[]=https://warpcast.com/~/conversations/${castHash}${
-    channelId ? `&channelKey=${channelId}` : ""
+    channelId && channelId !== "home" ? `&channelKey=${channelId}` : ""
   }`;
 };
