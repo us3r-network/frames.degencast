@@ -14,6 +14,7 @@ import { getProposal } from "@/lib/proposal/helper";
 import { getProposalState } from "@/lib/proposal/proposalState";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
+import { getShareUrl } from "@/lib/createproposal/getShareUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -48,11 +49,7 @@ const handleRequest = frames(async (ctx) => {
     // </Button>,
     <Button
       action="link"
-      target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
-        `Use the frame to swap or sign up, we both get $CAST!`
-      )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?inviteFid=${inviteFid}&castHash=${castHash}&embeds[]=https://warpcast.com/~/conversations/${castHash}${
-        channelId ? `&channelKey=${channelId}` : ""
-      }`}
+      target={getShareUrl(castHash, channelId, cast?.author?.username || "")}
     >
       Share
     </Button>,
