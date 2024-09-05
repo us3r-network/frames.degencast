@@ -3,14 +3,24 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname.startsWith("/proposal/frames")) {
-    if (isBrowser(req)) {
+  if (isBrowser(req)) {
+    if (
+      pathname.startsWith("/proposal/frames") ||
+      pathname.startsWith("/curationnft/frames")
+    ) {
       const castHash = req.nextUrl.searchParams.get("castHash") || "";
       return NextResponse.redirect(
-        new URL(`${DEGENCAST_WEB_URL}/casts/${castHash.slice(2)}`)
+        new URL(`${DEGENCAST_WEB_URL}/casts/${castHash}`)
+      );
+    }
+    if (pathname.startsWith("/createproposal/frames")) {
+      const castHash = req.nextUrl.pathname.split("/").pop();
+      return NextResponse.redirect(
+        new URL(`${DEGENCAST_WEB_URL}/casts/${castHash}`)
       );
     }
   }
+
   return NextResponse.next();
 }
 
