@@ -5,6 +5,7 @@ import { frames, imageOptions } from "./frames";
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import DegencastTag from "@/app/components/DegencastTag";
 import { error } from "frames.js/core";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -27,12 +28,10 @@ const handleRequest = frames(async (ctx) => {
   launchProgress = castInfo?.data?.launchProgress || "0%";
   nftTokenUnit = castInfo?.data?.nftTokenUnit;
 
+  const castData = await getCastWithHash(castHash);
+
   console.log("castInfo", castInfo);
-  console.log(
-    "img",
-    `${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`,
-    `${FRAMES_BASE_URL}/images/degecasthat.png`
-  );
+  console.log(castData);
 
   return {
     image: (
@@ -45,6 +44,7 @@ const handleRequest = frames(async (ctx) => {
         <DegencastTag
           tokenUint={nftTokenUnit || "100000"}
           progress={launchProgress}
+          channelIcon={castData.channel?.image_url}
         />
       </div>
     ),

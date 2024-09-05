@@ -18,10 +18,10 @@ export const frames = createFrames({
   basePath: "/createproposal",
   baseUrl: process.env.FRAMES_BASE_URL,
   middleware: [
-    // imagesWorkerMiddleware({
-    //   imagesRoute: "/frames/images",
-    //   secret: "degencast",
-    // }),
+    imagesWorkerMiddleware({
+      imagesRoute: "/frames/images",
+      secret: "degencast",
+    }),
   ],
 });
 

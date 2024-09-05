@@ -3,9 +3,11 @@ import { FRAMES_BASE_URL } from "@/lib/env";
 export default function DegencastTag({
   tokenUint,
   progress,
+  channelIcon,
 }: {
   tokenUint: string;
   progress: string;
+  channelIcon?: string;
 }) {
   return (
     <div
@@ -19,9 +21,9 @@ export default function DegencastTag({
         right: "0",
       }}
     >
-      <div tw="flex items-center justify-end gap-[10px] px-[28px]">
+      <div tw="flex items-center justify-end px-[28px]">
         <div
-          tw="flex item-center"
+          tw="flex items-center"
           style={{
             backgroundColor: "#F2B949",
             borderRadius: "30px",
@@ -30,10 +32,17 @@ export default function DegencastTag({
           }}
         >
           <span>including {tokenUint}</span>
-          <img
-            src={`${FRAMES_BASE_URL}/images/degenicon.png`}
-            tw="w-[24px] h-[24px] mx-[4px]"
-          />
+          {(channelIcon && (
+            <img
+              src={channelIcon}
+              tw="w-[24px] h-[24px] mx-[4px] rounded-full"
+            />
+          )) || (
+            <img
+              tw="w-[24px] h-[24px] mx-[4px] rounded-full"
+              src={`${FRAMES_BASE_URL}/images/home.png`}
+            />
+          )}
           <span>Curation Token</span>
         </div>
         <div

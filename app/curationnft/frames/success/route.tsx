@@ -8,6 +8,7 @@ import { error } from "frames.js/core";
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 
 import DegencastTag from "@/app/components/DegencastTag";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -30,6 +31,7 @@ const handleRequest = frames(async (ctx) => {
   } catch (err) {
     throw error("Error fetching castInfo");
   }
+  const castData = await getCastWithHash(castHash);
 
   communityCuration = castInfo?.data?.tokenAddr;
   tokenId = castInfo?.data?.tokenId;
@@ -120,6 +122,7 @@ const handleRequest = frames(async (ctx) => {
           <DegencastTag
             tokenUint={nftTokenUnit || "100000"}
             progress={launchProgress}
+            channelIcon={castData.channel?.image_url}
           />
         </div>
       </div>
