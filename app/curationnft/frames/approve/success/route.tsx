@@ -16,6 +16,7 @@ import {
 import { formatEther } from "viem";
 import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 import DegencastTag from "@/app/components/DegencastTag";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -45,6 +46,7 @@ const handleRequest = frames(async (ctx) => {
   if (!communityCuration) {
     throw error("address is required");
   }
+  const castData = await getCastWithHash(castHash);
 
   console.log({
     inviteFid,
@@ -97,6 +99,7 @@ const handleRequest = frames(async (ctx) => {
           <DegencastTag
             tokenUint={nftTokenUnit || "100000"}
             progress={launchProgress}
+            channelIcon={castData.channel?.image_url}
           />
         </div>
       </div>
