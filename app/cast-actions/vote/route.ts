@@ -50,6 +50,19 @@ export async function POST(request: Request) {
       }
     );
   }
+  if (!action?.cast) {
+    return new Response(
+      JSON.stringify({
+        message: "Cast not found",
+      }),
+      {
+        status: 401,
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+  }
   const castHash = action.cast.hash;
 
   // const cast = await getCastWithHash(castHash);
