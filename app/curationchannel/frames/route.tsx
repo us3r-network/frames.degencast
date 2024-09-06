@@ -142,7 +142,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={`${DEGENCAST_WEB_URL}/communities/${channelId}?inviteFid=${inviteFid}`}
       >
         Open App
       </Button>,

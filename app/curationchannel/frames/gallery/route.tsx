@@ -83,13 +83,14 @@ const handleRequest = frames(async (ctx) => {
         action="tx"
         target={{
           pathname: "/tx-data/approve",
-          query: { inviteFid, castHash },
+          query: { inviteFid, castHash, channelId },
         }}
         post_url={{
           pathname: `/frames/approve/success`,
           query: {
             inviteFid,
             castHash,
+            channelId,
           },
         }}
       >
