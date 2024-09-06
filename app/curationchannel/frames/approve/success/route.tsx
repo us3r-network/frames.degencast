@@ -24,6 +24,7 @@ const handleRequest = frames(async (ctx) => {
   const amount = ctx.message?.inputText || "1";
   const transactionId = ctx.message?.transactionId || "";
   const connectWallet = ctx.message?.connectedAddress || "";
+  const channelId = ctx.searchParams?.channelId || "home";
 
   let tokenId;
   let castInfo;
@@ -121,7 +122,7 @@ const handleRequest = frames(async (ctx) => {
         }}
         post_url={{
           pathname: `/frames/success`,
-          query: { communityCuration, castHash, tokenId },
+          query: { communityCuration, castHash, tokenId, channelId },
         }}
       >
         Mint
@@ -139,7 +140,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={`${DEGENCAST_WEB_URL}/communities/${channelId}?inviteFid=${inviteFid}`}
       >
         App
       </Button>,
