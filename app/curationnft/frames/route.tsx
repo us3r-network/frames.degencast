@@ -7,6 +7,7 @@ import DegencastTag from "@/app/components/DegencastTag";
 import { error } from "frames.js/core";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -30,7 +31,7 @@ const handleRequest = frames(async (ctx) => {
   nftTokenUnit = castInfo?.data?.nftTokenUnit;
 
   const castData = await getCastWithHash(castHash);
-  const channelId = castData?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(castData);
 
   console.log("castInfo", castInfo);
   console.log(castData);

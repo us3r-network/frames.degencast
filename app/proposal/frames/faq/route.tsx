@@ -5,6 +5,7 @@ import { frames, imageOptions } from "../frames";
 import { DEGENCAST_WEB_URL } from "@/lib/env";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -12,7 +13,7 @@ const handleRequest = frames(async (ctx) => {
   const from = ctx.searchParams?.from || "";
   const danAddress = ctx.searchParams?.danAddress || "";
   const cast = await getCastWithHash(castHash);
-  const channelId = cast?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(cast);
 
   return {
     image: (

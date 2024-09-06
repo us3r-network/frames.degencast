@@ -12,6 +12,7 @@ import { error } from "frames.js/core";
 import { shortPubKey } from "@/lib/utils";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -34,7 +35,7 @@ const handleRequest = frames(async (ctx) => {
   curators = castInfo?.data?.curators || [];
 
   const cast = await getCastWithHash(castHash);
-  const channelId = cast?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(cast);
 
   return {
     image: (
