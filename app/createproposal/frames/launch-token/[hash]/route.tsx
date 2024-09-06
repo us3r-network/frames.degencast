@@ -15,6 +15,7 @@ import {
   getCastRedirectUrl,
   getChannelRedirectUrl,
 } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleGetRequest = async (
   req: NextRequest,
@@ -22,7 +23,7 @@ const handleGetRequest = async (
 ) => {
   const hash = params.hash;
   const cast = await getCastWithHash(hash);
-  const channelId = cast?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(cast);
   return await frames(async (ctx) => {
     const channelTokenInfo = await getChannelTokenInfo(channelId);
     const { danAddress, channelName, channelLogo } = channelTokenInfo;
@@ -74,7 +75,7 @@ const handlePostRequest = async (
 ) => {
   const hash = params.hash;
   const cast = await getCastWithHash(hash);
-  const channelId = cast?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(cast);
   return await frames(async (ctx) => {
     const { message } = ctx;
     const requesterFid = String(message?.requesterFid! || "");
