@@ -32,3 +32,5 @@ export const UNISWAP_QUOTEV2_ADDRESS: `0x${string}` = process.env
 
 export const OPENSEA_BASE_URL = process.env.OPENSEA_BASE_URL;
 export const CURATION_ACTION_LINK = process.env.CURATION_ACTION_LINK;
+
+export const NFT_TOKEN_UNIT = 100000;

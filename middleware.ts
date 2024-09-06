@@ -19,6 +19,12 @@ export function middleware(req: NextRequest) {
         new URL(`${DEGENCAST_WEB_URL}/casts/${castHash}`)
       );
     }
+    if (pathname.startsWith("/curationchannel/frames")) {
+      const channel = req.nextUrl.searchParams.get("channelId") || "home";
+      return NextResponse.redirect(
+        new URL(`${DEGENCAST_WEB_URL}/communities/${channel}`)
+      );
+    }
   }
 
   return NextResponse.next();
