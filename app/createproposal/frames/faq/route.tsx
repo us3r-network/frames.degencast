@@ -3,12 +3,17 @@
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
 import { DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
+import {
+  getCastRedirectUrl,
+  getChannelRedirectUrl,
+} from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
-  const { hash, backPath } = ctx.searchParams as {
+  const { hash, backPath, channelId } = ctx.searchParams as {
     backPath: string;
     hash: string;
+    channelId: string;
   };
   return {
     image: <img src={`${FRAMES_BASE_URL}/images/atttoken/faq.png`} alt="" />,
@@ -22,13 +27,10 @@ const handleRequest = frames(async (ctx) => {
       >
         Back
       </Button>,
-      <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}/casts/${hash.slice(2)}`}
-      >
+      <Button action="link" target={getCastRedirectUrl(hash)}>
         View Cast
       </Button>,
-      <Button action="link" target={DEGENCAST_WEB_URL}>
+      <Button action="link" target={getChannelRedirectUrl(channelId)}>
         Open App
       </Button>,
     ],

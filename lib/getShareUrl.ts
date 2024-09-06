@@ -1,4 +1,4 @@
-import { FRAMES_BASE_URL } from "../env";
+import { FRAMES_BASE_URL } from "./env";
 
 export const getShareUrl = (
   castHash: string,
