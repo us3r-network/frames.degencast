@@ -8,6 +8,7 @@ import {
   ProposalState,
 } from "@/lib/createproposal/proposal-helper";
 import { FRAMES_BASE_URL } from "@/lib/env";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 // ADD_URL: "https://warpcast.com/~/add-cast-action?url=https://frame.degencast.wtf/cast-actions/vote";
 
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
   const castHash = action.cast.hash;
 
   // const cast = await getCastWithHash(castHash);
-  const channelId = action.cast?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(action.cast);
   if (!channelId) {
     return new Response(
       JSON.stringify({
