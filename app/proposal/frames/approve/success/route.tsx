@@ -11,6 +11,7 @@ import { ProposalType } from "@/lib/proposal/proposalState";
 import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 import DegencastTag2 from "@/app/components/DegencastTag2";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -144,7 +145,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={getChannelRedirectUrl(castChannel?.id || "home", inviteFid)}
       >
         App
       </Button>,

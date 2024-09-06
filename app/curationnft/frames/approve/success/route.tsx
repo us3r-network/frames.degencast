@@ -17,6 +17,7 @@ import { formatEther } from "viem";
 import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplorerUrlWithTx";
 import DegencastTag from "@/app/components/DegencastTag";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -47,6 +48,7 @@ const handleRequest = frames(async (ctx) => {
     throw error("address is required");
   }
   const castData = await getCastWithHash(castHash);
+  const channelId = castData?.channel?.id || "home";
 
   console.log({
     inviteFid,
@@ -139,7 +141,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={getChannelRedirectUrl(channelId, inviteFid)}
       >
         App
       </Button>,

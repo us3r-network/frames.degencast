@@ -3,12 +3,16 @@ import React from "react";
 import { Button } from "frames.js/next";
 import { frames, imageOptions } from "../frames";
 import { DEGENCAST_WEB_URL } from "@/lib/env";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
   const from = ctx.searchParams?.from || "";
   const danAddress = ctx.searchParams?.danAddress || "";
+  const cast = await getCastWithHash(castHash);
+  const channelId = cast?.channel?.id || "home";
 
   return {
     image: (
@@ -159,7 +163,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={getChannelRedirectUrl(channelId, inviteFid)}
       >
         App
       </Button>,
