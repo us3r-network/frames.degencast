@@ -7,12 +7,13 @@ import { frames, imageOptions } from "./frames";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const castHash = ctx.searchParams?.castHash || "";
   const castInfo = await getCastWithHash(castHash);
-
+  const channelId = getChannelIdWithCast(castInfo);
   const castAuthor = castInfo?.author;
   const castChannel = castInfo?.channel;
   const imageUri = `${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`;
@@ -49,13 +50,13 @@ const handleRequest = frames(async (ctx) => {
                   tw="w-[80px] h-[80px] mr-[4px]"
                 />
               )}
-              <span>{`${castChannel?.name || "Home"}?`}</span>
+              <span>{`${castChannel?.name || channelId}?`}</span>
             </div>
           </div>
           <DegencastTag2
             username={castAuthor?.username}
             pfp_url={castAuthor?.pfp_url}
-            channelId={castChannel?.id}
+            channelId={channelId}
           />
         </div>
       </div>
@@ -87,7 +88,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={getChannelRedirectUrl(castChannel?.id || "home", inviteFid)}
+        target={getChannelRedirectUrl(channelId, inviteFid)}
       >
         App
       </Button>,

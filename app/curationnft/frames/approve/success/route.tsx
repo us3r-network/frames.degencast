@@ -18,6 +18,7 @@ import { getExplorerUrlWithTx } from "@/app/createproposal/frames/utils/getExplo
 import DegencastTag from "@/app/components/DegencastTag";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -48,7 +49,7 @@ const handleRequest = frames(async (ctx) => {
     throw error("address is required");
   }
   const castData = await getCastWithHash(castHash);
-  const channelId = castData?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(castData);
 
   console.log({
     inviteFid,

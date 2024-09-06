@@ -16,6 +16,7 @@ import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
 import { getShareUrl } from "@/lib/getShareUrl";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -26,7 +27,7 @@ const handleRequest = frames(async (ctx) => {
   const castAuthor = castDataInfo?.author;
   const castChannel = castDataInfo?.channel;
   const cast = await getCastWithHash(castHash);
-  const channelId = cast?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(cast);
   const proposal = await getProposal(danAddress, castHash);
   console.log({ proposal });
 
@@ -155,7 +156,7 @@ const handleRequest = frames(async (ctx) => {
           <DegencastTag2
             username={castAuthor.username}
             pfp_url={castAuthor.pfp_url}
-            channelId={castChannel?.id}
+            channelId={channelId}
           />
         </div>
       </div>

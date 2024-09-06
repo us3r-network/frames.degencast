@@ -14,6 +14,7 @@ import { formatEther } from "viem";
 import DegencastTag2 from "@/app/components/DegencastTag2";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -21,7 +22,7 @@ const handleRequest = frames(async (ctx) => {
   const castHash = ctx.searchParams?.castHash! as `0x`;
   const launchProgress = ctx.searchParams?.launchProgress || "0%";
   const castDataInfo = await getCastWithHash(castHash);
-
+  const channelId = getChannelIdWithCast(castDataInfo);
   const castAuthor = castDataInfo?.author;
   const castChannel = castDataInfo?.channel;
 
@@ -124,7 +125,7 @@ const handleRequest = frames(async (ctx) => {
           <DegencastTag2
             username={castAuthor.username}
             pfp_url={castAuthor.pfp_url}
-            channelId={castChannel?.id}
+            channelId={channelId}
           />
         </div>
       </div>
@@ -175,7 +176,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={getChannelRedirectUrl(castChannel?.id || "home", inviteFid)}
+        target={getChannelRedirectUrl(channelId, inviteFid)}
       >
         App
       </Button>,

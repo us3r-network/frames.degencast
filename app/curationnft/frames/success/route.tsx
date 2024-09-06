@@ -10,6 +10,7 @@ import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import DegencastTag from "@/app/components/DegencastTag";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -33,7 +34,7 @@ const handleRequest = frames(async (ctx) => {
     throw error("Error fetching castInfo");
   }
   const castData = await getCastWithHash(castHash);
-  const channelId = castData?.channel?.id || "home";
+  const channelId = getChannelIdWithCast(castData);
   communityCuration = castInfo?.data?.tokenAddr;
   tokenId = castInfo?.data?.tokenId;
   if (!communityCuration) {
