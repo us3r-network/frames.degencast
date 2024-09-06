@@ -14,7 +14,7 @@ import { getProposal } from "@/lib/proposal/helper";
 import { getProposalState } from "@/lib/proposal/proposalState";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
-import { getShareUrl } from "@/lib/createproposal/getShareUrl";
+import { getShareUrl } from "@/lib/getShareUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";

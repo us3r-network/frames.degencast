@@ -5,8 +5,9 @@ import { frames, imageOptions } from "../frames";
 import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import CastInfo from "../../components/CastInfo";
 import { getChannelTokenInfo } from "../utils/getChannelTokenInfo";
-import { getShareUrl } from "@/lib/createproposal/getShareUrl";
+import { getShareUrl } from "@/lib/getShareUrl";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const { message } = ctx;
@@ -53,7 +54,7 @@ const handleRequest = frames(async (ctx) => {
       >
         Share
       </Button>,
-      <Button action="link" target={DEGENCAST_WEB_URL}>
+      <Button action="link" target={getChannelRedirectUrl(channelId)}>
         Open App
       </Button>,
     ],

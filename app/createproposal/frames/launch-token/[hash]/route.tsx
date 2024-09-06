@@ -11,6 +11,10 @@ import { getProposeFrameConfig } from "../../utils/getProposeFrameConfig";
 import CastInfo from "@/app/createproposal/components/CastInfo";
 import { getChannelTokenInfo } from "../../utils/getChannelTokenInfo";
 import { DEGENCAST_WEB_URL } from "@/lib/env";
+import {
+  getCastRedirectUrl,
+  getChannelRedirectUrl,
+} from "@/lib/getRedirectUrl";
 
 const handleGetRequest = async (
   req: NextRequest,
@@ -20,17 +24,6 @@ const handleGetRequest = async (
   const cast = await getCastWithHash(hash);
   const channelId = cast?.channel?.id || "home";
   return await frames(async (ctx) => {
-    if (!channelId) {
-      return {
-        image: <ImageWrapper>Curation only works in channels</ImageWrapper>,
-        imageOptions: imageOptions,
-        buttons: [
-          <Button action="link" target={DEGENCAST_WEB_URL}>
-            Open App
-          </Button>,
-        ],
-      };
-    }
     const channelTokenInfo = await getChannelTokenInfo(channelId);
     const { danAddress, channelName, channelLogo } = channelTokenInfo;
     if (danAddress) {
@@ -64,13 +57,10 @@ const handleGetRequest = async (
         >
           FAQ
         </Button>,
-        <Button
-          action="link"
-          target={`${DEGENCAST_WEB_URL}/casts/${hash.slice(2)}`}
-        >
+        <Button action="link" target={getCastRedirectUrl(hash)}>
           View Cast
         </Button>,
-        <Button action="link" target={DEGENCAST_WEB_URL}>
+        <Button action="link" target={getChannelRedirectUrl(channelId)}>
           Open App
         </Button>,
       ],
@@ -112,7 +102,7 @@ const handlePostRequest = async (
           >
             Try Again
           </Button>,
-          <Button action="link" target={DEGENCAST_WEB_URL}>
+          <Button action="link" target={getChannelRedirectUrl(channelId)}>
             Open App
           </Button>,
         ],
