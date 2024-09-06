@@ -9,12 +9,13 @@ export type ChannelTokenInfo = {
   danAddress: Address;
   launchProgress: string;
 };
-export const getChannelTokenInfo = async (channelId: string) => {
-  const communityInfo = await getCommunityInfo(channelId);
-  const { attentionTokenInfo, name, description, logo } = communityInfo?.data;
+export const getChannelTokenInfo = async (id: string) => {
+  const communityInfo = await getCommunityInfo(id);
+  const { channelId, attentionTokenInfo, name, description, logo } =
+    communityInfo?.data || {};
   return {
     channelName: name,
-    channelId: channelId,
+    channelId: channelId || "",
     channelDescription: description,
     channelLogo: logo,
     danAddress: (attentionTokenInfo?.danContract || "") as Address,
