@@ -10,6 +10,8 @@ import {
 } from "@/lib/env";
 import { error } from "frames.js/core";
 import { shortPubKey } from "@/lib/utils";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
+import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -30,6 +32,9 @@ const handleRequest = frames(async (ctx) => {
   communityCuration = castInfo?.data?.tokenAddr;
   tokenId = castInfo?.data?.tokenId;
   curators = castInfo?.data?.curators || [];
+
+  const cast = await getCastWithHash(castHash);
+  const channelId = cast?.channel?.id || "home";
 
   return {
     image: (
@@ -227,7 +232,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={getChannelRedirectUrl(channelId, inviteFid)}
       >
         App
       </Button>,

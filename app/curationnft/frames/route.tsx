@@ -6,6 +6,7 @@ import { DEGENCAST_API, DEGENCAST_WEB_URL, FRAMES_BASE_URL } from "@/lib/env";
 import DegencastTag from "@/app/components/DegencastTag";
 import { error } from "frames.js/core";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -29,6 +30,7 @@ const handleRequest = frames(async (ctx) => {
   nftTokenUnit = castInfo?.data?.nftTokenUnit;
 
   const castData = await getCastWithHash(castHash);
+  const channelId = castData?.channel?.id || "home";
 
   console.log("castInfo", castInfo);
   console.log(castData);
@@ -84,7 +86,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={getChannelRedirectUrl(channelId, inviteFid)}
       >
         App
       </Button>,

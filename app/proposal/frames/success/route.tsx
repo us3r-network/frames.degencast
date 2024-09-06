@@ -15,6 +15,7 @@ import { getProposalState } from "@/lib/proposal/proposalState";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
 import { getShareUrl } from "@/lib/getShareUrl";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -53,10 +54,7 @@ const handleRequest = frames(async (ctx) => {
     >
       Share
     </Button>,
-    <Button
-      action="link"
-      target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
-    >
+    <Button action="link" target={getChannelRedirectUrl(channelId, inviteFid)}>
       App
     </Button>,
   ];

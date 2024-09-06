@@ -6,6 +6,7 @@ import { FRAMES_BASE_URL, DEGENCAST_WEB_URL, DEGENCAST_API } from "@/lib/env";
 import { frames, imageOptions } from "./frames";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
+import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -86,7 +87,7 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="link"
-        target={`${DEGENCAST_WEB_URL}?inviteFid=${inviteFid}`}
+        target={getChannelRedirectUrl(castChannel?.id || "home", inviteFid)}
       >
         App
       </Button>,
