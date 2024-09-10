@@ -30,6 +30,9 @@ export const POST = frames(async (ctx) => {
     throw error("Error fetching castInfo");
   }
   console.log(castInfo);
+  if (!castInfo?.data) {
+    throw error("Cast info missing");
+  }
   const deadline = castInfo?.data.deadline;
   communityCuration = castInfo?.data.tokenAddr;
   if (deadline && Number(deadline) < Date.now() / 1000) {
