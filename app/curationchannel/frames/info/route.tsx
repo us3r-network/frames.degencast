@@ -1,36 +1,61 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { Button } from "frames.js/next";
-import { frames, imageOptions } from "./frames";
-import {
-  DEGENCAST_API,
-  DEGENCAST_WEB_URL,
-  FRAMES_BASE_URL,
-  NFT_TOKEN_UNIT,
-} from "@/lib/env";
-import DegencastTag from "@/app/components/DegencastTag";
+import { frames, imageOptions } from "../frames";
+import { DEGENCAST_API, FRAMES_BASE_URL } from "@/lib/env";
 import { error } from "frames.js/core";
-import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { formatEther } from "viem";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
-  const channelId = ctx.searchParams?.channelId || "home";
+  let channelId = ctx.searchParams?.channelId;
+
+  console.log("channelId", channelId);
+
+  let nextChannelId;
+  let preChannelId;
+
+  if (!channelId) {
+    try {
+      const currentChannelResp = await fetch(
+        `${DEGENCAST_API}/topics/frames/channels`
+      );
+      const data = await currentChannelResp.json();
+      channelId = data?.data?.currentChannel?.id;
+    } catch (err) {
+      throw error("Get channel failed, try a late.");
+    }
+  }
+
+  if (!channelId) {
+    throw error("Get channel failed, try a late.");
+  }
+
+  try {
+    const channelsResp = await fetch(
+      `${DEGENCAST_API}/topics/frames/channels?channelId=${channelId}`
+    );
+    const data = await channelsResp.json();
+    preChannelId = data?.data?.preChannel?.id;
+    nextChannelId = data?.data?.nextChannel?.id;
+  } catch (err) {
+    throw error("Get channel failed, try a late.");
+  }
 
   let channelInfo;
-
   try {
     const castInfoResp = await fetch(
       `${DEGENCAST_API}/topics/frame/channel?id=${channelId}`
     );
     channelInfo = await castInfoResp.json();
   } catch (err) {
-    throw error("Error fetching castInfo");
+    throw error("Error happened, try a late.");
   }
-  console.log(channelInfo);
+  console.log("channelInfo", channelInfo);
   const { data } = channelInfo;
   const { name, imageUrl, curationNftCount, nftPrice } = data;
   const castHash = data.castHash;
+
   let progress = data.progress;
   if (progress === "NaN%") {
     progress = "0%";
@@ -135,30 +160,41 @@ const handleRequest = frames(async (ctx) => {
     ),
     imageOptions: imageOptions,
     buttons: [
+      ...(preChannelId
+        ? [
+            <Button
+              action="post"
+              target={{
+                pathname: "/frames/info",
+                query: { inviteFid, channelId: preChannelId },
+              }}
+            >
+              ⬅️
+            </Button>,
+          ]
+        : []),
       <Button
         action="post"
         target={{
-          pathname: castHash ? "/frames/gallery" : "/frames/nomore",
-          query: { inviteFid, castHash, channelId, from: "/frames" },
+          pathname: "/frames",
+          query: { inviteFid, castHash, channelId, from: "/frames/info" },
         }}
       >
         Gallery
       </Button>,
-      <Button
-        action="post"
-        target={{
-          pathname: "/frames/info",
-          query: { inviteFid, channelId },
-        }}
-      >
-        Channels
-      </Button>,
-      <Button
-        action="link"
-        target={`${DEGENCAST_WEB_URL}/communities/${channelId}?inviteFid=${inviteFid}`}
-      >
-        Open App
-      </Button>,
+      ...(nextChannelId
+        ? [
+            <Button
+              action="post"
+              target={{
+                pathname: "/frames/info",
+                query: { inviteFid, channelId: nextChannelId },
+              }}
+            >
+              ➡️
+            </Button>,
+          ]
+        : []),
     ],
   };
 });
