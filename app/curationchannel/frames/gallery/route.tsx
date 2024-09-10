@@ -38,6 +38,10 @@ const handleRequest = frames(async (ctx) => {
   launchProgress = castInfo?.data?.launchProgress || "0%";
   nftTokenUnit = castInfo?.data?.nftTokenUnit;
 
+  if (launchProgress === "NaN%") {
+    launchProgress = "0%";
+  }
+
   const castData = await getCastWithHash(castHash);
 
   //   console.log("castInfo", castInfo);
