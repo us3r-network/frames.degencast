@@ -5,7 +5,7 @@ import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
 import { CURATION_FACTORY_ADDRESS } from "../../../../lib/env";
 import { FactoryContractABI } from "../../../../lib/proposal/factory";
-import { getMintPrice } from "@/lib/proposal/helper";
+import { getMintPrice, getTransactionChainId } from "@/lib/proposal/helper";
 
 export const POST = frames(async (ctx) => {
   const castHash = ctx.searchParams?.castHash;
@@ -38,7 +38,7 @@ export const POST = frames(async (ctx) => {
 
   // Return transaction data that conforms to the correct type
   return transaction({
-    chainId: `eip155:${baseSepolia.id}`,
+    chainId: getTransactionChainId(),
     method: "eth_sendTransaction",
     params: {
       abi: [
