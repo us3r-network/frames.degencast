@@ -4,6 +4,7 @@ import { parseEther, erc20Abi, encodeFunctionData } from "viem";
 import { base, baseSepolia } from "viem/chains";
 import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
+import { getTransactionChainId } from "@/lib/proposal/helper";
 
 export const POST = frames(async (ctx) => {
   const amount = ctx.message?.inputText || "300";
@@ -26,7 +27,7 @@ export const POST = frames(async (ctx) => {
 
   // Return transaction data that conforms to the correct type
   return transaction({
-    chainId: `eip155:${baseSepolia.id}`,
+    chainId: getTransactionChainId(),
     method: "eth_sendTransaction",
     attribution: false,
     params: {

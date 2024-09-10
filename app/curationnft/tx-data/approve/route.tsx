@@ -12,6 +12,7 @@ import {
   checkCurationHasGraduate,
   getMintPrice,
   getMintPriceFromUniswap,
+  getTransactionChainId,
 } from "../../../../lib/proposal/helper";
 
 export const POST = frames(async (ctx) => {
@@ -60,7 +61,7 @@ export const POST = frames(async (ctx) => {
 
   // Return transaction data that conforms to the correct type
   return transaction({
-    chainId: `eip155:${baseSepolia.id}`,
+    chainId: getTransactionChainId(),
     method: "eth_sendTransaction",
     attribution: false,
     params: {

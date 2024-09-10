@@ -4,6 +4,7 @@ import { base, baseSepolia } from "viem/chains";
 import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
 import { DanContractABI } from "@/lib/proposal/dan";
+import { getTransactionChainId } from "@/lib/proposal/helper";
 
 export const POST = frames(async (ctx) => {
   const amount = ctx.message?.inputText;
@@ -37,7 +38,7 @@ export const POST = frames(async (ctx) => {
 
   // Return transaction data that conforms to the correct type
   return transaction({
-    chainId: `eip155:${baseSepolia.id}`,
+    chainId: getTransactionChainId(),
     method: "eth_sendTransaction",
     params: {
       abi: [

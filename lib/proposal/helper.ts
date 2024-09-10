@@ -7,6 +7,7 @@ import { DanContractABI } from "./dan";
 import { FactoryContractABI } from "./factory";
 import { BASE_NETWORK, CURATION_FACTORY_ADDRESS, DEGEN_ADDRESS, UNISWAP_QUOTEV2_ADDRESS } from "../env";
 import { CurationABI } from "./curation";
+import { base, baseSepolia } from "viem/chains";
 
 
 const client = BASE_NETWORK === 'main' ? baseClient : baseSepoliaClient;
@@ -112,3 +113,10 @@ export async function getMintPriceFromUniswap(curation: `0x${string}`, amount: n
     return amountOut as bigint;
 }
 
+
+export function getTransactionChainId() {
+    if (BASE_NETWORK === 'main') {
+        return `eip155:${base.id}`;
+    }
+    return `eip155:${baseSepolia.id}`;
+}
