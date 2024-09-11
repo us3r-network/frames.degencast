@@ -52,10 +52,15 @@ const handleRequest = frames(async (ctx) => {
     throw error("Error happened, try a late.");
   }
   console.log("channelInfo", channelInfo);
-  const { data } = channelInfo;
+  const data = channelInfo?.data;
+  if (!data) {
+    throw error("Error happened, try a late.");
+  }
   const { name, imageUrl, curationNftCount, nftPrice } = data;
   const castHash = data.castHash;
-
+  if (!castHash || !name || !imageUrl) {
+    throw error("Error happened, try a late.");
+  }
   let progress = data.progress;
   if (progress === "NaN%") {
     progress = "0%";
