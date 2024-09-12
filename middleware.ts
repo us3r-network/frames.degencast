@@ -4,6 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (isBrowser(req)) {
+    if (pathname === "/curationchannel/frames/channels") {
+      return NextResponse.redirect(new URL(`${DEGENCAST_WEB_URL}`));
+    }
     if (
       pathname.startsWith("/proposal/frames") ||
       pathname.startsWith("/curationnft/frames")
