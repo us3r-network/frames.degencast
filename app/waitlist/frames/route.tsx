@@ -28,7 +28,7 @@ const handleGetRequest = frames(async (ctx) => {
 });
 
 const handlePostRequest = frames(async (ctx) => {
-  const joined = Boolean(ctx.searchParams?.joined || "");
+  let joined = Boolean(ctx.searchParams?.joined || "");
   let imgUrl = `${FRAMES_BASE_URL}/images/waitlist/join-waitlist.png`;
   let buttonText = "Join Waitlist";
   if (!joined) {
@@ -40,6 +40,7 @@ const handlePostRequest = frames(async (ctx) => {
     if (code === ApiRespCode.SUCCESS) {
       imgUrl = `${FRAMES_BASE_URL}/images/waitlist/joined-waitlist.png`;
       buttonText = "Follow Degencast Channel 🔔";
+      joined = true;
     } else {
       buttonText = "Failed to join, try again";
     }
@@ -53,6 +54,7 @@ const handlePostRequest = frames(async (ctx) => {
         action="post"
         target={{
           pathname: "/frames",
+          query: { joined: joined ? "true" : "" },
         }}
       >
         {buttonText}
