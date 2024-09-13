@@ -92,10 +92,10 @@ const handleRequest = frames(async (ctx) => {
           Curation NFT
         </div>
         {[
-          "Token Value: Each NFT equals 1000 Curation Tokens.",
+          "Token Value: Each NFT equals 100,000 Curation Tokens.",
           "Fees Distribution: 1% to Degencast, 2% to host, 3% to creators, 4% to curators.",
           "Bonding Curve: Shared curve; liquidity moves to Uniswap at 42069 DEGEN cap.",
-          "After Launch: NFT still equals 1000 Tokens.",
+          "After Launch: NFT still equals 100,000 Tokens.",
         ].map((item, i) => {
           return (
             <div
