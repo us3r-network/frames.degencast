@@ -1,5 +1,15 @@
 import { DEGENCAST_API } from "./env";
 
+export enum ApiRespCode {
+  SUCCESS = 0,
+  ERROR = 1,
+}
+export type ApiResp<T> = {
+  code: ApiRespCode;
+  msg: string;
+  data: T;
+};
+
 export async function getChannelInfo(channel: string): Promise<{
   msg: string;
   code: number;
@@ -37,5 +47,17 @@ export async function getAllowanceInfo(
   const resp = await fetch(allowanceDataUrl);
   const data = await resp.json();
   // console.log("getAllowanceInfo", { channel, data });
+  return data;
+}
+
+export async function joinWaitlist(
+  fid: string | number
+): Promise<ApiResp<any>> {
+  const url = `${DEGENCAST_API}/topics/whitelists?fid=${fid}`;
+
+  const resp = await fetch(url, {
+    method: "post",
+  });
+  const data = await resp.json();
   return data;
 }
