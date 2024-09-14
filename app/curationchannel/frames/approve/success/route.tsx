@@ -106,7 +106,6 @@ const handleRequest = frames(async (ctx) => {
       </div>
     ),
     imageOptions: imageOptions,
-    // textInput: `amount minimum 300`,
     buttons: [
       <Button
         action="tx"

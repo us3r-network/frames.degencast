@@ -15,6 +15,7 @@ import DegencastTag2 from "@/app/components/DegencastTag2";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
+import { CREATE_PROPOSAL_MIN_PRICE } from "@/lib/createproposal/proposal-helper";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
@@ -119,7 +120,7 @@ const handleRequest = frames(async (ctx) => {
               }}
             >
               <span>Vote Staking</span>
-              <span>300 DEGEN</span>
+              <span>{`${CREATE_PROPOSAL_MIN_PRICE} DEGEN`}</span>
             </div>
           </div>
           <DegencastTag2
@@ -131,7 +132,7 @@ const handleRequest = frames(async (ctx) => {
       </div>
     ),
     imageOptions: imageOptions,
-    textInput: `amount minimum 300`,
+    textInput: `amount minimum ${CREATE_PROPOSAL_MIN_PRICE}`,
     buttons: [
       <Button
         action="tx"

@@ -1,36 +1,16 @@
 export const FactoryContractABI = [
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_uniswapV3Factory",
-        type: "address",
-      },
+      { internalType: "address", name: "_uniswapV3Factory", type: "address" },
       {
         internalType: "address",
         name: "_nonfungiblePositionManager",
         type: "address",
       },
-      {
-        internalType: "address",
-        name: "_quoter",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_router02",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_tokenTemplate",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_danTemplate",
-        type: "address",
-      },
+      { internalType: "address", name: "_quoter", type: "address" },
+      { internalType: "address", name: "_router02", type: "address" },
+      { internalType: "address", name: "_tokenTemplate", type: "address" },
+      { internalType: "address", name: "_danTemplate", type: "address" },
       {
         internalType: "contract IBondingCurve",
         name: "_defaultBondingCurve",
@@ -40,150 +20,62 @@ export const FactoryContractABI = [
     stateMutability: "nonpayable",
     type: "constructor",
   },
+  { inputs: [], name: "AlreadyInitialized", type: "error" },
   {
-    inputs: [],
-    name: "AlreadyInitialized",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "baseURI",
-        type: "string",
-      },
-    ],
+    inputs: [{ internalType: "string", name: "baseURI", type: "string" }],
     name: "CommunityCuration__BaseURIExists",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "CommunityCuration__HasGraduated",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "CommunityCuration__HasNotGraduated",
-    type: "error",
-  },
+  { inputs: [], name: "CommunityCuration__HasGraduated", type: "error" },
+  { inputs: [], name: "CommunityCuration__HasNotGraduated", type: "error" },
   {
     inputs: [],
     name: "CommunityCuration__InsufficientLeftForCurrentPriceRange",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "CommunityCuration__InsufficientPayment",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "CommunityCuration__InvalidAmount",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "CommunityCuration__InvalidFeeBip",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "CommunityCuration__InvalidTokenId",
-    type: "error",
-  },
+  { inputs: [], name: "CommunityCuration__InsufficientPayment", type: "error" },
+  { inputs: [], name: "CommunityCuration__InvalidAmount", type: "error" },
+  { inputs: [], name: "CommunityCuration__InvalidFeeBip", type: "error" },
+  { inputs: [], name: "CommunityCuration__InvalidTokenId", type: "error" },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "maxPayment",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "price", type: "uint256" },
+      { internalType: "uint256", name: "maxPayment", type: "uint256" },
     ],
     name: "CommunityCuration__MaxPaymentExceeded",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "CommunityCuration__MintAmountIsZero",
-    type: "error",
-  },
+  { inputs: [], name: "CommunityCuration__MintAmountIsZero", type: "error" },
   {
     inputs: [],
     name: "CommunityCuration__NotReachedGraduationPoint",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "CommunityCuration__OnlyCreatorAllowed",
-    type: "error",
-  },
+  { inputs: [], name: "CommunityCuration__OnlyCreatorAllowed", type: "error" },
   {
     inputs: [],
     name: "CommunityCuration__OnlyTokenCreatorAllowed",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "CommunityCuration__ProposalStakeZero",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "CommunityCuration__TokenNotExists",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "FailedDeployment",
-    type: "error",
-  },
+  { inputs: [], name: "CommunityCuration__ProposalStakeZero", type: "error" },
+  { inputs: [], name: "CommunityCuration__TokenNotExists", type: "error" },
+  { inputs: [], name: "FailedDeployment", type: "error" },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "needed",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "balance", type: "uint256" },
+      { internalType: "uint256", name: "needed", type: "uint256" },
     ],
     name: "InsufficientBalance",
     type: "error",
   },
+  { inputs: [], name: "NewOwnerIsZeroAddress", type: "error" },
+  { inputs: [], name: "NoHandoverRequest", type: "error" },
   {
-    inputs: [],
-    name: "NewOwnerIsZeroAddress",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "NoHandoverRequest",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
     name: "SafeERC20FailedOperation",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "Unauthorized",
-    type: "error",
-  },
+  { inputs: [], name: "Unauthorized", type: "error" },
   {
     anonymous: false,
     inputs: [
@@ -193,24 +85,14 @@ export const FactoryContractABI = [
         name: "token",
         type: "address",
       },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "dan",
-        type: "address",
-      },
+      { indexed: true, internalType: "address", name: "dan", type: "address" },
       {
         indexed: true,
         internalType: "address",
         name: "paymentToken",
         type: "address",
       },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
+      { indexed: false, internalType: "string", name: "name", type: "string" },
       {
         indexed: false,
         internalType: "string",
@@ -279,12 +161,7 @@ export const FactoryContractABI = [
         name: "token",
         type: "address",
       },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
+      { indexed: true, internalType: "address", name: "from", type: "address" },
       {
         indexed: false,
         internalType: "uint256",
@@ -334,12 +211,7 @@ export const FactoryContractABI = [
         name: "token",
         type: "address",
       },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
       {
         indexed: false,
         internalType: "uint256",
@@ -428,117 +300,63 @@ export const FactoryContractABI = [
   {
     inputs: [],
     name: "BIP",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "CHANNEL_HOST_FEE_BIP",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "CREATOR_FEE_BIP",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "CURATOR_FEE_BIP",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "DEGENCAST_FEE_BIP",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "DEGENCAST_LIQUIDITY_FEE_BIP",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "MAX_TICK",
-    outputs: [
-      {
-        internalType: "int24",
-        name: "",
-        type: "int24",
-      },
-    ],
+    outputs: [{ internalType: "int24", name: "", type: "int24" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "MIN_TICK",
-    outputs: [
-      {
-        internalType: "int24",
-        name: "",
-        type: "int24",
-      },
-    ],
+    outputs: [{ internalType: "int24", name: "", type: "int24" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "POOL_FEE",
-    outputs: [
-      {
-        internalType: "uint24",
-        name: "",
-        type: "uint24",
-      },
-    ],
+    outputs: [{ internalType: "uint24", name: "", type: "uint24" }],
     stateMutability: "view",
     type: "function",
   },
@@ -556,41 +374,17 @@ export const FactoryContractABI = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
+    inputs: [{ internalType: "string", name: "", type: "string" }],
     name: "baseURItoToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+      { internalType: "uint256", name: "_tokenId", type: "uint256" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "burnNFT",
     outputs: [],
@@ -598,35 +392,13 @@ export const FactoryContractABI = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "calculateFees",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "protocolFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "channelHostFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "creatorFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "curatorFee",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "protocolFee", type: "uint256" },
+      { internalType: "uint256", name: "channelHostFee", type: "uint256" },
+      { internalType: "uint256", name: "creatorFee", type: "uint256" },
+      { internalType: "uint256", name: "curatorFee", type: "uint256" },
     ],
     stateMutability: "view",
     type: "function",
@@ -640,11 +412,7 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "pendingOwner",
-        type: "address",
-      },
+      { internalType: "address", name: "pendingOwner", type: "address" },
     ],
     name: "completeOwnershipHandover",
     outputs: [],
@@ -655,41 +423,17 @@ export const FactoryContractABI = [
     inputs: [
       {
         components: [
-          {
-            internalType: "string",
-            name: "name",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "symbol",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "baseURI",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "unit",
-            type: "uint256",
-          },
+          { internalType: "string", name: "name", type: "string" },
+          { internalType: "string", name: "symbol", type: "string" },
+          { internalType: "string", name: "baseURI", type: "string" },
+          { internalType: "uint256", name: "unit", type: "uint256" },
           {
             internalType: "uint256",
             name: "maxTokensPerIdPerUser",
             type: "uint256",
           },
-          {
-            internalType: "uint256",
-            name: "proposalStake",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "proposalPeriod",
-            type: "uint256",
-          },
+          { internalType: "uint256", name: "proposalStake", type: "uint256" },
+          { internalType: "uint256", name: "proposalPeriod", type: "uint256" },
           {
             internalType: "uint256",
             name: "deadlineDuration",
@@ -700,16 +444,8 @@ export const FactoryContractABI = [
             name: "paymentToken",
             type: "address",
           },
-          {
-            internalType: "address",
-            name: "channelHost",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "protocolAddr",
-            type: "address",
-          },
+          { internalType: "address", name: "channelHost", type: "address" },
+          { internalType: "address", name: "protocolAddr", type: "address" },
         ],
         internalType:
           "struct CommunityCurationLiqManager.CommunityCurationConfig",
@@ -718,16 +454,8 @@ export const FactoryContractABI = [
       },
       {
         components: [
-          {
-            internalType: "address",
-            name: "creator",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "contentURI",
-            type: "string",
-          },
+          { internalType: "address", name: "creator", type: "address" },
+          { internalType: "string", name: "contentURI", type: "string" },
         ],
         internalType: "struct IDan.ContentZero",
         name: "_contentZero",
@@ -741,11 +469,7 @@ export const FactoryContractABI = [
     ],
     name: "createToken",
     outputs: [
-      {
-        internalType: "contract CommunityCuration",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract CommunityCuration", name: "", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "function",
@@ -754,41 +478,17 @@ export const FactoryContractABI = [
     inputs: [
       {
         components: [
-          {
-            internalType: "string",
-            name: "name",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "symbol",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "baseURI",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "unit",
-            type: "uint256",
-          },
+          { internalType: "string", name: "name", type: "string" },
+          { internalType: "string", name: "symbol", type: "string" },
+          { internalType: "string", name: "baseURI", type: "string" },
+          { internalType: "uint256", name: "unit", type: "uint256" },
           {
             internalType: "uint256",
             name: "maxTokensPerIdPerUser",
             type: "uint256",
           },
-          {
-            internalType: "uint256",
-            name: "proposalStake",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "proposalPeriod",
-            type: "uint256",
-          },
+          { internalType: "uint256", name: "proposalStake", type: "uint256" },
+          { internalType: "uint256", name: "proposalPeriod", type: "uint256" },
           {
             internalType: "uint256",
             name: "deadlineDuration",
@@ -799,16 +499,8 @@ export const FactoryContractABI = [
             name: "paymentToken",
             type: "address",
           },
-          {
-            internalType: "address",
-            name: "channelHost",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "protocolAddr",
-            type: "address",
-          },
+          { internalType: "address", name: "channelHost", type: "address" },
+          { internalType: "address", name: "protocolAddr", type: "address" },
         ],
         internalType:
           "struct CommunityCurationLiqManager.CommunityCurationConfig",
@@ -817,16 +509,8 @@ export const FactoryContractABI = [
       },
       {
         components: [
-          {
-            internalType: "address",
-            name: "creator",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "contentURI",
-            type: "string",
-          },
+          { internalType: "address", name: "creator", type: "address" },
+          { internalType: "string", name: "contentURI", type: "string" },
         ],
         internalType: "struct IDan.ContentZero",
         name: "_contentZero",
@@ -835,11 +519,7 @@ export const FactoryContractABI = [
     ],
     name: "createTokenDefaultCurve",
     outputs: [
-      {
-        internalType: "contract CommunityCuration",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract CommunityCuration", name: "", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "function",
@@ -847,13 +527,7 @@ export const FactoryContractABI = [
   {
     inputs: [],
     name: "danTemplate",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
@@ -861,192 +535,80 @@ export const FactoryContractABI = [
     inputs: [],
     name: "defaultBondingCurve",
     outputs: [
-      {
-        internalType: "contract IBondingCurve",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract IBondingCurve", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "getBurnNFTPriceAfterFee",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "getBurnNFTPriceAndFee",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "nftPrice",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "protocolFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "channelHostFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "creatorFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalCuratorFee",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "nftPrice", type: "uint256" },
+      { internalType: "uint256", name: "protocolFee", type: "uint256" },
+      { internalType: "uint256", name: "channelHostFee", type: "uint256" },
+      { internalType: "uint256", name: "creatorFee", type: "uint256" },
+      { internalType: "uint256", name: "totalCuratorFee", type: "uint256" },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "getMintNFTPriceAfterFee",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "getMintNFTPriceAndFee",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "nftPrice",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "protocolFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "channelHostFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "creatorFee",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalCuratorFee",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "nftPrice", type: "uint256" },
+      { internalType: "uint256", name: "protocolFee", type: "uint256" },
+      { internalType: "uint256", name: "channelHostFee", type: "uint256" },
+      { internalType: "uint256", name: "creatorFee", type: "uint256" },
+      { internalType: "uint256", name: "totalCuratorFee", type: "uint256" },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "getMintNFTPriceFromUniV3",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
     name: "getTokenInfo",
     outputs: [
       {
         components: [
-          {
-            internalType: "contract Dan",
-            name: "dan",
-            type: "address",
-          },
+          { internalType: "contract Dan", name: "dan", type: "address" },
           {
             internalType: "contract CommunityCuration",
             name: "token",
@@ -1067,21 +629,9 @@ export const FactoryContractABI = [
             name: "treasury",
             type: "address",
           },
-          {
-            internalType: "address",
-            name: "creator",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "totalLiquidity",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "graduated",
-            type: "bool",
-          },
+          { internalType: "address", name: "creator", type: "address" },
+          { internalType: "uint256", name: "totalLiquidity", type: "uint256" },
+          { internalType: "bool", name: "graduated", type: "bool" },
         ],
         internalType: "struct CommunityCurationLiqManager.TokenInfo",
         name: "",
@@ -1093,50 +643,22 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
     ],
     name: "graduate",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint128",
-        name: "liquidity",
-        type: "uint128",
-      },
-      {
-        internalType: "uint256",
-        name: "amount0",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amount1",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "uint128", name: "liquidity", type: "uint128" },
+      { internalType: "uint256", name: "amount0", type: "uint256" },
+      { internalType: "uint256", name: "amount1", type: "uint256" },
     ],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "address", name: "_account", type: "address" },
     ],
     name: "grantDanSignerRole",
     outputs: [],
@@ -1145,31 +667,11 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_maxPayment",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+      { internalType: "address", name: "_to", type: "address" },
+      { internalType: "uint256", name: "_tokenId", type: "uint256" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
+      { internalType: "uint256", name: "_maxPayment", type: "uint256" },
     ],
     name: "mintNFT",
     outputs: [],
@@ -1178,39 +680,15 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_paymentAmount",
-        type: "uint256",
-      },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "address", name: "_to", type: "address" },
+      { internalType: "uint256", name: "_tokenId", type: "uint256" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
+      { internalType: "uint256", name: "_paymentAmount", type: "uint256" },
     ],
     name: "mintNFTFromUniV3",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "tokenAmountOut",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "tokenAmountOut", type: "uint256" },
     ],
     stateMutability: "nonpayable",
     type: "function",
@@ -1218,45 +696,23 @@ export const FactoryContractABI = [
   {
     inputs: [],
     name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "result",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "address", name: "result", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "pendingOwner",
-        type: "address",
-      },
+      { internalType: "address", name: "pendingOwner", type: "address" },
     ],
     name: "ownershipHandoverExpiresAt",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "result",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "result", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "protocolFeeAddr",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
@@ -1276,16 +732,8 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "address", name: "_account", type: "address" },
     ],
     name: "revokeDanSignerRole",
     outputs: [],
@@ -1299,26 +747,10 @@ export const FactoryContractABI = [
         name: "degencastLiquidityFeeBip",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "degencastFeeBip",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "channelHostFeeBip",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "creatorFeeBip",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "curatorFeeBip",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "degencastFeeBip", type: "uint256" },
+      { internalType: "uint256", name: "channelHostFeeBip", type: "uint256" },
+      { internalType: "uint256", name: "creatorFeeBip", type: "uint256" },
+      { internalType: "uint256", name: "curatorFeeBip", type: "uint256" },
     ],
     name: "setFeeBip",
     outputs: [],
@@ -1326,52 +758,24 @@ export const FactoryContractABI = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "tokenCreators",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "tokenTemplate",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "tokens",
     outputs: [
-      {
-        internalType: "contract Dan",
-        name: "dan",
-        type: "address",
-      },
+      { internalType: "contract Dan", name: "dan", type: "address" },
       {
         internalType: "contract CommunityCuration",
         name: "token",
@@ -1387,38 +791,16 @@ export const FactoryContractABI = [
         name: "bondingCurve",
         type: "address",
       },
-      {
-        internalType: "contract Treasury",
-        name: "treasury",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "creator",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "totalLiquidity",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "graduated",
-        type: "bool",
-      },
+      { internalType: "contract Treasury", name: "treasury", type: "address" },
+      { internalType: "address", name: "creator", type: "address" },
+      { internalType: "uint256", name: "totalLiquidity", type: "uint256" },
+      { internalType: "bool", name: "graduated", type: "bool" },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
     stateMutability: "payable",
@@ -1428,22 +810,14 @@ export const FactoryContractABI = [
     inputs: [],
     name: "uniswapV3Factory",
     outputs: [
-      {
-        internalType: "contract IUniswapV3Factory",
-        name: "",
-        type: "address",
-      },
+      { internalType: "contract IUniswapV3Factory", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_danTemplate",
-        type: "address",
-      },
+      { internalType: "address", name: "_danTemplate", type: "address" },
     ],
     name: "updateDanTemplate",
     outputs: [],
@@ -1452,11 +826,7 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
+      { internalType: "address", name: "_token", type: "address" },
       {
         internalType: "uint256",
         name: "_maxTokensPerIdPerUser",
@@ -1470,16 +840,8 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
-      {
-        internalType: "bool",
-        name: "_allowed",
-        type: "bool",
-      },
+      { internalType: "address", name: "_account", type: "address" },
+      { internalType: "bool", name: "_allowed", type: "bool" },
     ],
     name: "updateTokenCreator",
     outputs: [],
@@ -1488,11 +850,7 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenTemplate",
-        type: "address",
-      },
+      { internalType: "address", name: "_tokenTemplate", type: "address" },
     ],
     name: "updateTokenTemplate",
     outputs: [],
@@ -1501,19 +859,11 @@ export const FactoryContractABI = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
     ],
     name: "withdrawFee",
     outputs: [
-      {
-        internalType: "uint256",
-        name: "paymentTokenAmount",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "paymentTokenAmount", type: "uint256" },
       {
         internalType: "uint256",
         name: "schellingTokenAmount",

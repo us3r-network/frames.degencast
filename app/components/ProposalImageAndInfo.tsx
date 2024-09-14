@@ -1,3 +1,4 @@
+import { CREATE_PROPOSAL_MIN_PRICE } from "@/lib/createproposal/proposal-helper";
 import { DEGENCAST_API } from "@/lib/env";
 import React from "react";
 
@@ -75,7 +76,7 @@ export default function ImageAndInfo({
           </div>
           <div tw="mt-[8px] flex items-center justify-between" style={{}}>
             <span>Minimum cost:</span>
-            <span>300 DEGEN</span>
+            <span>{`${CREATE_PROPOSAL_MIN_PRICE} DEGEN`}</span>
           </div>
         </div>
       </div>
