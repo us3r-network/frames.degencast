@@ -5,6 +5,7 @@ import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
 import { DanContractABI } from "@/lib/proposal/dan";
 import { getTransactionChainId } from "@/lib/proposal/helper";
+import { ZERO_ADDRESS } from "@/lib/constants";
 
 export const POST = frames(async (ctx) => {
   const amount = ctx.message?.inputText;
@@ -33,7 +34,7 @@ export const POST = frames(async (ctx) => {
   const calldata = encodeFunctionData({
     abi: DanContractABI,
     functionName: "proposeProposal",
-    args: [castHash as `0x`, parseEther(amountArg)],
+    args: [castHash as `0x`, parseEther(amountArg), ZERO_ADDRESS],
   });
 
   // Return transaction data that conforms to the correct type

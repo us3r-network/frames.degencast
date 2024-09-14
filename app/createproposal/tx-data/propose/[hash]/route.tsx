@@ -14,6 +14,7 @@ import {
   checkCastProposalMetadata,
 } from "@/lib/createproposal/api";
 import { error, transaction } from "frames.js/core";
+import { ZERO_ADDRESS } from "@/lib/constants";
 
 export async function POST(
   req: NextRequest,
@@ -70,6 +71,7 @@ export async function POST(
       contentHash: hash,
       contentCreator,
       contentURI: arUrl,
+      beneficiary: ZERO_ADDRESS,
     };
 
     let calldata;

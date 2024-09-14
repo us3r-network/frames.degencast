@@ -6,6 +6,7 @@ import { frames } from "../../frames/frames";
 import { CURATION_FACTORY_ADDRESS } from "../../../../lib/env";
 import { FactoryContractABI } from "../../../../lib/proposal/factory";
 import { getMintPrice, getTransactionChainId } from "@/lib/proposal/helper";
+import { ZERO_ADDRESS } from "@/lib/constants";
 
 export const POST = frames(async (ctx) => {
   const castHash = ctx.searchParams?.castHash;
@@ -30,6 +31,7 @@ export const POST = frames(async (ctx) => {
     functionName: "mintNFT",
     args: [
       communityCuration as `0x`,
+      ZERO_ADDRESS,
       BigInt(tokenId),
       BigInt(amount),
       parseEther(mintPrice),

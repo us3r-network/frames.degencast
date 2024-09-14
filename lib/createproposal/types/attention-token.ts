@@ -17,4 +17,7 @@ export type AttentionTokenEntity = {
   bondingCurve: {
     basePrice: number;
   };
+  danConfig: {
+    proposalStake: number;
+  };
 };
