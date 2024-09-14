@@ -5,9 +5,10 @@ import { base, baseSepolia } from "viem/chains";
 import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
 import { getTransactionChainId } from "@/lib/proposal/helper";
+import { CREATE_PROPOSAL_MIN_PRICE } from "@/lib/createproposal/proposal-helper";
 
 export const POST = frames(async (ctx) => {
-  const amount = ctx.message?.inputText || "300";
+  const amount = ctx.message?.inputText || `${CREATE_PROPOSAL_MIN_PRICE}`;
   const danAddress = ctx.searchParams?.danAddress;
 
   console.log("approve degen", amount, danAddress);

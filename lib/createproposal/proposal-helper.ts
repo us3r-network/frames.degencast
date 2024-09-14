@@ -7,7 +7,7 @@ export const publicClient = createPublicClient({
   chain: ATT_TOKEN_CHAIN,
   transport: http(),
 });
-export const CREATE_PROPOSAL_MIN_PRICE = 300;
+export const CREATE_PROPOSAL_MIN_PRICE = 420;
 export const getProposalMinPrice = (paymentTokenInfo: TokenDetails) => {
   if (!paymentTokenInfo?.decimals) {
     return undefined;

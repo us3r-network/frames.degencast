@@ -409,7 +409,7 @@ export const CurationABI = [
             { internalType: "address", name: "owner", type: "address" },
             { internalType: "uint256", name: "id", type: "uint256" },
         ],
-        name: "isOwned",
+        name: "isNonBlankNFTOwned",
         outputs: [{ internalType: "bool", name: "", type: "bool" }],
         stateMutability: "view",
         type: "function",
@@ -489,7 +489,7 @@ export const CurationABI = [
     },
     {
         inputs: [{ internalType: "address", name: "owner", type: "address" }],
-        name: "ownedBalanceOf",
+        name: "ownedNonBlankBalanceOf",
         outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",

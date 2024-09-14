@@ -6,6 +6,7 @@ import { frames } from "../../frames/frames";
 import { DanContractABI } from "@/lib/proposal/dan";
 import { getTransactionChainId } from "@/lib/proposal/helper";
 import { ZERO_ADDRESS } from "@/lib/constants";
+import { CREATE_PROPOSAL_MIN_PRICE } from "@/lib/createproposal/proposal-helper";
 
 export const POST = frames(async (ctx) => {
   const amount = ctx.message?.inputText;
@@ -29,7 +30,8 @@ export const POST = frames(async (ctx) => {
     return error("DanContract address is required");
   }
 
-  const amountArg = amount || challengePrice || queryAmount || "300";
+  const amountArg =
+    amount || challengePrice || queryAmount || `${CREATE_PROPOSAL_MIN_PRICE}`;
 
   const calldata = encodeFunctionData({
     abi: DanContractABI,
