@@ -50,11 +50,12 @@ const handlePostRequest = frames(async (ctx) => {
     imageOptions: imageOptions,
     buttons: [
       <Button
-        action="post"
-        target={{
-          pathname: "/frames",
-          query: { joined: joined ? "true" : "" },
-        }}
+        action={joined ? "link" : "post"}
+        target={
+          joined
+            ? "https://warpcast.com/~/channel/degencast"
+            : { pathname: "/frames" }
+        }
       >
         {buttonText}
       </Button>,
