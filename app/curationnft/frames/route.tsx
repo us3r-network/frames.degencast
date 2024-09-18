@@ -68,7 +68,7 @@ const handleRequest = frames(async (ctx) => {
           },
         }}
       >
-        Mint
+        Mint(1/2)
       </Button>,
       <Button
         action="post"

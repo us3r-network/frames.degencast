@@ -126,7 +126,7 @@ const handleRequest = frames(async (ctx) => {
           query: { communityCuration, castHash, tokenId },
         }}
       >
-        Mint
+        Mint(2/2)
       </Button>,
       <Button action="link" target={`${getExplorerUrlWithTx(transactionId)}`}>
         View Tx
