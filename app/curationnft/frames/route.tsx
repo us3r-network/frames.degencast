@@ -25,6 +25,7 @@ const handleRequest = frames(async (ctx) => {
     );
     castInfo = await castInfoResp.json();
   } catch (err) {
+    console.error(err);
     throw error("Error fetching castInfo");
   }
   launchProgress = castInfo?.data?.launchProgress || "0%";
@@ -38,9 +39,9 @@ const handleRequest = frames(async (ctx) => {
 
   return {
     image: (
-      <div tw="flex relative">
+      <div tw="flex relative w-full h-full">
         <img
-          tw=""
+          tw="w-full h-full"
           src={`${DEGENCAST_API}/3r-farcaster/cast-image?castHash=${castHash}`}
           alt=""
         />
@@ -51,7 +52,11 @@ const handleRequest = frames(async (ctx) => {
         />
       </div>
     ),
-    imageOptions: imageOptions,
+    imageOptions: {
+      aspectRatio: "1:1",
+      width: 800,
+      height: 800,
+    },
     textInput: `Enter quantity, default is 1`,
     buttons: [
       <Button
