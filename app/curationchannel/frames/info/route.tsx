@@ -23,6 +23,7 @@ const handleRequest = frames(async (ctx) => {
       const data = await currentChannelResp.json();
       channelId = data?.data?.currentChannel?.id;
     } catch (err) {
+      console.log(`${DEGENCAST_API}/topics/frames/channels`, err);
       throw error("Get channel failed, try a late.");
     }
   }

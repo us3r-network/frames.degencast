@@ -70,8 +70,6 @@ const handleRequest = frames(async (ctx) => {
   let mintPrice: bigint | undefined;
   const graduated = await checkCurationHasGraduate(communityCuration);
 
-  console.log({ graduated });
-
   if (graduated) {
     mintPrice = await getMintPriceFromUniswap(
       communityCuration,
