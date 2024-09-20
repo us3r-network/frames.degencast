@@ -1,13 +1,18 @@
 import { FRAMES_BASE_URL } from "./env";
 
-export const getShareUrl = (
+export const getCastEntryFrameUrl = (
   castHash: string,
   channelId: string,
   authorFname: string
 ) => {
-  return `https://warpcast.com/~/compose?text=${encodeURIComponent(
+  const text = encodeURIComponent(
     `Propose to permanently archive on Arweave for @${authorFname} in /${channelId}`
-  )}&embeds[]=${FRAMES_BASE_URL}/proposal/frames?castHash=${castHash}&embeds[]=https://warpcast.com/~/conversations/${castHash}${
-    channelId && channelId !== "home" ? `&channelKey=${channelId}` : ""
+  );
+  const voteFrame = `${FRAMES_BASE_URL}/proposal/frames?castHash=${castHash}`;
+  const warpcastCastUrl = `https://warpcast.com/~/conversations/${castHash}`;
+  const addChannelKey = !!channelId && channelId !== "home";
+
+  return `https://warpcast.com/~/compose?text=${text}&embeds[]=${voteFrame}${
+    addChannelKey ? `&channelKey=${channelId}` : ""
   }`;
 };

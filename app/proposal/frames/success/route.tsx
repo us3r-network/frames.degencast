@@ -14,7 +14,7 @@ import { getProposal } from "@/lib/proposal/helper";
 import { getProposalState } from "@/lib/proposal/proposalState";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
 import DegencastTag2 from "@/app/components/DegencastTag2";
-import { getShareUrl } from "@/lib/getShareUrl";
+import { getCastEntryFrameUrl } from "@/lib/getShareUrl";
 import { getChannelRedirectUrl } from "@/lib/getRedirectUrl";
 import { getChannelIdWithCast } from "@/lib/getChannelIdWithCast";
 import { CREATE_PROPOSAL_MIN_PRICE } from "@/lib/createproposal/proposal-helper";
@@ -52,7 +52,11 @@ const handleRequest = frames(async (ctx) => {
     // </Button>,
     <Button
       action="link"
-      target={getShareUrl(castHash, channelId, cast?.author?.username || "")}
+      target={getCastEntryFrameUrl(
+        castHash,
+        channelId,
+        cast?.author?.username || ""
+      )}
     >
       Share
     </Button>,
