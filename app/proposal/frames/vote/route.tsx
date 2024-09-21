@@ -152,7 +152,7 @@ const handleRequest = frames(async (ctx) => {
             },
           }}
         >
-          Upvote👍
+          Upvote👍(1/2)
         </Button>,
         <Button
           action="tx"
@@ -171,7 +171,7 @@ const handleRequest = frames(async (ctx) => {
             },
           }}
         >
-          Challenge👎
+          Challenge👎(1/2)
         </Button>,
         <Button
           action="post"
@@ -209,7 +209,7 @@ const handleRequest = frames(async (ctx) => {
             },
           }}
         >
-          Upvote👍
+          Upvote👍(1/2)
         </Button>,
         <Button
           action="tx"
@@ -263,7 +263,7 @@ const handleRequest = frames(async (ctx) => {
           },
         }}
       >
-        Challenge👎
+        Challenge👎(1/2)
       </Button>,
       <Button
         action="tx"

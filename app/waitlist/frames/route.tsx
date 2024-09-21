@@ -7,7 +7,7 @@ import { ApiRespCode, joinWaitlist } from "@/lib/api";
 
 const handleGetRequest = frames(async (ctx) => {
   return {
-    image: `${FRAMES_BASE_URL}/images/waitlist/introduction.gif`,
+    image: `${FRAMES_BASE_URL}/images/waitlist/cover.gif`,
     imageOptions: imageOptions,
     buttons: [
       <Button
@@ -35,7 +35,7 @@ const handlePostRequest = frames(async (ctx) => {
     if (code === ApiRespCode.SUCCESS) {
       joined = true;
     } else {
-      imgUrl = `${FRAMES_BASE_URL}/images/waitlist/introduction.gif`;
+      imgUrl = `${FRAMES_BASE_URL}/images/waitlist/cover.gif`;
       buttonText = "Join Waitlist";
     }
   }
