@@ -1,6 +1,5 @@
 import { error } from "frames.js/core";
-import { parseEther, encodeFunctionData } from "viem";
-import { base, baseSepolia } from "viem/chains";
+import { parseEther, encodeFunctionData, Abi } from "viem";
 import { transaction } from "frames.js/core";
 import { frames } from "../../frames/frames";
 import { DanContractABI } from "@/lib/proposal/dan";
@@ -44,18 +43,7 @@ export const POST = frames(async (ctx) => {
     chainId: getTransactionChainId(),
     method: "eth_sendTransaction",
     params: {
-      abi: [
-        {
-          inputs: [
-            { internalType: "string", name: "_contentHash", type: "string" },
-            { internalType: "uint256", name: "_payment", type: "uint256" },
-          ],
-          name: "disputeProposal",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
+      abi: DanContractABI as Abi,
       to: danAddress as `0x`,
       data: calldata,
     },
