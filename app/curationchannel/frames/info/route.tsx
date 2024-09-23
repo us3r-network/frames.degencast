@@ -23,6 +23,7 @@ const handleRequest = frames(async (ctx) => {
       const data = await currentChannelResp.json();
       channelId = data?.data?.currentChannel?.id;
     } catch (err) {
+      console.log(`${DEGENCAST_API}/topics/frames/channels`, err);
       throw error("Get channel failed, try a late.");
     }
   }
@@ -49,8 +50,10 @@ const handleRequest = frames(async (ctx) => {
     );
     channelInfo = await castInfoResp.json();
   } catch (err) {
+    console.error(err);
     throw error("Error happened, try a late.");
   }
+  console.log(`${DEGENCAST_API}/topics/frame/channel?id=${channelId}`);
   console.log("channelInfo", channelInfo);
   const data = channelInfo?.data;
   if (!data) {
@@ -66,6 +69,7 @@ const handleRequest = frames(async (ctx) => {
     progress = "0%";
   }
 
+  console.log({ nextChannelId, preChannelId });
   return {
     image: (
       <div tw="flex flex-col w-full h-full  relative p-[40px] bg-[#1a1a1a] text-white">

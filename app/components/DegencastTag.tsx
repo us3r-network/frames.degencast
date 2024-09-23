@@ -36,11 +36,15 @@ export default function DegencastTag({
             <img
               src={channelIcon}
               tw="w-[24px] h-[24px] mx-[4px] rounded-full"
+              width={24}
+              height={24}
             />
           )) || (
             <img
               tw="w-[24px] h-[24px] mx-[4px] rounded-full"
               src={`${FRAMES_BASE_URL}/images/home.png`}
+              width={24}
+              height={24}
             />
           )}
           <span>Curation Token</span>
@@ -58,6 +62,8 @@ export default function DegencastTag({
           <img
             src={`${FRAMES_BASE_URL}/images/degencasthat.png`}
             tw="w-[24px] h-[24px] mx-[4px]"
+            width={24}
+            height={24}
           />
           <span> Degencast.wtf</span>
         </div>

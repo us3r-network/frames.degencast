@@ -78,6 +78,7 @@ export async function getCurationBalance(curation: `0x${string}`, wallet: `0x${s
 }
 
 export async function checkCurationHasGraduate(curation: `0x${string}`) {
+    console.log('checkCurationHasGraduate', { curation, CURATION_FACTORY_ADDRESS });
     const tokenInfo = await client.readContract({
         abi: FactoryContractABI,
         address: CURATION_FACTORY_ADDRESS,

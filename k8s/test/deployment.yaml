@@ -47,7 +47,7 @@ spec:
             - name: DEGEN_ADDRESS
               value: "0xD084FD38BB7fDba38b0a2BffbA9e558ce29Ad8AC"
             - name: CURATION_FACTORY_ADDRESS
-              value: "0x85E67F404AA1e0E78Eee02725AA242F1ebEd81bf"
+              value: "0xd87788fdc5676db7a8cc7fade738e945ee8af479"
             - name: UNISWAP_QUOTEV2_ADDRESS
               value: "0xC5290058841028F1614F3A6F0F5816cAd0df5E27"
             - name: OPENSEA_BASE_URL

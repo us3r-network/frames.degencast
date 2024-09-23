@@ -37,26 +37,16 @@ export const POST = frames(async (ctx) => {
       parseEther(mintPrice),
     ],
   });
+  const abi = FactoryContractABI.filter(
+    (item) => item.type === "function" && item.name === "mintNFT"
+  );
 
   // Return transaction data that conforms to the correct type
   return transaction({
     chainId: getTransactionChainId(),
     method: "eth_sendTransaction",
     params: {
-      abi: [
-        {
-          inputs: [
-            { internalType: "address", name: "_tokenAddress", type: "address" },
-            { internalType: "uint256", name: "_tokenId", type: "uint256" },
-            { internalType: "uint256", name: "_amount", type: "uint256" },
-            { internalType: "uint256", name: "_maxPayment", type: "uint256" },
-          ],
-          name: "mintNFT",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
+      abi: abi,
       to: CURATION_FACTORY_ADDRESS as `0x`,
       data: calldata,
     },

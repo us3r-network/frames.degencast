@@ -29,7 +29,7 @@ export const POST = frames(async (ctx) => {
   } catch (err) {
     throw error("Error fetching castInfo");
   }
-  console.log(castInfo);
+  console.log(`${DEGENCAST_API}/topics/casts/${castHash}/mint`, castInfo);
   if (!castInfo?.data) {
     throw error("Cast info missing");
   }

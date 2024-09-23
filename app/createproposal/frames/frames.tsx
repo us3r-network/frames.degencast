@@ -17,10 +17,45 @@ const InterBoldFont = fs.readFileSync(
 export const frames = createFrames({
   basePath: "/createproposal",
   baseUrl: process.env.FRAMES_BASE_URL,
+  imagesRoute: "/frames/images",
   middleware: [
     imagesWorkerMiddleware({
       imagesRoute: "/frames/images",
       secret: "degencast",
+      imageRenderingOptions: {
+        imageOptions: {
+          sizes: {
+            "1:1": {
+              width: 800,
+              height: 800,
+            },
+            "1.91:1": {
+              width: 1600,
+              height: 900,
+            },
+          },
+          fonts: [
+            {
+              name: "Inter",
+              data: InterFont,
+              weight: 400,
+              style: "normal",
+            },
+            {
+              name: "Inter",
+              data: InterFontMedium,
+              weight: 500,
+              style: "normal",
+            },
+            {
+              name: "Inter",
+              data: InterBoldFont,
+              weight: 700,
+              style: "normal",
+            },
+          ],
+        },
+      },
     }),
   ],
 });
@@ -31,24 +66,4 @@ export const imageOptions: {
   aspectRatio: "1.91:1",
   width: 1600,
   height: 900,
-  fonts: [
-    {
-      name: "Inter",
-      data: InterFont,
-      weight: 400,
-      style: "normal",
-    },
-    {
-      name: "Inter",
-      data: InterFontMedium,
-      weight: 500,
-      style: "normal",
-    },
-    {
-      name: "Inter",
-      data: InterBoldFont,
-      weight: 700,
-      style: "normal",
-    },
-  ],
 };
