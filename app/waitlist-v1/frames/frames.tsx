@@ -14,7 +14,7 @@ const InterBoldFont = fs.readFileSync(
 );
 
 export const frames = createFrames({
-  basePath: "/waitlist",
+  basePath: "/waitlist-v1",
   baseUrl: process.env.FRAMES_BASE_URL,
   middleware: [
     imagesWorkerMiddleware({
