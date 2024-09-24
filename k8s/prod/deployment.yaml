@@ -48,13 +48,13 @@ spec:
             - name: TRADE_TOKEN_LEADERBOARD
               value: "https://dev.degencast.xyz/channels/tokens"
             - name: BASE_NETWORK
-              value: "sepolia"
+              value: "main"
             - name: DEGEN_ADDRESS
-              value: "0xD084FD38BB7fDba38b0a2BffbA9e558ce29Ad8AC"
+              value: "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed"
             - name: CURATION_FACTORY_ADDRESS
-              value: "0x6232cb5ba5bf3b7932d56e3938af4b54e2ef5dab"
+              value: "0x29442Fa1926c81b0A64A40030a96C462E483Ec93"
             - name: UNISWAP_QUOTEV2_ADDRESS
-              value: "0xC5290058841028F1614F3A6F0F5816cAd0df5E27"
+              value: "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a"
             - name: OPENSEA_BASE_URL
               value: https://testnets.opensea.io/assets/base-sepolia
             - name: CURATION_ACTION_LINK
