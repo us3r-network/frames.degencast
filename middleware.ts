@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
   if (isBrowser(req)) {
     if (
       pathname === "/curationchannel/frames/channels" ||
-      pathname === "/waitlist/frames"
+      pathname === "/waitlist-v1/frames"
     ) {
       return NextResponse.redirect(new URL(`${DEGENCAST_WEB_URL}`));
     }
