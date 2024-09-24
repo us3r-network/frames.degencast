@@ -33,7 +33,7 @@ const handleRequest = frames(async (ctx) => {
   }
   if (!info?.data) {
     const data = await fetch(
-      `${FRAMES_BASE_URL}/waitlist/frames?inviteFid=${inviteFid}&fid=${fid}`
+      `${FRAMES_BASE_URL}/waitlist-v1/frames?inviteFid=${inviteFid}&fid=${fid}`
     );
     const text = await data.text();
     return new Response(text, {
