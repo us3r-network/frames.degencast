@@ -4,6 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (isBrowser(req)) {
+    if (pathname.startsWith("/curationportfolio/frames")) {
+      const fid = req.nextUrl.searchParams.get("fid");
+      if (fid) {
+        return NextResponse.redirect(new URL(`${DEGENCAST_WEB_URL}/u/${fid}`));
+      } else {
+        return NextResponse.redirect(new URL(`${DEGENCAST_WEB_URL}`));
+      }
+    }
     if (
       pathname === "/curationchannel/frames/channels" ||
       pathname === "/waitlist-v1/frames" ||
