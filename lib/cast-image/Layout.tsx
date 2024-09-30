@@ -1,8 +1,18 @@
 import { FRAMES_BASE_URL } from "../env";
 import { NeynarCast } from "../createproposal/neynar-types";
 import CastContent from "./CastContent";
+import { getCastImageUrl } from "../cast";
 
 export function Layout({ cast }: { cast: NeynarCast }) {
+  const embedLen = cast?.embeds?.length || 0;
+  if (embedLen !== 0) {
+    return (
+      <img
+        src={getCastImageUrl(cast.hash)}
+        style={{ width: "100%", height: "100%" }}
+      />
+    );
+  }
   return (
     <div
       style={{
