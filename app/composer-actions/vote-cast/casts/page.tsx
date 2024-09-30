@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 
 function VoteCasts() {
   const searchParams = useSearchParams();
-  const fid = searchParams.get("fid") || "";
+  const fid = searchParams?.get("fid") || "";
   const { loadItems, loading, items, hasNextPage } = useLoadCastFeeds({ fid });
   const loader = (
     <div
