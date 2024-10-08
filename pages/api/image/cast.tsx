@@ -1,7 +1,7 @@
 import { Layout } from "@/lib/cast-image/Layout";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
-import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
+import satori from "satori";
 
 export const config = {
   runtime: "edge",
@@ -40,7 +40,9 @@ export default async function handler(req: NextRequest) {
       res.arrayBuffer()
     ),
   ]);
-  return new ImageResponse(element as JSX.Element, {
+  console.log("fetched fonts");
+
+  const svg = await satori(element as JSX.Element, {
     width: 1000,
     height: 1000,
     fonts: [
@@ -63,6 +65,12 @@ export default async function handler(req: NextRequest) {
         style: "normal",
       },
     ],
+  });
+
+  return new Response(svg, {
+    headers: {
+      "Content-Type": "image/svg+xml",
+    },
   });
 }
 
