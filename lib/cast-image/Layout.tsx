@@ -20,8 +20,8 @@ export function Layout({ cast }: { cast: NeynarCast }) {
         boxSizing: "border-box",
         paddingLeft: "54px",
         paddingRight: "54px",
-        paddingTop: "168px",
-        paddingBottom: "168px",
+        paddingTop: "148px",
+        paddingBottom: "148px",
         display: "flex",
         flexDirection: "column",
         gap: "20px",
@@ -34,6 +34,7 @@ export function Layout({ cast }: { cast: NeynarCast }) {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         color: "white",
+        position: "relative",
       }}
     >
       {cast?.channel && <ChannelInfo channel={cast.channel} />}
@@ -61,7 +62,6 @@ function formatDate(date: any) {
 export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
   const maxTextLen = 60;
   const { image_url, name } = channel;
-  console.log("channel", channel);
 
   const oneLen = name.length;
   const count = Math.floor(maxTextLen / oneLen) + 2;
@@ -75,14 +75,22 @@ export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
         overflow: "hidden",
         width: "100%",
         position: "absolute",
-        top: "28px",
+        top: "26px",
         boxSizing: "border-box",
-        paddingLeft: "180px",
-        paddingRight: "54px",
+        paddingLeft: 140,
+        paddingRight: 54,
       }}
     >
       {Array.from({ length: count }).map((_, i) => (
-        <>
+        <div
+          key={i}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "10px",
+            alignItems: "center",
+          }}
+        >
           <img
             src={image_url}
             width={16}
@@ -102,7 +110,7 @@ export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
           >
             {name}
           </span>
-        </>
+        </div>
       ))}
     </div>
   );
@@ -136,6 +144,7 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
         }}
       >
         <span
+          tw="leading-none"
           style={{
             fontSize: "64px",
             fontWeight: 900,
@@ -144,7 +153,7 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
           {author.display_name}
         </span>
         <div
-          // tw="flex flex-row items-center gap-[16px]"
+          tw="leading-none"
           style={{
             flex: 1,
             display: "flex",
