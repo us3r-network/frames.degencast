@@ -1,8 +1,9 @@
 import { FRAMES_BASE_URL } from "../env";
-import { NeynarCast } from "../createproposal/neynar-types";
+import { NeynarCast, NeynarChannel } from "../createproposal/neynar-types";
 import CastContent from "./CastContent";
 import { getCastImageUrl } from "../cast";
 
+const bgUrl = `${FRAMES_BASE_URL}/images/image-api/cast-bg.jpg`;
 export function Layout({ cast }: { cast: NeynarCast }) {
   const embedLen = cast?.embeds?.length || 0;
   if (embedLen !== 0) {
@@ -16,6 +17,11 @@ export function Layout({ cast }: { cast: NeynarCast }) {
   return (
     <div
       style={{
+        boxSizing: "border-box",
+        paddingLeft: "54px",
+        paddingRight: "54px",
+        paddingTop: "168px",
+        paddingBottom: "168px",
         display: "flex",
         flexDirection: "column",
         gap: "20px",
@@ -23,95 +29,87 @@ export function Layout({ cast }: { cast: NeynarCast }) {
         justifyContent: "center",
         width: "100%",
         height: "100%",
-        padding: "40px",
-        paddingTop: "20px",
-        paddingBottom: "20px",
-        backgroundImage: "linear-gradient(90deg, #000c3f 0%, #23006c 100%)",
+        backgroundImage: `url(${bgUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         color: "white",
       }}
     >
+      {cast?.channel && <ChannelInfo channel={cast.channel} />}
+
       <div
         style={{
           width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
-        <img
-          src={`${FRAMES_BASE_URL}/images/base.png`}
-          style={{
-            width: 100,
-            height: 100,
-          }}
-        />
-        <span
-          style={{
-            fontSize: "96px",
-            fontWeight: 700,
-            lineHeight: "40px",
-          }}
-        >
-          Base
-        </span>
-      </div>
-      <div
-        style={{
-          width: "100%",
-          flex: 1,
           display: "flex",
           flexDirection: "column",
-          gap: "20px",
-          padding: "20px",
-          borderRadius: "30px",
-          backgroundColor: "white",
+          gap: "30px",
           color: "#1A1A1A",
         }}
       >
         <UserInfo cast={cast} />
         <CastContent cast={cast} />
       </div>
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            marginLeft: "auto",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "1",
-            fontWeight: "bold",
-          }}
-        >
-          <span> Power By</span>
-          <img
-            src={`${FRAMES_BASE_URL}/images/degencasthat.png`}
-            width={24}
-            height={24}
-          />
-          <span> Degencast.wtf</span>
-        </div>
-      </div>
     </div>
   );
 }
 
 function formatDate(date: any) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const d = new Date(date);
+  return `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
+}
+export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
+  const maxTextLen = 60;
+  const { image_url, name } = channel;
+  console.log("channel", channel);
+
+  const oneLen = name.length;
+  const count = Math.floor(maxTextLen / oneLen) + 2;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "10px",
+        alignItems: "center",
+        overflow: "hidden",
+        width: "100%",
+        position: "absolute",
+        top: "28px",
+        boxSizing: "border-box",
+        paddingLeft: "180px",
+        paddingRight: "54px",
+      }}
+    >
+      {Array.from({ length: count }).map((_, i) => (
+        <>
+          <img
+            src={image_url}
+            width={16}
+            height={16}
+            style={{
+              borderRadius: 9999,
+            }}
+          />
+          <span
+            style={{
+              fontStyle: "italic",
+              fontSize: "16px",
+              fontWeight: 700,
+              color: "#1A1A1A",
+              textTransform: "uppercase",
+            }}
+          >
+            {name}
+          </span>
+        </>
+      ))}
+    </div>
+  );
 }
 export function UserInfo({ cast }: { cast: NeynarCast }) {
   const author = cast.author;
-  console.log("author", author);
-
+  const timeStr = formatDate(cast.timestamp);
   return (
     <div
       style={{
@@ -123,23 +121,24 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
     >
       <img
         src={author.pfp_url}
-        width={80}
-        height={80}
+        width={100}
+        height={100}
         style={{
           borderRadius: 9999,
         }}
       />
       <div
         style={{
+          flex: 1,
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
+          gap: "20px",
         }}
       >
         <span
           style={{
-            fontSize: "40px",
-            fontWeight: "bold",
+            fontSize: "64px",
+            fontWeight: 900,
           }}
         >
           {author.display_name}
@@ -147,24 +146,40 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
         <div
           // tw="flex flex-row items-center gap-[16px]"
           style={{
+            flex: 1,
             display: "flex",
             flexDirection: "row",
-            gap: "16px",
             alignItems: "center",
-            color: "#9BA1AD",
-            fontSize: "24px",
-            fontWeight: 400,
           }}
         >
-          <span>@{author.username}</span>
-          <div
+          <span
             style={{
-              backgroundColor: "#9BA1AD",
-              width: 2,
-              height: 20,
+              fontStyle: "italic",
+              fontSize: "24px",
+              fontWeight: 500,
+              color: "#1A1A1A",
             }}
-          />
-          <span>{formatDate(cast.timestamp)}</span>
+          >
+            @{author.username}
+          </span>
+          <span
+            style={{
+              width: "190px",
+              fontStyle: "italic",
+              backgroundColor: "#1A1A1A",
+              borderRadius: "9999px",
+              color: "white",
+              fontSize: "24px",
+              fontWeight: 500,
+              textAlign: "center",
+              paddingTop: 4,
+              paddingBottom: 4,
+              paddingLeft: timeStr.length === 10 ? 14 : 18,
+              paddingRight: 8,
+            }}
+          >
+            {timeStr}
+          </span>
         </div>
       </div>
     </div>
