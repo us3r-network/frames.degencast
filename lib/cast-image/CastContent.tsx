@@ -9,24 +9,26 @@ export default function CastContent({ cast }: { cast: NeynarCast }) {
   return null;
 }
 
-function CastText({
-  text,
-  lineClamp = 20,
-}: {
-  text: string;
-  lineClamp?: number;
-}) {
+function CastText({ text }: { text: string }) {
+  const isLongText = text.length > 1024;
   return (
     <div
+      tw="px-[20px]"
       style={{
-        width: "100%",
         height: "100%",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        display: "-webkit-box",
-        WebkitLineClamp: lineClamp,
-        WebkitBoxOrient: "vertical",
         fontSize: "24px",
+        fontWeight: 700,
+        lineHeight: "36px",
+        ...(isLongText
+          ? {
+              display: "block",
+              lineClamp: 19,
+            }
+          : {
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }),
       }}
     >
       {text}
