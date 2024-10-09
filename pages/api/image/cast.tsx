@@ -1,6 +1,5 @@
 import { Layout } from "@/lib/cast-image/Layout";
 import { getCastWithHash } from "@/lib/createproposal/neynar-api";
-// import { NextRequest } from "next/server";
 import satori from "satori";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -37,33 +36,6 @@ export default async function handler(req: any, res: any) {
       element = <ErrorLayout title="Error when fetching cast" />;
     }
   }
-  // const host = req.host;
-  // const [MontserratMediumNormal, MontserratBoldNormal, MontserratBlackNormal] =
-  //   await Promise.all([
-  //     fetch(
-  //       new URL(`fonts/montserrat/Montserrat-Medium.ttf`, host).toString()
-  //     ).then((res) => res.arrayBuffer()),
-  //     fetch(
-  //       new URL(`fonts/montserrat/Montserrat-Bold.ttf`, host).toString()
-  //     ).then((res) => res.arrayBuffer()),
-  //     fetch(
-  //       new URL(`fonts/montserrat/Montserrat-Black.ttf`, host).toString()
-  //     ).then((res) => res.arrayBuffer()),
-  //   ]);
-  // const [MontserratMediumItalic, MontserratBoldItalic, MontserratBlackItalic] =
-  //   await Promise.all([
-  //     fetch(
-  //       new URL(`fonts/montserrat/Montserrat-Italic.ttf`, host).toString()
-  //     ).then((res) => res.arrayBuffer()),
-  //     fetch(
-  //       new URL(`fonts/montserrat/Montserrat-BoldItalic.ttf`, host).toString()
-  //     ).then((res) => res.arrayBuffer()),
-  //     fetch(
-  //       new URL(`fonts/montserrat/Montserrat-BlackItalic.ttf`, host).toString()
-  //     ).then((res) => res.arrayBuffer()),
-  //   ]);
-  console.log("fetched fonts");
-
   const svg = await satori(
     <div
       style={{
@@ -100,12 +72,6 @@ export default async function handler(req: any, res: any) {
       ],
     }
   );
-
-  // return new Response(svg, {
-  //   headers: {
-  //     "Content-Type": "image/svg+xml",
-  //   },
-  // });
   res.setHeader("Content-Type", "image/svg+xml");
   res.send(svg);
 }
