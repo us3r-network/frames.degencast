@@ -68,13 +68,16 @@ function OneImg({ img }: { img: Embeds["imgs"][0] }) {
 }
 
 function TwoImgs({ imgs }: { imgs: Embeds["imgs"] }) {
+  const isRow = imgs.some(
+    (img) => img.metadata?.image?.width_px < img.metadata?.image?.height_px
+  );
   return (
     <div
       style={{
         height: "100%",
         width: "100%",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: isRow ? "row" : "column",
         alignItems: "center",
         justifyContent: "center",
         gap: 20,
@@ -88,6 +91,11 @@ function TwoImgs({ imgs }: { imgs: Embeds["imgs"] }) {
         }
         let w = 542;
         let h = (height_px / width_px) * w;
+        if (isRow) {
+          w = 430;
+          h = (height_px / width_px) * w;
+        }
+
         return (
           <img
             src={url}
