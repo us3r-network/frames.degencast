@@ -2,11 +2,16 @@ import { FRAMES_BASE_URL } from "../env";
 import { NeynarCast, NeynarChannel } from "../createproposal/neynar-types";
 import CastContent from "./CastContent";
 import { getCastImageUrl } from "../cast";
+import { getEmbeds } from "../getEmbeds";
 
 const bgUrl = `${FRAMES_BASE_URL}/images/image-api/cast-bg.jpg`;
 export function Layout({ cast }: { cast: NeynarCast }) {
-  const embedLen = cast?.embeds?.length || 0;
-  if (embedLen !== 0) {
+  const { imgs, videos, webpages, casts } = getEmbeds(cast);
+  const hasImg = imgs.length > 0;
+  const hasVideo = videos.length > 0;
+  const hasWebpage = webpages.length > 0;
+  const hasCast = casts.length > 0;
+  if (hasVideo || hasWebpage || hasCast) {
     return (
       <img
         src={getCastImageUrl(cast.hash)}
@@ -46,7 +51,7 @@ export function Layout({ cast }: { cast: NeynarCast }) {
           boxSizing: "border-box",
           paddingLeft: "54px",
           paddingRight: "54px",
-          paddingBottom: "148px",
+          paddingBottom: "78px",
           marginTop: "30px",
           display: "flex",
           flexDirection: "column",
