@@ -9,16 +9,104 @@ export default function EmbedImg({
   imgs: Embeds["imgs"];
 }) {
   const imgLength = imgs.length;
-  if (imgLength === 1) {
-    return <OneImg text={text} img={imgs[0]} />;
+  if (!text) {
+    if (imgLength === 1) {
+      return <OneImg img={imgs[0]} />;
+    }
+    if (imgLength === 2) {
+      return <TwoImgs imgs={imgs} />;
+    }
+    return null;
+  } else {
+    if (imgLength === 1) {
+      return <OneImgText text={text} img={imgs[0]} />;
+    }
+    if (imgLength === 2) {
+      return <TwoImgsText text={text} imgs={imgs} />;
+    }
+    return null;
   }
-  if (imgLength === 2) {
-    return <TwoImgs text={text} imgs={imgs} />;
+}
+function OneImg({ img }: { img: Embeds["imgs"][0] }) {
+  const { metadata, url } = img;
+  const { width_px, height_px } = metadata?.image || {};
+
+  if (!width_px || !height_px) {
+    return null;
   }
-  return null;
+  let w = 890;
+  let h = (height_px / width_px) * w;
+  if (width_px < height_px) {
+    h = 630;
+    w = (width_px / height_px) * h;
+  }
+
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <img
+        src={url}
+        width={w}
+        height={h}
+        style={{
+          maxHeight: "100%",
+          maxWidth: "100%",
+          borderRadius: "20px",
+          objectFit: "cover",
+        }}
+      />
+    </div>
+  );
 }
 
-function OneImg({ text, img }: { text: string; img: Embeds["imgs"][0] }) {
+function TwoImgs({ imgs }: { imgs: Embeds["imgs"] }) {
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 20,
+      }}
+    >
+      {imgs.map((img, i) => {
+        const { metadata, url } = img;
+        const { width_px, height_px } = metadata?.image || {};
+        if (!width_px || !height_px) {
+          return null;
+        }
+        let w = 542;
+        let h = (height_px / width_px) * w;
+        return (
+          <img
+            src={url}
+            width={w}
+            height={h}
+            style={{
+              maxWidth: "50%",
+              maxHeight: "50%",
+              borderRadius: "20px",
+              objectFit: "cover",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function OneImgText({ text, img }: { text: string; img: Embeds["imgs"][0] }) {
   const { metadata, url } = img;
   const { width_px, height_px } = metadata?.image || {};
 
@@ -105,7 +193,8 @@ function OneImg({ text, img }: { text: string; img: Embeds["imgs"][0] }) {
     );
   }
 }
-function TwoImgs({ text, imgs }: { text: string; imgs: Embeds["imgs"] }) {
+
+function TwoImgsText({ text, imgs }: { text: string; imgs: Embeds["imgs"] }) {
   return (
     <div
       style={{
