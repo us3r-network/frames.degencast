@@ -2,11 +2,16 @@ import { FRAMES_BASE_URL } from "../env";
 import { NeynarCast, NeynarChannel } from "../createproposal/neynar-types";
 import CastContent from "./CastContent";
 import { getCastImageUrl } from "../cast";
+import { getEmbeds } from "../getEmbeds";
 
 const bgUrl = `${FRAMES_BASE_URL}/images/image-api/cast-bg.jpg`;
 export function Layout({ cast }: { cast: NeynarCast }) {
-  const embedLen = cast?.embeds?.length || 0;
-  if (embedLen !== 0) {
+  const { imgs, videos, webpages, casts } = getEmbeds(cast);
+  const hasImg = imgs.length > 0;
+  const hasVideo = videos.length > 0;
+  const hasWebpage = webpages.length > 0;
+  const hasCast = casts.length > 0;
+  if (hasVideo || hasWebpage || hasCast) {
     return (
       <img
         src={getCastImageUrl(cast.hash)}
@@ -17,16 +22,8 @@ export function Layout({ cast }: { cast: NeynarCast }) {
   return (
     <div
       style={{
-        boxSizing: "border-box",
-        paddingLeft: "54px",
-        paddingRight: "54px",
-        paddingTop: "148px",
-        paddingBottom: "148px",
         display: "flex",
         flexDirection: "column",
-        gap: "20px",
-        alignItems: "center",
-        justifyContent: "center",
         width: "100%",
         height: "100%",
         backgroundImage: `url(${bgUrl})`,
@@ -34,14 +31,28 @@ export function Layout({ cast }: { cast: NeynarCast }) {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         color: "white",
-        position: "relative",
       }}
     >
-      {cast?.channel && <ChannelInfo channel={cast.channel} />}
-
       <div
         style={{
+          display: "flex",
           width: "100%",
+          marginTop: "24px",
+          paddingLeft: "180px",
+          paddingRight: "54px",
+          height: 24,
+        }}
+      >
+        {cast?.channel && <ChannelInfo channel={cast.channel} />}
+      </div>
+      <div
+        style={{
+          flex: 1,
+          boxSizing: "border-box",
+          paddingLeft: "54px",
+          paddingRight: "54px",
+          paddingBottom: "78px",
+          marginTop: "30px",
           display: "flex",
           flexDirection: "column",
           gap: "30px",
@@ -49,7 +60,16 @@ export function Layout({ cast }: { cast: NeynarCast }) {
         }}
       >
         <UserInfo cast={cast} />
-        <CastContent cast={cast} />
+
+        <div
+          style={{
+            flex: 1,
+            width: "100%",
+            display: "flex",
+          }}
+        >
+          <CastContent cast={cast} />
+        </div>
       </div>
     </div>
   );
@@ -74,11 +94,7 @@ export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
         alignItems: "center",
         overflow: "hidden",
         width: "100%",
-        position: "absolute",
-        top: "26px",
         boxSizing: "border-box",
-        paddingLeft: 140,
-        paddingRight: 54,
       }}
     >
       {Array.from({ length: count }).map((_, i) => (
@@ -121,6 +137,7 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
   return (
     <div
       style={{
+        width: "100%",
         display: "flex",
         flexDirection: "row",
         gap: "20px",
@@ -140,25 +157,28 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          gap: "20px",
+          justifyContent: "space-between",
+          gap: "30px",
         }}
       >
         <span
-          tw="leading-none"
           style={{
+            display: "block",
             fontSize: "64px",
             fontWeight: 900,
+            lineClamp: 1,
+            lineHeight: "40px",
           }}
         >
           {author.display_name}
         </span>
         <div
-          tw="leading-none"
           style={{
-            flex: 1,
+            width: "100%",
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <span
@@ -173,17 +193,15 @@ export function UserInfo({ cast }: { cast: NeynarCast }) {
           </span>
           <span
             style={{
-              width: "190px",
               fontStyle: "italic",
               backgroundColor: "#1A1A1A",
               borderRadius: "9999px",
               color: "white",
               fontSize: "24px",
               fontWeight: 500,
-              textAlign: "center",
               paddingTop: 4,
               paddingBottom: 4,
-              paddingLeft: timeStr.length === 10 ? 14 : 18,
+              paddingLeft: 8,
               paddingRight: 8,
             }}
           >
