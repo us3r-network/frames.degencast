@@ -5,20 +5,15 @@ import { getCastImageUrl } from "../cast";
 import { getEmbeds } from "../getEmbeds";
 
 const bgUrl = `${FRAMES_BASE_URL}/images/image-api/cast-bg.jpg`;
+const homeImgUrl = `${FRAMES_BASE_URL}/images/image-api/home.png`;
 export function Layout({ cast }: { cast: NeynarCast }) {
   const { imgs, videos, webpages, casts } = getEmbeds(cast);
   const hasImg = imgs.length > 0;
   const hasVideo = videos.length > 0;
   const hasWebpage = webpages.length > 0;
   const hasCast = casts.length > 0;
-  if (hasVideo || hasWebpage || hasCast) {
-    return (
-      <img
-        src={getCastImageUrl(cast.hash)}
-        style={{ width: "100%", height: "100%" }}
-      />
-    );
-  }
+  const useDefaultImg = hasVideo || hasWebpage || hasCast;
+
   return (
     <div
       style={{
@@ -37,13 +32,13 @@ export function Layout({ cast }: { cast: NeynarCast }) {
         style={{
           display: "flex",
           width: "100%",
-          marginTop: "24px",
+          marginTop: "20px",
           paddingLeft: "180px",
           paddingRight: "54px",
           height: 24,
         }}
       >
-        {cast?.channel && <ChannelInfo channel={cast.channel} />}
+        <ChannelInfo channel={cast?.channel} />
       </div>
       <div
         style={{
@@ -55,21 +50,37 @@ export function Layout({ cast }: { cast: NeynarCast }) {
           marginTop: "30px",
           display: "flex",
           flexDirection: "column",
-          gap: "30px",
-          color: "#1A1A1A",
         }}
       >
-        <UserInfo cast={cast} />
-
-        <div
-          style={{
-            flex: 1,
-            width: "100%",
-            display: "flex",
-          }}
-        >
-          <CastContent cast={cast} />
-        </div>
+        {useDefaultImg ? (
+          <img
+            src={getCastImageUrl(cast.hash)}
+            style={{ width: "100%", height: "100%" }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "30px",
+              color: "#1A1A1A",
+            }}
+          >
+            {" "}
+            <UserInfo cast={cast} />
+            <div
+              style={{
+                flex: 1,
+                width: "100%",
+                display: "flex",
+              }}
+            >
+              <CastContent cast={cast} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -79,12 +90,16 @@ function formatDate(date: any) {
   const d = new Date(date);
   return `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`;
 }
-export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
+export function ChannelInfo({ channel }: { channel?: NeynarChannel }) {
   const maxTextLen = 60;
-  const { image_url, name } = channel;
+  const { image_url, id } = channel || {};
+  const channelId = id || "home";
 
-  const oneLen = name.length;
+  const oneLen = channelId.length;
   const count = Math.floor(maxTextLen / oneLen) + 2;
+
+  const symbol = channelId === "home" ? "CAST" : channelId?.toUpperCase();
+  const imageUrl = image_url || (channelId === "home" ? homeImgUrl : image_url);
   return (
     <div
       style={{
@@ -108,7 +123,7 @@ export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
           }}
         >
           <img
-            src={image_url}
+            src={imageUrl}
             width={16}
             height={16}
             style={{
@@ -120,11 +135,12 @@ export function ChannelInfo({ channel }: { channel: NeynarChannel }) {
               fontStyle: "italic",
               fontSize: "16px",
               fontWeight: 700,
-              color: "#1A1A1A",
+              color: "#ACACC8",
               textTransform: "uppercase",
+              lineHeight: "24px",
             }}
           >
-            {name}
+            ${symbol}
           </span>
         </div>
       ))}
