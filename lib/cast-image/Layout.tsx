@@ -1,7 +1,7 @@
 import { FRAMES_BASE_URL } from "../env";
 import { NeynarCast, NeynarChannel } from "../createproposal/neynar-types";
 import CastContent from "./CastContent";
-import { getCastImageUrl } from "../cast";
+import { getWarpcastImageUrl } from "../cast";
 import { getEmbeds } from "../getEmbeds";
 
 const bgUrl = `${FRAMES_BASE_URL}/images/image-api/cast-bg.jpg`;
@@ -54,7 +54,7 @@ export function Layout({ cast }: { cast: NeynarCast }) {
       >
         {useDefaultImg ? (
           <img
-            src={getCastImageUrl(cast.hash)}
+            src={getWarpcastImageUrl(cast.hash)}
             style={{ width: "100%", height: "100%" }}
           />
         ) : (
