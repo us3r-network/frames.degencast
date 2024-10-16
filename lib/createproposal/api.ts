@@ -92,3 +92,52 @@ export async function createToken(
   const data = await resp.json();
   return data;
 }
+
+export enum UserActionName {
+  Share = "Share",
+  View = "View",
+  Like = "Like",
+  UnLike = "UnLike",
+  Tips = "Tips",
+  ConnectFarcaster = "ConnectFarcaster",
+  BuyChannelShare = "BuyChannelShare",
+  Invite = "Invite",
+  SwapToken = "SwapToken",
+  MintCast = "MintCast",
+  ViewChannel = "ViewChannel",
+  VoteCast = "VoteCast",
+  PostingSignature = "PostingSignature",
+}
+
+export type UserActionPointConfig = {
+  [key in UserActionName]: {
+    unit: number;
+    dailyLimit?: number;
+  };
+};
+
+export async function getActionPointConfig(): Promise<
+  ApiResp<UserActionPointConfig>
+> {
+  const url = `${DEGENCAST_API}/topics/action-point-configs`;
+  const resp = await fetch(url);
+  const data = await resp.json();
+  return data;
+}
+
+export async function createCastNft(
+  castHash: string,
+  castMessage: string
+): Promise<ApiResp<AttentionTokenEntity>> {
+  const url = `${DEGENCAST_API}/topics/proposals`;
+
+  const resp = await fetch(url, {
+    method: "post",
+    body: JSON.stringify({
+      castHash,
+      castMessage,
+    }),
+  });
+  const data = await resp.json();
+  return data;
+}
