@@ -133,6 +133,7 @@ export async function createCastNft(
 
   const resp = await fetch(url, {
     method: "post",
+    headers: { accept: "application/json", "content-type": "application/json" },
     body: JSON.stringify({
       castHash,
       frameMessage,
