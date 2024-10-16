@@ -127,7 +127,7 @@ export async function getActionPointConfig(): Promise<
 
 export async function createCastNft(
   castHash: string,
-  castMessage: string
+  frameMessage: string
 ): Promise<ApiResp<AttentionTokenEntity>> {
   const url = `${DEGENCAST_API}/topics/proposals`;
 
@@ -135,7 +135,7 @@ export async function createCastNft(
     method: "post",
     body: JSON.stringify({
       castHash,
-      castMessage,
+      frameMessage,
     }),
   });
   const data = await resp.json();
