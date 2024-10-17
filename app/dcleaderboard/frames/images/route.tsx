@@ -12,6 +12,21 @@ const InterBoldFont = fs.readFileSync(
   path.join(process.cwd(), "public/fonts/inter/Inter-Bold.otf")
 );
 
+const ChangaFontRegular = fs.readFileSync(
+  path.join(process.cwd(), "public/fonts/changa-one/ChangaOne-Regular.ttf")
+);
+const ChangeFontItalic = fs.readFileSync(
+  path.join(process.cwd(), "public/fonts/changa-one/ChangaOne-Italic.ttf")
+);
+
+const MontserratMediumItalic = fs.readFileSync(
+  path.join(process.cwd(), "public/fonts/montserrat/Montserrat-Italic.ttf")
+);
+
+const firaScriptData = fs.readFileSync(
+  path.join(process.cwd(), "public/fonts/fira-code/FiraCodeiScript-Regular.ttf")
+);
+
 const imagesRoute = createImagesWorker({
   secret: "degencast",
   imageOptions: {
@@ -27,19 +42,33 @@ const imagesRoute = createImagesWorker({
         name: "Inter",
         data: InterFont,
         weight: 400,
-        style: "normal",
-      },
-      {
-        name: "Inter",
-        data: InterFontMedium,
-        weight: 500,
-        style: "normal",
       },
       {
         name: "Inter",
         data: InterBoldFont,
         weight: 700,
-        style: "normal",
+      },
+      {
+        name: "Fira Code",
+        data: firaScriptData,
+        weight: 700,
+      },
+      {
+        name: "Changa",
+        data: ChangaFontRegular,
+        weight: 400,
+      },
+      {
+        name: "Changa",
+        data: ChangeFontItalic,
+        weight: 400,
+        style: "italic",
+      },
+      {
+        name: "Montserrat",
+        data: MontserratMediumItalic,
+        weight: 500,
+        style: "italic",
       },
     ],
   },

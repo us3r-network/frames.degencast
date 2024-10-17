@@ -4,13 +4,33 @@ import { Button } from "frames.js/next";
 
 import { FRAMES_BASE_URL, DEGENCAST_WEB_URL, DEGENCAST_API } from "@/lib/env";
 import { frames } from "../frames";
+import { error } from "frames.js/core";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const searchFid = ctx.searchParams?.searchFid || "";
   const requesterFid = ctx.message?.requesterFid || "";
 
-  const profileFid = searchFid || requesterFid;
+  const profileFid = searchFid || `${requesterFid}`;
+
+  console.log({ profileFid });
+  if (!profileFid) {
+    return error("Profile not found");
+  }
+
+  // https://api-dev.u3.xyz/topics/frames/profiles?fid=19585
+  const resp = await fetch(
+    `${DEGENCAST_API}/topics/frames/profiles?fid=${profileFid}`
+  );
+  const data = await resp.json();
+  const user = data?.data?.user;
+  const mintCount = data?.data?.mintCount || 0;
+  const rank = data?.data?.rank || 0;
+  const points = data?.data?.points || 0;
+
+  if (!user) {
+    return error("Profile not found");
+  }
 
   return {
     title: "Degencast Leaderboard",
@@ -53,10 +73,7 @@ const handleRequest = frames(async (ctx) => {
                   backgroundColor: "white",
                 }}
               >
-                <img
-                  src="https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/e2336234-90f9-4b3d-8e9c-78edc7da8700/original"
-                  alt=""
-                />
+                <img src={user.pfp_url} alt="" />
               </div>
             </div>
             <div
@@ -75,7 +92,7 @@ const handleRequest = frames(async (ctx) => {
                   lineHeight: "120%",
                 }}
               >
-                Liang@degencast.wtf
+                {user.display_name}
               </span>
               <span
                 style={{
@@ -86,7 +103,7 @@ const handleRequest = frames(async (ctx) => {
                   marginBottom: "20px",
                 }}
               >
-                @degencast.eth
+                {`@${user.username}`}
               </span>
               <span
                 style={{
@@ -95,7 +112,7 @@ const handleRequest = frames(async (ctx) => {
                   lineHeight: "150%",
                 }}
               >
-                building degencast.wtf /degencast . ex-bitmain, binance
+                {user.profile.bio.text}
               </span>
             </div>
           </div>
@@ -109,17 +126,17 @@ const handleRequest = frames(async (ctx) => {
             <div tw="flex ">
               <Label text="minted" />
               <div tw="flex w-[16px]" />
-              <Value text="12" />
+              <Value text={`${mintCount}`} />
             </div>
             <div tw="flex mt-[16px] mb-[16px]">
               <Label text="$CAST" />
               <div tw="flex w-[16px]" />
-              <Value text="9876" />
+              <Value text={`${points}`} />
             </div>
             <div tw="flex ">
               <Label text="RANK" />
               <div tw="flex w-[16px]" />
-              <Value text="96" />
+              <Value text={`${rank}`} />
             </div>
           </div>
         </div>
@@ -171,7 +188,7 @@ function Value({ text }: { text: string }) {
           color: "#FFF",
           WebkitTextStrokeWidth: "3px",
           WebkitTextStrokeColor: "#FFF",
-          fontFamily: "Changa One",
+          fontFamily: "Changa",
           fontSize: "53px",
           fontWeight: "400",
           lineHeight: "39px",
@@ -206,7 +223,7 @@ function Label({ text }: { text: string }) {
         style={{
           color: "#FFF",
           textAlign: "center",
-          fontFamily: "Changa One",
+          fontFamily: "Changa",
           fontSize: "53px",
           fontStyle: "normal",
           fontWeight: 400,
