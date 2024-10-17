@@ -9,8 +9,8 @@ import { error } from "frames.js/core";
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
   const searchFid = ctx.searchParams?.searchFid || "";
+  const from = ctx.searchParams?.from || "";
   const requesterFid = ctx.message?.requesterFid || "";
-
   const profileFid = searchFid || `${requesterFid}`;
 
   console.log({ profileFid });
@@ -147,18 +147,47 @@ const handleRequest = frames(async (ctx) => {
       height: 800,
       aspectRatio: "1:1",
     },
-    buttons: [
-      <Button
-        action="post"
-        target={{ pathname: "/frames/profile", query: { inviteFid } }}
-        key={"top-tokens"}
-      >
-        Check Me
-      </Button>,
-      <Button action="link" target={`${DEGENCAST_WEB_URL}`} key={"app"}>
-        App
-      </Button>,
-    ],
+    buttons: from
+      ? [
+          <Button
+            action="post"
+            target={{ pathname: from, query: { inviteFid } }}
+            key={"back"}
+          >
+            Back
+          </Button>,
+          <Button
+            action="link"
+            target={`https://warpcast.com/~/compose?text=${encodeURIComponent(
+              "Check out my profile on Degencast Leaderboard"
+            )}&embeds[]=${FRAMES_BASE_URL}/dcleaderboard/frames/profile?searchFid=${profileFid}&inviteFid=${inviteFid}`}
+            key={"share"}
+          >
+            Share
+          </Button>,
+          <Button
+            action="post"
+            target={{ pathname: "/frames", query: { inviteFid } }}
+            key={"home"}
+          >
+            Home
+          </Button>,
+          <Button action="link" target={`${DEGENCAST_WEB_URL}`} key={"app"}>
+            Open App
+          </Button>,
+        ]
+      : [
+          <Button
+            action="post"
+            target={{ pathname: "/frames/profile", query: { inviteFid } }}
+            key={"top-tokens"}
+          >
+            Check Me
+          </Button>,
+          <Button action="link" target={`${DEGENCAST_WEB_URL}`} key={"app"}>
+            Open App
+          </Button>,
+        ],
   };
 });
 

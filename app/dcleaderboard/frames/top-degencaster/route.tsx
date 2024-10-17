@@ -8,6 +8,18 @@ import { frames } from "../frames";
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
 
+  const resp = await fetch(
+    `${DEGENCAST_API}/topics/points/leaderboard?limit=10`
+  );
+  const data = await resp.json();
+  const leaderboard: {
+    user: {
+      username: string;
+      pfp_url: string;
+    };
+    points: number;
+  }[] = data?.data || [];
+
   return {
     title: "Degencast Leaderboard",
     image: (
@@ -26,9 +38,14 @@ const handleRequest = frames(async (ctx) => {
             Top 10 DegenCasters
           </span>
         </div>
-        <div tw="flex flex-col gap-[24px] w-full bg-[#000] mt-[20px] p-[20px] h-full">
+        <div
+          tw="flex flex-col gap-[24px] w-full bg-[#000] mt-[20px] p-[20px] h-[705px]"
+          style={{
+            borderRadius: "20px",
+          }}
+        >
           <table
-            tw="flex flex-col w-full border-separate border-spacing-0 text-white"
+            tw="flex flex-col w-full h-ful text-white"
             style={{
               textAlign: "center",
               fontFamily: "Inter",
@@ -45,27 +62,32 @@ const handleRequest = frames(async (ctx) => {
                 <th tw="">$CAST Points</th>
               </tr>
             </thead>
-            <tbody tw="w-full ">
-              <tr tw="w-full flex flex-row  mt-[20px]">
-                <td tw="w-[100px]">1</td>
-                <td tw="flex flex-grow items-center">
-                  <div tw="flex w-[40px] h-[40px] bg-[#fff] overflow-hidden rounded-full">
-                    <img
-                      src="https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/e2336234-90f9-4b3d-8e9c-78edc7da8700/original"
-                      alt=""
-                      tw=""
-                    />
-                  </div>
-                  <span
-                    style={{
-                      marginLeft: "10px",
-                    }}
-                  >
-                    $CHANNELTOKEN
-                  </span>
-                </td>
-                <td tw="">24,235</td>
-              </tr>
+            <tbody tw="w-full flex flex-col">
+              {leaderboard.slice(0, 10).map((user, index) => {
+                return (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                  <tr tw="w-full flex flex-row  mt-[20px]" key={index}>
+                    <td tw="w-[100px]">{index + 1}</td>
+                    <td tw="flex flex-grow items-center">
+                      {user.user.pfp_url && (
+                        <img
+                          src={user.user.pfp_url}
+                          alt=""
+                          tw="flex w-[40px] h-[40px] bg-[#fff] overflow-hidden rounded-full"
+                        />
+                      )}
+                      <span
+                        style={{
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {user.user.username}
+                      </span>
+                    </td>
+                    <td tw="">{user.points}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -79,13 +101,23 @@ const handleRequest = frames(async (ctx) => {
     buttons: [
       <Button
         action="post"
-        target={{ pathname: "/frames/top-tokens", query: { inviteFid } }}
-        key={"top-tokens"}
+        target={{
+          pathname: "/frames/profile",
+          query: { inviteFid, from: "/frames/top-degencaster" },
+        }}
+        key={"profile"}
       >
-        Top Tokens
+        Check Me
+      </Button>,
+      <Button
+        action="post"
+        target={{ pathname: "/frames", query: { inviteFid } }}
+        key={"home"}
+      >
+        Home
       </Button>,
       <Button action="link" target={`${DEGENCAST_WEB_URL}`} key={"app"}>
-        App
+        Open App
       </Button>,
     ],
   };
