@@ -1,3 +1,7 @@
+import { NeynarCast } from "./createproposal/neynar-types";
+import { AttentionTokenEntity } from "./createproposal/types/attention-token";
+import { CommunityEntity } from "./createproposal/types/community";
+import { ProposalEntity } from "./createproposal/types/proposal";
 import { DEGENCAST_API } from "./env";
 
 export enum ApiRespCode {
@@ -58,6 +62,21 @@ export async function joinWaitlist(
   const resp = await fetch(url, {
     method: "post",
   });
+  const data = await resp.json();
+  return data;
+}
+
+export type CastDetailsData = {
+  cast: NeynarCast;
+  proposal: ProposalEntity;
+  channel: CommunityEntity;
+  tokenInfo: AttentionTokenEntity;
+};
+export async function getCastDetails(
+  castHash: string
+): Promise<ApiResp<CastDetailsData>> {
+  const url = `${DEGENCAST_API}/topics/casts/${castHash}/detail`;
+  const resp = await fetch(url);
   const data = await resp.json();
   return data;
 }
