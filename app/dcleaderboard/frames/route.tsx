@@ -26,9 +26,16 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       <Button
         action="post"
+        target={{ pathname: "/frames/top-degencaster", query: { inviteFid } }}
+        key={"top-degencaster"}
+      >
+        Top Degencaster
+      </Button>,
+      <Button
+        action="post"
         target={{
           pathname: "/frames/profile",
-          query: { inviteFid },
+          query: { inviteFid, from: "/frames" },
         }}
         key={"profile"}
       >

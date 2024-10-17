@@ -4,13 +4,30 @@ import { Button } from "frames.js/next";
 
 import { FRAMES_BASE_URL, DEGENCAST_WEB_URL, DEGENCAST_API } from "@/lib/env";
 import { frames } from "../frames";
+import { error } from "frames.js/core";
+import { formatEther } from "viem";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
-  const searchFid = ctx.searchParams?.searchFid || "";
-  const requesterFid = ctx.message?.requesterFid || "";
+  const channelId = ctx.searchParams?.channelId || "";
 
-  const profileFid = searchFid || requesterFid;
+  let channelInfo = undefined;
+  try {
+    const castInfoResp = await fetch(
+      `${DEGENCAST_API}/topics/frame/channel?id=${channelId}`
+    );
+    channelInfo = await castInfoResp.json();
+  } catch (err) {
+    throw error("Error fetching castInfo");
+  }
+  console.log(channelInfo);
+  const { data } = channelInfo;
+  const { name, imageUrl, curationNftCount, nftPrice } = data;
+  const castHash = data.castHash;
+  let progress = data.progress;
+  if (progress === "NaN%") {
+    progress = "0%";
+  }
 
   return {
     title: "Degencast Leaderboard",
@@ -81,7 +98,7 @@ const handleRequest = frames(async (ctx) => {
               fontWeight: 700,
             }}
           >
-            {"100"}
+            {curationNftCount || "0"}
           </span>
         </div>
         <div
@@ -98,7 +115,7 @@ const handleRequest = frames(async (ctx) => {
               fontWeight: 700,
             }}
           >
-            {"2456 DEGEN"}
+            {Number.parseFloat(formatEther(BigInt(nftPrice))).toFixed(6)} DEGEN
           </span>
         </div>
         <div tw="flex mt-[30px]">
@@ -118,10 +135,10 @@ const handleRequest = frames(async (ctx) => {
     buttons: [
       <Button
         action="post"
-        target={{ pathname: "/frames/profile", query: { inviteFid } }}
-        key={"top-tokens"}
+        target={{ pathname: "/frames", query: { inviteFid } }}
+        key={"home"}
       >
-        Check Me
+        Home
       </Button>,
       <Button action="link" target={`${DEGENCAST_WEB_URL}`} key={"app"}>
         App
