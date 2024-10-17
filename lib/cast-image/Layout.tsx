@@ -7,12 +7,13 @@ import { getEmbeds } from "../getEmbeds";
 const bgUrl = `${FRAMES_BASE_URL}/images/image-api/cast-bg.jpg`;
 const homeImgUrl = `${FRAMES_BASE_URL}/images/image-api/home.png`;
 export function Layout({ cast }: { cast: NeynarCast }) {
-  const { imgs, videos, webpages, casts } = getEmbeds(cast);
+  const { imgs, videos, ogs, frames, casts } = getEmbeds(cast);
   const hasImg = imgs.length > 0;
   const hasVideo = videos.length > 0;
-  const hasWebpage = webpages.length > 0;
+  const hasOg = ogs.length > 0;
+  const hasFrame = frames.length > 0;
   const hasCast = casts.length > 0;
-  const useDefaultImg = hasVideo || hasWebpage || hasCast;
+  const useDefaultImg = hasVideo || hasFrame || hasCast;
 
   return (
     <div

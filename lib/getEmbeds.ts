@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import { NeynarCast } from "./createproposal/neynar-types";
+import { NeynarCast, NeynarFrame } from "./createproposal/neynar-types";
 
 export function isImg(url?: string) {
   if (!url) return false;
@@ -24,70 +24,109 @@ export function isVideo(url?: string) {
   );
 }
 
+export type ImageMetadata = {
+  content_type: string;
+  content_length: string;
+  image: {
+    width_px: number;
+    height_px: number;
+  };
+};
+export type OgMetadata = {
+  content_type: string;
+  content_length: number | null;
+  html: {
+    ogUrl: string;
+    ogType: "article";
+    charset: "utf-8";
+    favicon: string;
+    ogImage: [
+      {
+        url: string;
+        type: "png";
+      }
+    ];
+    ogTitle: string;
+    ogLocale: "en_US";
+    ogSiteName: string;
+    twitterUrl: string;
+    twitterCard: "summary_large_image";
+    twitterImage: [
+      {
+        url: string;
+      }
+    ];
+    twitterTitle: string;
+    articleAuthor: string;
+    ogDescription: string;
+    twitterDescription: string;
+  };
+};
+export type FrameMetadata = {
+  version: "vNext";
+  image: string;
+  image_aspect_ratio: "1:1";
+  buttons: Array<{
+    index: number;
+    title: string;
+    action_type: "post";
+    target: string;
+  }>;
+  input: {};
+  state: {};
+  post_url: string;
+  frames_url: string;
+};
 export type Embeds = {
   imgs: Array<{
-    metadata: {
-      content_type: string;
-      content_length: string;
-      image: {
-        width_px: number;
-        height_px: number;
-      };
-    };
+    metadata: ImageMetadata;
     url: string;
   }>;
-  videos: { url: string }[];
-  webpages: {
+  videos: Array<{
     url: string;
-  }[];
-  casts: Array<{
-    castId: { fid: number; hash: string };
-    cast_id?: { fid: number; hash: string };
   }>;
+  ogs: Array<{
+    metadata: OgMetadata;
+    url: string;
+  }>;
+  frames: Array<{
+    metadata: NeynarFrame;
+    url: string;
+  }>;
+  casts: Array<{ fid: number; hash: string }>;
 };
 
-export function formatEmbeds(embeds: NeynarCast["embeds"]): Embeds {
+export function getEmbeds(cast: NeynarCast): Embeds {
+  const embeds = cast?.embeds || [];
   const imgs = [];
   const videos = [];
-  const webpages = [];
+  const ogs = [];
+  const frames = [];
   const casts = [];
 
   for (const embed of embeds) {
     if (embed?.cast_id) {
-      casts.push(embed);
-    } else if (embed?.castId) {
-      casts.push({
-        ...embed,
-        castId: {
-          ...embed.castId,
-          hash: Buffer.from(embed?.castId.hash).toString("hex"),
-        },
-      });
-    } else if (embed?.cast_id) {
-      casts.push({
-        ...embed,
-        cast_id: {
-          ...embed.cast_id,
-          hash: Buffer.from(embed?.cast_id.hash).toString("hex"),
-        },
-      });
+      casts.push(embed.cast_id);
     } else if (embed?.url) {
       if (isImg(embed.url)) {
         imgs.push(embed);
       } else if (isVideo(embed.url)) {
-        videos.push({
-          url: embed.url,
-        });
-      } else {
-        webpages.push({
+        videos.push(embed);
+      } else if (!!embed?.metadata?.html?.ogSiteName) {
+        ogs.push(embed);
+      } else if (
+        (cast?.frames || [])?.length > 0 &&
+        cast?.frames?.find((frame) => frame.frames_url === embed.url)
+      ) {
+        const frame = cast?.frames?.find(
+          (frame) => frame.frames_url === embed.url
+        );
+        frames.push({
+          metadata: frame!,
           url: embed.url,
         });
       }
     }
   }
-  return { imgs, webpages, casts, videos };
-}
-
-export function getEmbeds(cast: NeynarCast): Embeds {
-  return formatEmbeds(cast.embeds);
+  return { imgs, ogs, frames, casts, videos };
 }
