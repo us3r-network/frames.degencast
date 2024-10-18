@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     type: "composer",
     name: "Vote Cast",
     icon: "thumbsup",
-    description: "Turn a cast into a Curation NFT.",
+    description: "Vote Cast.",
     aboutUrl: "https://github.com/us3r-network/degencast",
     imageUrl: "https://degencast.wtf/logo192.png",
     action: {
