@@ -9,45 +9,63 @@ import { formatEther } from "viem";
 
 const handleRequest = frames(async (ctx) => {
   const inviteFid = ctx.searchParams?.inviteFid || "";
-  const channelId = ctx.searchParams?.channelId || "";
+  let channelId = ctx.message?.inputText || ctx.searchParams?.channelId || "";
+  if (channelId) {
+    channelId = channelId.replace("/", "");
+  }
 
-  let channelInfo = undefined;
+  console.log({ channelId });
+
+  let channels = undefined;
   try {
-    const castInfoResp = await fetch(
-      `${DEGENCAST_API}/topics/frame/channel?id=${channelId}`
+    const channelsResp = await fetch(
+      `${DEGENCAST_API}/topics/frames/channels?id=${channelId}`
     );
-    channelInfo = await castInfoResp.json();
+    channels = await channelsResp.json();
   } catch (err) {
     throw error("Error fetching castInfo");
   }
-  console.log(channelInfo);
-  const { data } = channelInfo;
-  const { name, imageUrl, curationNftCount, nftPrice } = data;
-  const castHash = data.castHash;
-  let progress = data.progress;
+
+  console.log(channels);
+
+  const currChannel = channels?.data?.currentChannel;
+  if (!currChannel) {
+    throw error("Channel not found");
+  }
+  const preChannel = channels?.data?.preChannel;
+  const nextChannel = channels?.data?.nextChannel;
+
+  let progress = currChannel.progress || "0%";
+
+  // const { name, imageUrl, curationNftCount, nftPrice } = channels.data;
+  // const castHash = data.castHash;
+  // let progress = data.progress;
   if (progress === "NaN%") {
     progress = "0%";
   }
+
+  const { curationNftCount, nftPrice } = currChannel;
 
   return {
     title: "Degencast Leaderboard",
     image: (
       <div tw="flex flex-col w-full h-full  relative p-[40px] bg-[#1a1a1a] text-white">
         <div tw="flex items-center justify-start">
-          {/* <img
-            src={imageUrl}
+          <img
+            src={currChannel.image_url}
             tw="w-[100px] h-[100px] mr-[20px] "
             style={{
               borderRadius: "100px",
             }}
-          /> */}
+            alt=""
+          />
           <span
             style={{
               fontSize: "96px",
               fontWeight: 700,
             }}
           >
-            {"$CAST"}
+            {`$${currChannel.name}`}
           </span>
         </div>
         <div
@@ -64,7 +82,7 @@ const handleRequest = frames(async (ctx) => {
               fontWeight: 700,
             }}
           >
-            {"70%"}
+            {progress}
           </span>
         </div>
         <div
@@ -78,7 +96,7 @@ const handleRequest = frames(async (ctx) => {
             style={{
               backgroundColor: "#9151C3",
               borderRadius: "30px",
-              width: "70%",
+              width: progress,
               height: "100%",
               transition: "width",
             }}
@@ -133,6 +151,42 @@ const handleRequest = frames(async (ctx) => {
       aspectRatio: "1:1",
     },
     buttons: [
+      ...(preChannel?.id
+        ? [
+            <Button
+              action="post"
+              target={{
+                pathname: "/frames/channel",
+                query: {
+                  inviteFid,
+                  channelId: preChannel?.id,
+                  // from: "/frames/gallery",
+                },
+              }}
+              key={"back"}
+            >
+              ⬅️
+            </Button>,
+          ]
+        : []),
+
+      ...(nextChannel?.id
+        ? [
+            <Button
+              action="post"
+              target={{
+                pathname: "/frames/channel",
+                query: {
+                  inviteFid,
+                  channelId: nextChannel?.id,
+                },
+              }}
+              key={"next"}
+            >
+              ➡️
+            </Button>,
+          ]
+        : []),
       <Button
         action="post"
         target={{ pathname: "/frames", query: { inviteFid } }}
@@ -141,7 +195,7 @@ const handleRequest = frames(async (ctx) => {
         Home
       </Button>,
       <Button action="link" target={`${DEGENCAST_WEB_URL}`} key={"app"}>
-        App
+        Open App
       </Button>,
     ],
   };

@@ -13,6 +13,7 @@ const handleRequest = frames(async (ctx) => {
     `${DEGENCAST_API}/topics/channels/rank?orderBy=NFTPrice&order=DESC&pageSize=30&pageNumber=1`
   );
   const data = await resp.json();
+  console.log(data);
   const leaderboard: {
     id: string;
     image_url: string;
@@ -100,7 +101,18 @@ const handleRequest = frames(async (ctx) => {
       height: 800,
       aspectRatio: "1:1",
     },
+    textInput: "Search /channelID ",
     buttons: [
+      <Button
+        action="post"
+        target={{
+          pathname: "/frames/channel",
+          query: { inviteFid },
+        }}
+        key={"search"}
+      >
+        Search
+      </Button>,
       <Button
         action="post"
         target={{
