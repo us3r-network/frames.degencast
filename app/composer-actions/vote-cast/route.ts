@@ -6,9 +6,9 @@ import { FRAMES_BASE_URL } from "@/lib/env";
 export async function GET(request: Request) {
   const actionConfig = {
     type: "composer",
-    name: "Like Cast",
+    name: "Vote Cast",
     icon: "thumbsup",
-    description: "Like for $CAST.",
+    description: "Turn a cast into a Curation NFT.",
     aboutUrl: "https://github.com/us3r-network/degencast",
     imageUrl: "https://degencast.wtf/logo192.png",
     action: {
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     JSON.stringify({
       type: "form",
       title: "Vote Cast",
-      url: `${FRAMES_BASE_URL}/composer-actions/vote-cast/casts?fid=${fid}&frameMessage=${messageBytes}`,
+      url: `${FRAMES_BASE_URL}/composer-actions/vote-cast/casts?fid=${fid}`,
     }),
     {
       status: 200,
