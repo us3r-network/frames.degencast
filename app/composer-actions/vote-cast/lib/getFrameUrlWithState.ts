@@ -24,9 +24,3 @@ export default function getFrameUrlWithState(
       return "";
   }
 }
-
-export function getNftframe(castHash: string, inviteFid?: string) {
-  return `${FRAMES_BASE_URL}/curationnft/frames?inviteFid=${
-    inviteFid || ""
-  }&castHash=${castHash}`;
-}

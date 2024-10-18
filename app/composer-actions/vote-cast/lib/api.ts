@@ -46,21 +46,3 @@ export async function getExploreCastFeeds(
   const data = await resp.json();
   return data;
 }
-
-export async function createCastNft(
-  castHash: string,
-  frameMessage: string
-): Promise<ApiResp<AttentionTokenEntity>> {
-  const url = `${DEGENCAST_API}/topics/proposals`;
-
-  const resp = await fetch(url, {
-    method: "post",
-    headers: { accept: "application/json", "content-type": "application/json" },
-    body: JSON.stringify({
-      castHash,
-      frameMessage,
-    }),
-  });
-  const data = await resp.json();
-  return data;
-}
